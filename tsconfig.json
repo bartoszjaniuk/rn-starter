@@ -1,17 +1,20 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true,
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    }
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"strict": true,
+		"baseUrl": ".",
+		"strictNullChecks": true,
+		"noUncheckedIndexedAccess": true
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"index.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".expo/types/**/*.ts",
+		"expo-env.d.ts"
+	],
+	"exclude": ["node_modules", "dist", "ios", "android", "scripts", "app.config.ts", "editorWeb"]
+	
 }
