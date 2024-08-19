@@ -2,10 +2,17 @@ import { PropsWithChildren } from 'react';
 import * as React from 'react';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
+import { PortalProvider } from '@gorhom/portal';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
 export const AppProviders = ({ children }: PropsWithChildren) => {
   return (
     <KeyboardProvider statusBarTranslucent={true} navigationBarTranslucent={true}>
-      {children}
+      <QueryClientProvider client={queryClient}>
+        <PortalProvider>{children}</PortalProvider>
+      </QueryClientProvider>
     </KeyboardProvider>
   );
 };

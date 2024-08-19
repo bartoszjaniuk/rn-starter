@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=./navigation.schema.json
+
+aliases:
+  - &hideHeader
+    headerShown: false
+
+navigators:
+  Root:
+    lazy: false
+    props:
+      screenOptions: *hideHeader
+    children:
+      - AuthorizedNavigator:
+          path: "src/authorized"
+
+  AppRoot:
+    export: true
+    lazy: false
+    props:
+      screenOptions: *hideHeader
+    children:
+      - navigator: Root

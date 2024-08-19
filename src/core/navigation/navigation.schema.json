@@ -1,0 +1,280 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "navigation.config.yaml",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["navigators"],
+  "properties": {
+    "aliases": {
+      "type": "array",
+      "description": "YAML aliases"
+    },
+    "groups": {
+      "description": "List of reusable `Screen.Group` components to group multiple screens together inside a navigator.",
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "$ref": "#/definitions/Group"
+        }
+      }
+    },
+    "navigators": {
+      "description": "List of `Stack.Navigator` components that will be created in the process.",
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "$ref": "#/definitions/Navigator"
+        }
+      }
+    },
+    "routesImports": {
+      "description": "List of files imported to the `routes.ts` file.",
+      "type": "object"
+    },
+    "navigatorsImports": {
+      "description": "List of files imported to the `navigators.tsx` file.",
+      "type": "object"
+    }
+  },
+  "definitions": {
+    "Navigator": {
+      "description": "Stack.Navigator",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["children"],
+      "properties": {
+        "export": {
+          "type": "boolean",
+          "description": "(optional, default: false) if `true`, exports the navigator",
+          "default": false
+        },
+        "lazy": {
+          "type": "boolean",
+          "description": "(optional, default: true) use lazily evaluated modules"
+        },
+        "passParams": {
+          "type": "boolean",
+          "description": "(optional, default: false) pass navigator params to the first/initial screen"
+        },
+        "type": {
+          "type": "string",
+          "default": "native-stack",
+          "description": "(optional, default: native-stack) package to use to create a navigator",
+          "enum": ["bottom-tab", "stack", "native-stack"]
+        },
+        "path": {
+          "type": "string",
+          "description": "(optional) the parent folder for navigator screen files"
+        },
+        "props": {
+          "type": "object",
+          "description": "(optional) props object for Stack.Navigator, read more: https://reactnavigation.org/docs/native-stack-navigator#props",
+          "$ref": "#/definitions/NavigatorProps"
+        },
+        "providers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "children": {
+          "type": "array",
+          "description": "Children components that belong to Stack.Navigator",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/NavigatorChild"
+              },
+              {
+                "$ref": "#/definitions/GroupChild"
+              },
+              {
+                "$ref": "#/definitions/ScreenChild"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "NavigatorProps": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "(optional) the unique ID for the navigator, which can be used with `navigation.getParent` to refer to this navigator in a child navigator"
+        },
+        "initialRouteName": {
+          "type": "string",
+          "description": "(optional) the name of the route to render on first load of the navigator"
+        },
+        "screenOptions": {
+          "description": "(optional) options object that is used by each screen that belongs to the navigator, read more: https://reactnavigation.org/docs/native-stack-navigator#options",
+          "type": "object"
+        },
+        "tabBar": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ScreenChild": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Stack.Screen"
+        },
+        {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "type": "object",
+              "description": "Stack.Screen",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "lazy": {
+                  "type": "boolean",
+                  "description": "(optional, default: true) use lazily evaluated modules"
+                },
+                "params": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "description": "(optional) imported or global defined type"
+                    },
+                    {
+                      "type": "object",
+                      "description": "(optional) custom type definition"
+                    }
+                  ]
+                },
+                "props": {
+                  "type": "object",
+                  "description": "(optional) props object for Stack.Screen",
+                  "properties": {
+                    "options": {
+                      "type": "object",
+                      "description": "(optional) options to configure how the screen gets presented in the navigator, read more: https://reactnavigation.org/docs/screen#options"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
+    },
+    "GroupChild": {
+      "type": "object",
+      "properties": {
+        "group": {
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "Attach already defined group."
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "props": {
+                  "type": "object",
+                  "$ref": "#/definitions/GroupProps"
+                },
+                "children": {
+                  "type": "array",
+                  "description": "Children components that belong to Stack.Group",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/definitions/GroupChild"
+                      },
+                      {
+                        "$ref": "#/definitions/ScreenChild"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "NavigatorChild": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["navigator"],
+      "properties": {
+        "navigator": {
+          "type": "string",
+          "description": "Attach already defined navigator."
+        },
+        "props": {
+          "type": "object",
+          "description": "(optional) props object for Stack.Screen, read more: https://reactnavigation.org/docs/native-stack-navigator#props",
+          "properties": {
+            "initialParams": {
+              "type": "object",
+              "description": "(optional) initial params to use for the screen."
+            },
+            "options": {
+              "description": "(optional) options to configure how the screen gets presented in the navigator, read more: https://reactnavigation.org/docs/screen#options",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "Group": {
+      "type": "object",
+      "description": "Stack.Group",
+      "additionalProperties": false,
+      "required": ["children", "path"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The parent folder for group screen files"
+        },
+        "props": {
+          "type": "object",
+          "$ref": "#/definitions/GroupProps"
+        },
+        "children": {
+          "type": "array",
+          "description": "Children components that belong to Stack.Group",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/GroupChild"
+              },
+              {
+                "$ref": "#/definitions/ScreenChild"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "GroupProps": {
+      "type": "object",
+      "description": "(optional) props object for Stack.Group, read more: https://reactnavigation.org/docs/group#props",
+      "properties": {
+        "screenOptions": {
+          "description": "(optional) options to configure how the screens inside the group get presented in the navigator: https://reactnavigation.org/docs/group#screenoptions",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

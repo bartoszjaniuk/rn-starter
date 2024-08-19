@@ -1,6 +1,10 @@
 module.exports = {
-  extends: ['plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended'],
-  plugins: ['react', 'react-native', 'prettier'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
+  ],
+  plugins: ['react', 'react-native', 'prettier', '@tanstack/query'],
   env: {
     'react-native/react-native': true,
     es2021: true,

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { LayoutChangeEvent } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
-import { Color } from 'react-native-unistyles/lib/typescript/src/types';
 
+// import { Color } from 'react-native-unistyles/lib/typescript/src/types';
 import { StatusBar, StatusBarStyle, setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar';
 
 import { Portal } from '@gorhom/portal';
@@ -17,6 +17,7 @@ import { useFocusEffect, useLazy, usePreventBack } from 'src/shared/hooks';
 
 import { Content } from './Content';
 import { FlatList } from './FlatList';
+import { Header } from './Header';
 import { Layout } from './Layout';
 import { ScrollView } from './ScrollView';
 
@@ -32,9 +33,9 @@ type Props = Omit<
   bottomInset?: ResponsiveProp<number>;
   columns?: ResponsiveProp<number>;
   statusBarStyle?: StatusBarStyle;
-  navigationBarBackgroundColor?: Color;
+  navigationBarBackgroundColor?: string;
   canGoBack?: boolean;
-  backgroundColor?: Color;
+  backgroundColor?: string;
   BackgroundComponent?: React.ReactNode;
   HeaderComponent?: React.ReactNode;
 };
@@ -148,6 +149,7 @@ Screen.useTabs = useTabs;
 Screen.useLayout = useLayout;
 // Screen.useLeaveProcess = useLeaveProcess;
 
+Screen.Header = Header;
 Screen.Content = Content;
 Screen.ScrollView = ScrollView;
 Screen.FlatList = FlatList;
