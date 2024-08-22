@@ -3,8 +3,6 @@ import * as React from 'react';
 import { D } from '@mobily/ts-belt';
 import { useNavigation } from '@react-navigation/native';
 
-import isEqual from 'react-fast-compare';
-
 import { flattenChildren } from 'src/core';
 import { useLazy } from 'src/shared/hooks';
 
@@ -33,14 +31,7 @@ export const Header = (props: Props) => {
 
   const { headerProps } = useHeader();
 
-  const [headerState, setHeaderState] = React.useState(headerProps);
-
-  React.useEffect(() => {
-    if (isEqual(headerState, headerProps)) return;
-    setHeaderState(headerProps);
-  }, [headerProps, headerState]);
-
-  const combinedState = D.merge(rest, headerState);
+  const combinedState = D.merge(rest, headerProps);
 
   const flatChildren = flattenChildren(children);
   const leftElement = flatChildren.find(isHeaderElementType('HeaderLeftElement'));

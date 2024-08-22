@@ -6,7 +6,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { StatusBar, StatusBarStyle, setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar';
 
 import { Portal } from '@gorhom/portal';
-import { Box, ColumnsProps, ResponsiveProp, RowsProps, useResponsiveProp } from '@grapp/stacks';
+import { Box, ColumnsProps, FloatBox, ResponsiveProp, RowsProps, useResponsiveProp } from '@grapp/stacks';
 import { G } from '@mobily/ts-belt';
 import { type BottomTabHeaderProps, type BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -17,9 +17,11 @@ import { useFocusEffect, useLazy, usePreventBack } from 'src/shared/hooks';
 
 import { Content } from './Content';
 import { FlatList } from './FlatList';
-import { Header } from './Header';
+import { Footer } from './Footer';
+import { Header, HeaderHostElement } from './Header';
 import { Layout } from './Layout';
 import { ScrollView } from './ScrollView';
+import { Section } from './Section';
 
 import { useLayout, useScreenAnimatedHeader, useScreenHeader } from '../hooks';
 import { HeaderProps, HeaderProvider, ScreenProvider, useScreen, useTabs } from '../providers';
@@ -50,13 +52,16 @@ export const Screen = (props: Props) => {
     topInset,
     bottomInset,
     columns = 1,
-    statusBarStyle = 'dark',
+    statusBarStyle = 'light',
     canGoBack = true,
     navigationBarBackgroundColor = '#fafafafa',
     BackgroundComponent,
     HeaderComponent,
     ...rest
   } = props;
+  const headerConfig = getHeaderProps(HeaderComponent);
+  const [headerHeight, setHeaderHeight] = React.useState(0);
+  const [headerProps, setHeaderProps] = React.useState<HeaderProps>(headerConfig);
 
   // const { theme } = useStyles();
   const { insets } = useLayout();
@@ -64,8 +69,6 @@ export const Screen = (props: Props) => {
   const navigation = useNavigation<BottomTabNavigationProp<BottomTabHeaderProps | NativeStackHeaderProps>>();
   const resolveResponsiveProp = useResponsiveProp();
 
-  const [headerHeight, setHeaderHeight] = React.useState(0);
-  const [headerProps, setHeaderProps] = React.useState<HeaderProps>(getHeaderProps(HeaderComponent));
   const handleHeaderLayout = React.useCallback((event: LayoutChangeEvent) => {
     setHeaderHeight(event.nativeEvent.layout.height);
   }, []);
@@ -81,7 +84,7 @@ export const Screen = (props: Props) => {
 
   const paddingBottom = resolveResponsiveProp(bottomInset) ?? insets.stacks.bottom;
   const paddingTop =
-    G.isNullable(HeaderComponent) || headerProps.variant === 'hosted'
+    G.isNullable(HeaderComponent) || headerConfig.variant === 'hosted'
       ? (resolveResponsiveProp(topInset) ?? insets.stacks.top)
       : 0;
   const numOfColumns = resolveResponsiveProp(columns);
@@ -104,7 +107,7 @@ export const Screen = (props: Props) => {
     // <Box flex="fluid" backgroundColor={themeBackgroundColor}>
     <Box flex="fluid" backgroundColor={backgroundColor}>
       {/* <StatusBar style={statusBarStyle} backgroundColor="transparent" translucent={true} /> */}
-      <StatusBar style="dark" backgroundColor="transparent" translucent={true} />
+      <StatusBar style={statusBarStyle} backgroundColor="transparent" translucent={true} />
 
       <ScreenProvider
         canGoBack={canGoBack}
@@ -150,6 +153,9 @@ Screen.useLayout = useLayout;
 // Screen.useLeaveProcess = useLeaveProcess;
 
 Screen.Header = Header;
+Screen.Section = Section;
+Screen.Footer = Footer;
 Screen.Content = Content;
 Screen.ScrollView = ScrollView;
 Screen.FlatList = FlatList;
+Header.Host = HeaderHostElement;

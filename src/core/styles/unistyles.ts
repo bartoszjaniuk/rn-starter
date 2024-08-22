@@ -6,6 +6,7 @@ const theme = {
     typography: '#000000',
     background: '#ffffff',
     white: '#ffffff',
+    primary: '#BFFF41',
   },
   margins: {
     sm: 2,

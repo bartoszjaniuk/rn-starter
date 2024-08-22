@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import { Color } from 'react-native-unistyles/lib/typescript/src/types';
 
 import { Box } from '@grapp/stacks';
 import { D, G } from '@mobily/ts-belt';
@@ -19,7 +18,7 @@ type RouteParams = {
 type ExtraStyle = {
   variant: HeaderProps['variant'];
   backgroundColor?: string;
-  borderColor?: Color; //  TODO:  is that correct?
+  borderColor?: string; //  TODO:  is that correct?
 };
 
 type Props = React.PropsWithChildren<{
@@ -66,7 +65,7 @@ const stylesheet = createStyleSheet((theme) => {
           primary: {
             backgroundColor: theme.colors.white,
             borderBottomWidth: 1,
-            // borderBottomColor: theme.colors.grayscale_200,
+            borderBottomColor: 'gray',
           },
           transparent: {
             backgroundColor: 'transparent',

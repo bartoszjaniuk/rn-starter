@@ -1,20 +1,19 @@
 import * as React from 'react';
-import { I18nManager, Text } from 'react-native';
+import { I18nManager, Image, Text } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
-import { Color } from 'react-native-unistyles/lib/typescript/src/types';
 
 import { Box } from '@grapp/stacks';
 
 import { colord } from 'colord';
 
 import { goBack, goTo } from 'src/navigation';
-import { PressableScale } from 'src/shared';
+import { Icon, PressableScale } from 'src/shared';
 
 import { useScreen } from '../../providers';
 
 type Props = {
   onPress: () => void;
-  color?: Color;
+  color?: string;
   //  TODO:    iconName: IconName;
   iconRotation?: number;
   testID?: string;
@@ -45,9 +44,8 @@ export const HeaderButton = (props: Props) => {
       style={[styles.root, { width: size, height: size, borderRadius: size / 2 }]}
     >
       {/* <Icon name={iconName} rotation={iconRotation} size={24} color={color} /> */}
-      <Box>
-        <Text>Button goes here</Text>
-      </Box>
+      {/* <Image source={require('../../../../assets/images/leftArrow.png')} /> */}
+      <Icon />
     </PressableScale>
   );
 
@@ -77,10 +75,9 @@ export const HeaderGoBackButton = (props: GoBackButtonProps) => {
 };
 
 export const HeaderCloseButton = (props: CloseButtonProps) => {
-  const { route, onPress, variant, shouldBlockNavigation } = props;
+  const { route, onPress, variant } = props;
 
   const handleClose = React.useCallback(() => {
-    if (shouldBlockNavigation) return;
     if (route) {
       return goTo(route);
     }
@@ -90,7 +87,7 @@ export const HeaderCloseButton = (props: CloseButtonProps) => {
     }
 
     goBack();
-  }, [shouldBlockNavigation, route, onPress]);
+  }, [route, onPress]);
 
   return <HeaderButton variant={variant} onPress={handleClose} />;
   // return <HeaderButton variant={variant} iconName="closeSmall" onPress={handleClose} />;
