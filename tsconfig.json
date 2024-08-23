@@ -8,6 +8,7 @@
 	},
 	"include": [
 		"src/**/*.ts",
+		"assets/**/*otf.",
 		"src/**/*.tsx",
 		"index.ts",
 		"**/*.ts",

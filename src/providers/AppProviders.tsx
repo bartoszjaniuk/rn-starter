@@ -5,15 +5,19 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { PortalProvider } from '@gorhom/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+import { FontLoader } from './FontLoader';
+
 const queryClient = new QueryClient();
 
 export const AppProviders = ({ children }: PropsWithChildren) => {
   return (
-    <KeyboardProvider statusBarTranslucent={true} navigationBarTranslucent={true}>
-      <QueryClientProvider client={queryClient}>
-        <PortalProvider>{children}</PortalProvider>
-      </QueryClientProvider>
-    </KeyboardProvider>
+    <FontLoader>
+      <KeyboardProvider statusBarTranslucent={true} navigationBarTranslucent={true}>
+        <QueryClientProvider client={queryClient}>
+          <PortalProvider>{children}</PortalProvider>
+        </QueryClientProvider>
+      </KeyboardProvider>
+    </FontLoader>
   );
 };
 

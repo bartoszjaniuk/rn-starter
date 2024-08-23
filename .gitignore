@@ -1,5 +1,7 @@
 node_modules/
 devClient/
+/ios
+/android
 .expo/
 dist/
 npm-debug.*

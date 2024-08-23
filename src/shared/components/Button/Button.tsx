@@ -90,16 +90,16 @@ const stylesheet = createStyleSheet((theme) => {
       },
     },
     label: {
-      fontFamily: 'Inter',
+      fontFamily: 'satoshiBold',
       color: theme.colors.typography,
-      fontWeight: '700',
+      // fontWeight: '700',
       variants: {
         size: {
           large: {
-            fontSize: 14,
+            fontSize: 16,
           },
           small: {
-            fontSize: 12,
+            fontSize: 16,
           },
         },
         isRaw: {

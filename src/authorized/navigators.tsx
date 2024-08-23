@@ -51,14 +51,14 @@ const AnotherComponent = () => {
   return (
     <>
       <Screen.ScrollView backgroundColor="transparent">
-        <Screen.Content alignX="center" alignY="center">
-          <Image source={require('../../assets/fitAppkaLogo.png')} />
+        <Screen.Content alignX="center" alignY="center" paddingTop={35}>
+          <Image source={require('../../assets/fitAppkaLogo.png')} width={10} height={10} />
         </Screen.Content>
       </Screen.ScrollView>
       <Screen.Footer>
         <Stack space={4} paddingBottom={10}>
-          <Button>Logowanie</Button>
-          <Button>Rejestracja</Button>
+          <Button>Zaloguj</Button>
+          <Button>Zarejestruj</Button>
         </Stack>
       </Screen.Footer>
     </>
