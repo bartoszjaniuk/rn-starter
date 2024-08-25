@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
 
 import { AppRootNavigator } from './navigation/navigators';
@@ -43,8 +44,7 @@ const App = () => {
       ) : (
         <NativeStack.Screen
           name="AuthNavigator"
-          component={AppRootNavigator}
-          // component={AuthNavigator}
+          component={AuthNavigator}
           options={{
             headerShown: false,
             animationTypeForReplace: 'push',

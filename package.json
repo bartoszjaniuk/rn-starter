@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@react-native/metro-config": "0.75.2",
     "@tanstack/eslint-plugin-query": "5.51.15",
     "@types/jest": "^29.5.12",
     "@types/jscodeshift": "0.11.11",
@@ -82,6 +83,7 @@
     "jest-expo": "~51.0.3",
     "jscodeshift": "17.0.0",
     "prettier": "3.3.3",
+    "react-native-svg-transformer": "1.5.0",
     "react-test-renderer": "18.2.0",
     "ts-node": "10.9.2",
     "typescript": "~5.3.3",

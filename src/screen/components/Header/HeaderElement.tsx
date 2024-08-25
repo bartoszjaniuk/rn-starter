@@ -35,9 +35,6 @@ export const HeaderHostElement = React.memo(() => {
   const { portalName } = useHeader();
   const { insets } = useLayout();
 
-  console.log('HeaderHostElement insets.top', insets.top);
-  console.log('HeaderHostElement portalName', portalName);
-
   return (
     <FloatBox backgroundColor="purple" offset={0} top={-insets.top} bottom={undefined}>
       <PortalHost name={portalName} />

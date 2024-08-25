@@ -18,15 +18,9 @@ type Props = Omit<RowProps, 'flex' | 'paddingBottom'> & {
 
 export const Footer = Row.from((props: Props) => {
   const { children, paddingX, paddingTop = 4, style, variant = 'rounded', isSticky = false, ...rest } = props;
-  //   const { defaultPaddingX, backgroundColor } = useScreen((ctx) => {
-  //     return {
-  //       defaultPaddingX: ctx.paddingX,
-  //       backgroundColor: ctx.backgroundColor,
-  //     };
-  //   });
+
   const { paddingX: defaultPaddingX, backgroundColor } = useScreen();
 
-  //   const services = useServices();
   const { styles } = useStyles(stylesheet, {
     variant,
   });

@@ -1,20 +1,27 @@
-// TODO: TEMPORARY
-import * as React from 'react';
-import { Image, ListRenderItem, Text } from 'react-native';
+import React from 'react';
+import { Text } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { Box, FloatBox, Stack } from '@grapp/stacks';
+import { Stack } from '@grapp/stacks';
 
 import { Screen } from 'src/screen';
 import { Button } from 'src/shared/components/Button';
 
 const AnotherComponent = () => {
+  Screen.useHeader({
+    renderLeft: () => (
+      <Screen.Header.Left>
+        <Screen.Header.GoBackButton variant="primary" />
+      </Screen.Header.Left>
+    ),
+  });
+
   return (
     <>
       <Screen.ScrollView backgroundColor="transparent">
         <Screen.Content alignX="center" alignY="center" paddingTop={35}>
-          <Image source={require('../../assets/fitAppkaLogo.png')} width={10} height={10} />
+          <Text>Register</Text>
         </Screen.Content>
       </Screen.ScrollView>
       <Screen.Footer>
@@ -23,14 +30,16 @@ const AnotherComponent = () => {
           <Button>Zarejestruj</Button>
         </Stack>
       </Screen.Footer>
+      <Screen.Header.Host />
     </>
   );
 };
 
-export const AuthorizedNavigator = () => {
+export const AuthRegister = () => {
   return (
     <Screen
       statusBarStyle="light"
+      HeaderComponent={<Screen.Header variant="hosted" />}
       BackgroundComponent={
         <LinearGradient
           // Background Linear Gradient

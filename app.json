@@ -42,7 +42,6 @@
       "eas": {
         "projectId": "51102590-38be-4cfe-8a29-dd5bbaf61e96"
       }
-    },
-    "assets": ["./assets/fonts"]
+    }
   }
 }

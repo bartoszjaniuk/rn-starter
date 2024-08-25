@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { Box, Inline } from '@grapp/stacks';
@@ -8,6 +7,7 @@ import { ActivityIndicator } from '../ActivityIndicator';
 // import { F } from '@mobily/ts-belt';
 // import { match } from 'ts-pattern';
 import { PressableScale } from '../Pressable';
+import { Text } from '../Text';
 
 type Props = {
   variant?: 'primary' | 'danger';
@@ -47,7 +47,9 @@ export const Button = (props: Props) => {
     <PressableScale testID={testID} isDisabled={shouldDisplayDisabled} onPress={onPress} activeScale={0.97}>
       <Box borderRadius={48} alignX={textAlign} alignY="center" direction="row" style={styles.view}>
         <Inline space={3} paddingX={4}>
-          <Text style={styles.label}>{children}</Text>
+          <Text fontWeight="700" size="sm" color={shouldDisplayDisabled ? 'disabled' : 'typography'}>
+            {children}
+          </Text>
           {isLoading ? <ActivityIndicator color="#667085" size={14} /> : null}
         </Inline>
       </Box>
@@ -89,45 +91,5 @@ const stylesheet = createStyleSheet((theme) => {
         },
       },
     },
-    label: {
-      fontFamily: 'satoshiBold',
-      color: theme.colors.typography,
-      // fontWeight: '700',
-      variants: {
-        size: {
-          large: {
-            fontSize: 16,
-          },
-          small: {
-            fontSize: 16,
-          },
-        },
-        isRaw: {
-          true: {
-            color: '#0060FF',
-          },
-        },
-        isDisabled: {
-          true: {
-            color: '#667085',
-          },
-        },
-      },
-    },
-    // extraStyle: (variant: Props['variant'], isGhost: boolean, isDisabled: boolean) => {
-    //   return match({ variant, isGhost, isDisabled })
-    //     .with({ variant: 'primary', isGhost: true, isDisabled: false }, () => {
-    //       return {
-    //         color: '#274A77',
-    //       };
-    //     })
-    //     .with({ variant: 'danger', isGhost: true, isDisabled: false }, () => {
-    //       return {
-    //         color: '#E83326',
-    //       };
-    //     })
-
-    //     .otherwise(F.always({}));
-    // },
   };
 });

@@ -12,11 +12,11 @@ const queryClient = new QueryClient();
 export const AppProviders = ({ children }: PropsWithChildren) => {
   return (
     <FontLoader>
-      <KeyboardProvider statusBarTranslucent={true} navigationBarTranslucent={true}>
-        <QueryClientProvider client={queryClient}>
-          <PortalProvider>{children}</PortalProvider>
-        </QueryClientProvider>
-      </KeyboardProvider>
+      {/* <KeyboardProvider statusBarTranslucent={true} navigationBarTranslucent={true}> */}
+      <QueryClientProvider client={queryClient}>
+        <PortalProvider>{children}</PortalProvider>
+      </QueryClientProvider>
+      {/* </KeyboardProvider> */}
     </FontLoader>
   );
 };

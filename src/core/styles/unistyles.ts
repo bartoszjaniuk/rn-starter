@@ -4,9 +4,13 @@ import { UnistylesRegistry } from 'react-native-unistyles';
 const theme = {
   colors: {
     typography: '#000000',
-    background: '#ffffff',
     white: '#ffffff',
+    gray: '#B6B6B6',
+    disabled: '#667085',
+    background: '#ffffff',
     primary: '#BFFF41',
+    error: '#FB5558',
+    border: '#3A3A40',
   },
   margins: {
     sm: 2,
@@ -17,6 +21,30 @@ const theme = {
   stacks: {
     spacing: 4,
     debug: false,
+  },
+  fontFamily: {
+    satoshiLight: '300',
+    satoshiLightItalic: '300_italic',
+    satoshiRegular: '400',
+    satoshiItalic: '400_italic',
+    satoshiMedium: '500',
+    satoshiMediumItalic: '500_italic',
+    satoshiBoldItalic: '700_italic',
+    satoshiBold: '700',
+    satoshiBlack: '900',
+    satoshiBlackItalic: '900_italic',
+  },
+  fontSize: {
+    small: 10,
+    xxs: 12,
+    xs: 14,
+    sm: 16,
+    md: 18,
+    lg: 20,
+    xl: 22,
+    xxl: 24,
+    xxxl: 26,
+    heading: 40,
   },
 } as const;
 
