@@ -5,8 +5,16 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { TextProps } from './Text.types';
 
 export const Text = (props: TextProps) => {
-  const { children, variant = 'light', fontWeight = '400', size = 'sm', color = 'white', ...rest } = props;
-  const { styles } = useStyles(stylesheet, { variant, fontWeight, size, color });
+  const {
+    children,
+    variant = 'light',
+    fontWeight = '400',
+    size = 'sm',
+    color = 'white',
+    align = 'auto',
+    ...rest
+  } = props;
+  const { styles } = useStyles(stylesheet, { variant, fontWeight, size, color, align });
 
   return (
     <RNText style={styles.text} {...rest}>
@@ -75,6 +83,23 @@ const stylesheet = createStyleSheet((theme) => {
           },
           border: {
             color: theme.colors.border,
+          },
+        },
+        align: {
+          left: {
+            textAlign: 'left',
+          },
+          right: {
+            textAlign: 'right',
+          },
+          center: {
+            textAlign: 'center',
+          },
+          justify: {
+            textAlign: 'justify',
+          },
+          auto: {
+            textAlign: 'auto',
           },
         },
       },

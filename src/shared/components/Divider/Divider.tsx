@@ -17,7 +17,7 @@ export const Divider = (props: Props) => {
   return (
     <Inline flex="fluid" alignX="center" space={6} alignY="center">
       <View style={styles.line} />
-      <Text size="sm" fontWeight="400">
+      <Text size="sm" fontWeight="400" color="gray">
         {text}
       </Text>
       <View style={styles.line} />

@@ -3,9 +3,17 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { PressableScale } from 'src/shared';
 
-export const SocialIcon = ({ children }: React.PropsWithChildren) => {
+type Props = {
+  onPress?: VoidFunction;
+};
+
+export const IconWrapper = ({ children, onPress }: React.PropsWithChildren<Props>) => {
   const { styles } = useStyles(stylesheet);
-  return <PressableScale style={styles.icon}>{children}</PressableScale>;
+  return (
+    <PressableScale onPress={onPress} style={styles.icon}>
+      {children}
+    </PressableScale>
+  );
 };
 
 const stylesheet = createStyleSheet((theme) => ({

@@ -1,4 +1,4 @@
-import { TextProps as RNTextProps } from 'react-native';
+import { TextProps as RNTextProps, TextStyle } from 'react-native';
 
 import { TypographyKey } from 'src/providers';
 
@@ -24,4 +24,5 @@ export type TextProps = {
   size?: FontKeys;
   lineHeight?: number;
   letterSpacing?: number;
+  align?: TextStyle['textAlign'];
 } & RNTextProps;

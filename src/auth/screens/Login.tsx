@@ -4,15 +4,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { Box, FloatBox, Inline, Stack } from '@grapp/stacks';
 
+import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Divider, Text, TextInput } from 'src/shared';
+import { Divider, IconWrapper, Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
-
-import { SocialIcon } from './Login/components';
 
 import AppleIcon from '../../../assets/icons/apple.svg';
 import FacebookIcon from '../../../assets/icons/facebook.svg';
 import GoogleIcon from '../../../assets/icons/google.svg';
+import * as route from '../navigation/routes';
 
 const AnotherComponent = () => {
   Screen.useHeader({
@@ -24,6 +24,8 @@ const AnotherComponent = () => {
       );
     },
   });
+
+  const handleNavigateToRegister = () => goTo(route.toAuthRegister);
 
   return (
     <>
@@ -49,15 +51,15 @@ const AnotherComponent = () => {
               <Button>Zaloguj</Button>
               <Divider />
               <Inline space={15} alignX="center">
-                <SocialIcon>
+                <IconWrapper>
                   <FacebookIcon />
-                </SocialIcon>
-                <SocialIcon>
+                </IconWrapper>
+                <IconWrapper>
                   <GoogleIcon />
-                </SocialIcon>
-                <SocialIcon>
+                </IconWrapper>
+                <IconWrapper>
                   <AppleIcon />
-                </SocialIcon>
+                </IconWrapper>
               </Inline>
             </Stack>
           </Stack>
@@ -68,7 +70,7 @@ const AnotherComponent = () => {
           <Text fontWeight="400" size="sm">
             Nie masz konta?
           </Text>
-          <Text fontWeight="700" size="sm">
+          <Text fontWeight="700" size="sm" onPress={handleNavigateToRegister}>
             Zarejestruj się
           </Text>
         </Inline>
@@ -83,7 +85,7 @@ export const AuthLogin = () => {
       HeaderComponent={<Screen.Header variant="transparent" />}
       statusBarStyle="light"
       BackgroundComponent={
-        <FloatBox height="100%" top={0} left={0} right={0} bottom={0} backgroundColor={'#181A1E'}>
+        <FloatBox height="100%" top={0} left={0} right={0} bottom={0} backgroundColor="#181A1E">
           <LinearGradient colors={['#181A1E', '#181A1E']} start={[0, 0]} end={[0, 1]} style={{ flex: 1 }} />
           <LinearGradient colors={['#2E2E35', '#191A1E']} start={[0, 1]} end={[0, 0]} style={{ flex: 1 }} />
         </FloatBox>

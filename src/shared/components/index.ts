@@ -5,3 +5,5 @@ export * from './Button';
 export * from './ActivityIndicator';
 export * from './TextInput';
 export * from './Divider';
+export * from './IconWrapper';
+export * from './Checkbox';
