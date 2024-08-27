@@ -6,11 +6,10 @@ import { Box, FloatBox, Inline, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Divider, IconWrapper, Text, TextInput } from 'src/shared';
+import { Checkboxs, Divider, IconWrapper, Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
 
 import AppleIcon from '../../../assets/icons/apple.svg';
-import Checkmark from '../../../assets/icons/checkmark.svg';
 import FacebookIcon from '../../../assets/icons/facebook.svg';
 import GoogleIcon from '../../../assets/icons/google.svg';
 import * as route from '../navigation/routes';
@@ -44,7 +43,7 @@ const AnotherComponent = () => {
               <Stack space={6}>
                 <TextInput label="Email" placeholder="twójmail@gmail.com" />
                 <Inline>
-                  {/* <Checkboxs value={true} onValueChange={() => null}>
+                  <Checkboxs value={true} onValueChange={() => null}>
                     <Inline space={1}>
                       <Text fontWeight="500" size="sm" color="gray">
                         Akceptuję
@@ -53,7 +52,7 @@ const AnotherComponent = () => {
                         Regulamin
                       </Text>
                     </Inline>
-                  </Checkboxs> */}
+                  </Checkboxs>
                 </Inline>
               </Stack>
               <Button>Wyślij maila aktywacyjnego</Button>
