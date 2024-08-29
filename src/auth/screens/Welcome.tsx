@@ -1,8 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
 
-import { LinearGradient } from 'expo-linear-gradient';
-
 import { Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
@@ -34,22 +32,7 @@ const AnotherComponent = () => {
 
 export const AuthWelcome = () => {
   return (
-    <Screen
-      statusBarStyle="light"
-      BackgroundComponent={
-        <LinearGradient
-          // Background Linear Gradient
-          colors={['#2E2E35', '#191A1E']}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            height: '100%',
-          }}
-        />
-      }
-    >
+    <Screen statusBarStyle="light">
       <AnotherComponent />
     </Screen>
   );

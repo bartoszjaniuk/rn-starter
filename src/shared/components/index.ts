@@ -7,3 +7,4 @@ export * from './TextInput';
 export * from './Divider';
 export * from './IconWrapper';
 export * from './Checkbox';
+export * from './Badge';

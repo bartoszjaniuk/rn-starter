@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextInputProps, TextInput as TextInputRN } from 'react-native';
+import { NativeSyntheticEvent, TextInputFocusEventData, TextInputProps, TextInput as TextInputRN } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { Stack } from '@grapp/stacks';
@@ -14,31 +14,49 @@ type Props = {
   errorMessage?: React.ReactNode;
 } & TextInputProps;
 
-const getInputState = ({ isDisabled, isError }: { isError?: boolean; isDisabled?: boolean }) => {
+const getInputState = ({
+  isDisabled,
+  isError,
+  isFocused,
+}: {
+  isError?: boolean;
+  isDisabled?: boolean;
+  isFocused?: boolean;
+}) => {
   if (isError) return 'error';
   if (isDisabled) return 'disabled';
+  if (isFocused) return 'focused';
   return 'enabled';
 };
 
 export const TextInput = (props: Props) => {
-  const { label, isError, isDisabled, errorMessage, ...rest } = props;
-  const state = getInputState({ isDisabled, isError });
+  const [isFocused, setIsFocused] = React.useState(false);
+  const { label, isError, isDisabled, errorMessage, onFocus, ...rest } = props;
+  const state = getInputState({ isDisabled, isError, isFocused });
   const { styles, theme } = useStyles(stylesheet, { state });
 
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    onFocus?.(e);
+    setIsFocused(false);
+  };
+
   return (
-    <Stack space={1}>
+    <Stack space={2}>
       <Text fontWeight="500" size="xs">
         {label}
       </Text>
       <TextInputRN
+        {...rest}
+        onBlur={handleBlur}
+        onFocus={handleFocus}
         readOnly={isDisabled}
         style={styles.input}
         placeholderTextColor={isDisabled ? theme.colors.disabled : theme.colors.gray}
-        {...rest}
       />
       {isError ? (
         <Text fontWeight="400" size="xs" color="error">
-          Pole nie moze być puste!
+          {errorMessage}
         </Text>
       ) : null}
     </Stack>
@@ -65,6 +83,9 @@ const stylesheet = createStyleSheet((theme) => ({
         disabled: {
           borderColor: theme.colors.disabled,
           color: theme.colors.gray,
+        },
+        focused: {
+          borderColor: theme.colors.primary,
         },
       },
     },

@@ -10,8 +10,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import * as route from './routes';
 
+import { AuthActivateAccount } from '../screens/ActivateAccount';
 import { AuthLogin } from '../screens/Login';
 import { AuthRegister } from '../screens/Register';
+import { AuthSentEmail } from '../screens/SentEmail';
 import { AuthWelcome } from '../screens/Welcome';
 
 const AuthNativeStack = createNativeStackNavigator();
@@ -49,6 +51,24 @@ export const AuthNavigator = () => {
           },
         }}
         component={AuthRegister}
+      />
+      <AuthNativeStack.Screen
+        name={route.routeAuthSentEmail}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={AuthSentEmail}
+      />
+      <AuthNativeStack.Screen
+        name={route.routeAuthActivateAccount}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={AuthActivateAccount}
       />
     </AuthNativeStack.Navigator>
   );

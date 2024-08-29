@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LayoutChangeEvent } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
-// import { Color } from 'react-native-unistyles/lib/typescript/src/types';
+import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar, StatusBarStyle, setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar';
 
 import { Portal } from '@gorhom/portal';
@@ -38,7 +38,6 @@ type Props = Omit<
   navigationBarBackgroundColor?: string;
   canGoBack?: boolean;
   backgroundColor?: string;
-  BackgroundComponent?: React.ReactNode;
   HeaderComponent?: React.ReactNode;
 };
 
@@ -55,7 +54,6 @@ export const Screen = (props: Props) => {
     statusBarStyle = 'light',
     canGoBack = true,
     navigationBarBackgroundColor = '#fafafafa',
-    BackgroundComponent,
     HeaderComponent,
     ...rest
   } = props;
@@ -124,7 +122,10 @@ export const Screen = (props: Props) => {
           portalName={headerPortalName}
           setHeaderProps={setHeaderProps}
         >
-          {BackgroundComponent}
+          <FloatBox height="100%" top={0} left={0} right={0} bottom={0} backgroundColor="#181A1E">
+            <LinearGradient colors={['#181A1E', '#181A1E']} start={[0, 0]} end={[0, 1]} style={{ flex: 1 }} />
+            <LinearGradient colors={['#2E2E35', '#191A1E']} start={[0, 1]} end={[0, 0]} style={{ flex: 1 }} />
+          </FloatBox>
           {headerProps.variant === 'hosted' ? (
             <Portal hostName={headerPortalName}>{HeaderComponent}</Portal>
           ) : (

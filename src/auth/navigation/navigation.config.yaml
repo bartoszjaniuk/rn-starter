@@ -10,9 +10,10 @@ navigators:
     lazy: false
     props:
       screenOptions: *hideHeader
-    path: ../screens
-    
+    path: '../screens'
     children:
       - Welcome
       - Login
       - Register
+      - SentEmail
+      - ActivateAccount

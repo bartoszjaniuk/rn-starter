@@ -7,6 +7,10 @@
 export const routeAuthWelcome = '/auth/welcome';
 export const routeAuthLogin = '/auth/login';
 export const routeAuthRegister = '/auth/register';
+export const routeAuthSentEmail = '/auth/sent-email';
+export const routeAuthActivateAccount = '/auth/activate-account';
 export const toAuthWelcome = routeAuthWelcome as unknown as Route;
 export const toAuthLogin = routeAuthLogin as unknown as Route;
 export const toAuthRegister = routeAuthRegister as unknown as Route;
+export const toAuthSentEmail = routeAuthSentEmail as unknown as Route;
+export const toAuthActivateAccount = routeAuthActivateAccount as unknown as Route;
