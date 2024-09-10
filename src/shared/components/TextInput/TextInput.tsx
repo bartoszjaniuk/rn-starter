@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NativeSyntheticEvent, TextInputFocusEventData, TextInputProps, TextInput as TextInputRN } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { Stack } from '@grapp/stacks';
+import { Inline, Stack } from '@grapp/stacks';
 
 import { Text } from '../Text/Text';
 
@@ -31,7 +31,7 @@ const getInputState = ({
 
 export const TextInput = (props: Props) => {
   const [isFocused, setIsFocused] = React.useState(false);
-  const { label, isError, isDisabled, errorMessage, onFocus, ...rest } = props;
+  const { label, isError, isDisabled, errorMessage, isRequired, onFocus, ...rest } = props;
   const state = getInputState({ isDisabled, isError, isFocused });
   const { styles, theme } = useStyles(stylesheet, { state });
 
@@ -43,11 +43,20 @@ export const TextInput = (props: Props) => {
 
   return (
     <Stack space={2}>
-      <Text fontWeight="500" size="xs">
-        {label}
-      </Text>
+      <Inline>
+        <Text fontWeight="500" size="xs">
+          {label}
+        </Text>
+        {isRequired ? (
+          <Text fontWeight="500" size="xs" color="asteriskError">
+            *
+          </Text>
+        ) : null}
+      </Inline>
       <TextInputRN
         {...rest}
+        cursorColor={theme.colors.primary}
+        selectionColor={theme.colors.primary}
         onBlur={handleBlur}
         onFocus={handleFocus}
         readOnly={isDisabled}

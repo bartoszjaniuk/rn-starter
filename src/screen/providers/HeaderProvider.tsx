@@ -19,8 +19,14 @@ export type HeaderProps = {
   animationOffset?: number;
   borderColor?: string;
   height?: number;
-  shouldBlockNavigation?: boolean;
+  shouldBlockNavigationWhenMutating?: boolean;
 };
+
+export type LayoutProps = Record<'left' | 'right' | 'content' | 'bottom', React.ReactNode>;
+
+export type WithHeaderProps<T = unknown> = LayoutProps &
+  Omit<HeaderProps, 'renderLeft' | 'renderRight' | 'renderRight'> &
+  T;
 
 type Props = {
   headerProps: HeaderProps;

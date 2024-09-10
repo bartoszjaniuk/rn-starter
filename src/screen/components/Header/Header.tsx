@@ -15,6 +15,7 @@ import {
   HeaderLeftElement,
   HeaderRightElement,
 } from './HeaderElement';
+import { HeaderProgress } from './HeaderProgress';
 import { HeaderTitle } from './HeaderTitle';
 
 import { HeaderProps, useHeader } from '../../providers';
@@ -48,7 +49,6 @@ export const Header = (props: Props) => {
     hasCloseButton,
     hasBackButton = true,
     dismissRoute,
-    shouldBlockNavigation = false,
     as: Component = HeaderDefault,
   } = combinedState;
 
@@ -59,12 +59,12 @@ export const Header = (props: Props) => {
 
   const headerCloseButton = hasCloseButton ? (
     <HeaderRightElement paddingRight={2}>
-      <HeaderCloseButton shouldBlockNavigation={shouldBlockNavigation} route={dismissRoute} />
+      <HeaderCloseButton route={dismissRoute} />
     </HeaderRightElement>
   ) : null;
   const headerBackButton = isBackButtonVisible ? (
     <HeaderLeftElement paddingLeft={2}>
-      <HeaderGoBackButton shouldBlockNavigation={shouldBlockNavigation} />
+      <HeaderGoBackButton />
     </HeaderLeftElement>
   ) : null;
 
@@ -98,3 +98,4 @@ Header.CloseButton = HeaderCloseButton;
 Header.Title = HeaderTitle;
 
 Header.Default = HeaderDefault;
+Header.Progress = HeaderProgress;

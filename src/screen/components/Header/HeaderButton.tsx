@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { I18nManager, Image, Text } from 'react-native';
+import { I18nManager } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { Box } from '@grapp/stacks';
+import { useIsMutating } from '@tanstack/react-query';
 
 import { colord } from 'colord';
 
 import { goBack, goTo } from 'src/navigation';
 import { Icon, PressableScale } from 'src/shared';
 
-import { useScreen } from '../../providers';
+import { useHeader, useScreen } from '../../providers';
 
 type Props = {
   onPress: () => void;
@@ -28,7 +29,7 @@ type CloseButtonProps = {
   shouldBlockNavigation?: boolean;
 };
 
-type GoBackButtonProps = Pick<Props, 'variant'> & { shouldBlockNavigation?: boolean };
+type GoBackButtonProps = Pick<Props, 'variant'>;
 
 export const HeaderButton = (props: Props) => {
   const { onPress, color, iconRotation = 0, testID, variant = 'primary', size = 40 } = props;
@@ -53,10 +54,12 @@ export const HeaderButton = (props: Props) => {
 };
 
 export const HeaderGoBackButton = (props: GoBackButtonProps) => {
-  const { variant, shouldBlockNavigation } = props;
+  const { variant } = props;
+  const { headerProps } = useHeader();
+  const isMutating = useIsMutating();
 
   const handlePress = () => {
-    if (shouldBlockNavigation) return;
+    if (isMutating && headerProps.shouldBlockNavigationWhenMutating) return;
     goBack();
   };
 
@@ -76,8 +79,13 @@ export const HeaderGoBackButton = (props: GoBackButtonProps) => {
 
 export const HeaderCloseButton = (props: CloseButtonProps) => {
   const { route, onPress, variant } = props;
+  const isMutating = useIsMutating();
+
+  const { headerProps } = useHeader();
 
   const handleClose = React.useCallback(() => {
+    if (isMutating && headerProps.shouldBlockNavigationWhenMutating) return;
+
     if (route) {
       return goTo(route);
     }
@@ -87,7 +95,7 @@ export const HeaderCloseButton = (props: CloseButtonProps) => {
     }
 
     goBack();
-  }, [route, onPress]);
+  }, [isMutating, headerProps.shouldBlockNavigationWhenMutating, route, onPress]);
 
   return <HeaderButton variant={variant} onPress={handleClose} />;
   // return <HeaderButton variant={variant} iconName="closeSmall" onPress={handleClose} />;

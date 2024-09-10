@@ -14,7 +14,7 @@ import { AppRootNavigator } from './navigation/navigators';
 const NativeStack = createNativeStackNavigator();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
 
   //   Wave.useSubscription(services.device.isInternetReachable(), (isInternetReachable) => {
   //     if (!isInternetReachable) {

@@ -10,6 +10,7 @@ const theme = {
     background: '#ffffff',
     primary: '#BFFF41',
     error: '#FB5558',
+    asteriskError: '#F00000',
     border: '#3A3A40',
   },
   margins: {

@@ -9,7 +9,7 @@ import { Button } from 'src/shared/components/Button';
 
 import * as route from '../navigation/routes';
 
-const AnotherComponent = () => {
+const Content = () => {
   const navigateToLoginScreen = () => goTo(route.toAuthLogin);
   const navigateToRegisterScreen = () => goTo(route.toAuthRegister);
 
@@ -33,7 +33,7 @@ const AnotherComponent = () => {
 export const AuthWelcome = () => {
   return (
     <Screen statusBarStyle="light">
-      <AnotherComponent />
+      <Content />
     </Screen>
   );
 };

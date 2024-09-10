@@ -84,6 +84,9 @@ const stylesheet = createStyleSheet((theme) => {
           border: {
             color: theme.colors.border,
           },
+          asteriskError: {
+            color: theme.colors.asteriskError,
+          },
         },
         align: {
           left: {

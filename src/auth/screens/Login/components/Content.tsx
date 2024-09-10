@@ -14,16 +14,6 @@ import GoogleIcon from '../../../../../assets/icons/google.svg';
 import * as route from '../../../navigation/routes';
 
 export const Content = () => {
-  Screen.useHeader({
-    renderLeft: () => {
-      return (
-        <Screen.Header.Left>
-          <Screen.Header.GoBackButton />
-        </Screen.Header.Left>
-      );
-    },
-  });
-
   const handleNavigateToRegister = () => goTo(route.toAuthRegister);
 
   return (

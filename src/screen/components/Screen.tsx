@@ -20,6 +20,7 @@ import { FlatList } from './FlatList';
 import { Footer } from './Footer';
 import { Header, HeaderHostElement } from './Header';
 import { Layout } from './Layout';
+import { Navigator } from './Navigator';
 import { ScrollView } from './ScrollView';
 import { Section } from './Section';
 
@@ -154,6 +155,7 @@ Screen.useLayout = useLayout;
 // Screen.useLeaveProcess = useLeaveProcess;
 
 Screen.Header = Header;
+Screen.Navigator = Navigator;
 Screen.Section = Section;
 Screen.Footer = Footer;
 Screen.Content = Content;
