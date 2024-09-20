@@ -11,6 +11,7 @@ const theme = {
     primary: '#BFFF41',
     error: '#FB5558',
     asteriskError: '#F00000',
+    snacks: '#303033',
     border: '#3A3A40',
   },
   margins: {

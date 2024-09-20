@@ -1,13 +1,29 @@
 import * as React from 'react';
 
-import { Box } from '@grapp/stacks';
+import { goTo } from 'src/navigation';
+import { Screen } from 'src/screen';
 
-import { Text } from 'src/shared';
+import { ActivityList } from './components/ActivityList';
+
+import * as route from '../../../../navigation/routes';
+import { StepLayout } from '../../_internals/components';
+
+const Content = () => {
+  const handleNextPress = () => {
+    goTo(route.toActivateAccountForTraineePhotos);
+  };
+
+  return (
+    <StepLayout variant="Target" buttonLabel="Dalej" shouldShowError={false} handleButtonClick={handleNextPress}>
+      <ActivityList />
+    </StepLayout>
+  );
+};
 
 export const ActivateAccountForTraineeTarget = () => {
   return (
-    <Box>
-      <Text>Target</Text>
-    </Box>
+    <Screen.Navigator.Item>
+      <Content />
+    </Screen.Navigator.Item>
   );
 };

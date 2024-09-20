@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const ProgressBar = (props: Props) => {
-  const { value, height = 6, borderRadius = 6, style } = props;
+  const { value, height = 1, borderRadius = 1, style } = props;
   const { theme } = useStyles();
 
   return (

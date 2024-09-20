@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Stack } from '@grapp/stacks';
+import { Box, ResponsiveProp, Stack } from '@grapp/stacks';
 
-import { Screen } from 'src/screen';
+import { Screen, useScreen } from 'src/screen';
 import { Button, Text } from 'src/shared';
 
 import { StepHeader } from './StepHeader';
@@ -25,20 +25,44 @@ type PropsWithHeaderVariant = {
   variant?: HeaderVariant;
 };
 
-type Props = React.PropsWithChildren<PropsWithHeader | PropsWithHeaderVariant>;
+type Props = React.PropsWithChildren<PropsWithHeader | PropsWithHeaderVariant> & {
+  innerSpace?: ResponsiveProp<number>;
+};
 
-export const StepLayout = ({ variant, header, buttonLabel, children, shouldShowError, handleButtonClick }: Props) => {
+export const StepLayout = ({
+  variant,
+  header,
+  buttonLabel,
+  children,
+  shouldShowError,
+  handleButtonClick,
+  innerSpace = 6,
+}: Props) => {
+  const { paddingX: defaultPaddingX } = useScreen();
+
   return (
     <>
-      <Screen.ScrollView paddingY={8} flex="fluid">
-        <Stack space={6}>
-          {variant ? <StepHeader variant={variant} /> : header}
-          <Stack space={4}>
-            {shouldShowError ? <Text>Error</Text> : null}
-            {children}
+      {variant === 'Profile' ? (
+        <Screen.ScrollView paddingY={1} flex="fluid">
+          <Stack space={6}>
+            {variant ? <StepHeader variant={variant} /> : header}
+            <Stack space={4}>
+              {shouldShowError ? <Text>Error</Text> : null}
+              {children}
+            </Stack>
           </Stack>
-        </Stack>
-      </Screen.ScrollView>
+        </Screen.ScrollView>
+      ) : (
+        <Box paddingX={defaultPaddingX} paddingY={1} flex="fluid">
+          <Stack space={innerSpace} flex="fluid">
+            {variant ? <StepHeader variant={variant} /> : header}
+            <Stack space={4} flex="fluid">
+              {shouldShowError ? <Text>Error</Text> : null}
+              {children}
+            </Stack>
+          </Stack>
+        </Box>
+      )}
       <Screen.Footer>
         <Button onPress={handleButtonClick}>{buttonLabel}</Button>
       </Screen.Footer>

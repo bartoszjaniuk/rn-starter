@@ -1,0 +1,100 @@
+diff --git a/node_modules/react-native-input-select/src/components/Dropdown/Dropdown.tsx b/node_modules/react-native-input-select/src/components/Dropdown/Dropdown.tsx
+index da1bee8..4e58ca2 100644
+--- a/node_modules/react-native-input-select/src/components/Dropdown/Dropdown.tsx
++++ b/node_modules/react-native-input-select/src/components/Dropdown/Dropdown.tsx
+@@ -38,7 +38,10 @@ const Dropdown = ({
+       testID={testID}
+     >
+       {label && label !== '' && (
+-        <Text style={[styles.label, labelStyle]}>{label}</Text>
++        <View style={{ flexDirection: 'row' }}>
++          <Text style={[styles.label, labelStyle]}>{label}</Text>
++          <Text style={[styles.labelRequired]}>*</Text>
++        </View>
+       )}
+ 
+       <DropdownSelectedItemsView
+@@ -76,10 +79,11 @@ const Dropdown = ({
+ };
+ 
+ const styles = StyleSheet.create({
+-  label: { marginBottom: 16, color: colors.gray, ...typography.caption },
++  label: { marginBottom: 8, color: colors.gray, ...typography.caption },
++  labelRequired: { color: colors.red, ...typography.caption },
+   error: { color: colors.red, marginTop: 8, ...typography.caption },
+   helper: { marginTop: 8, color: colors.primary, ...typography.caption },
+-  dropdownInputContainer: { marginBottom: 23, width: '100%' },
++  dropdownInputContainer: { width: '100%' },
+   blackText: { color: colors.black },
+ });
+ 
+diff --git a/node_modules/react-native-input-select/src/components/Dropdown/DropdownSelectedItemsView.tsx b/node_modules/react-native-input-select/src/components/Dropdown/DropdownSelectedItemsView.tsx
+index 4cf7448..00db537 100644
+--- a/node_modules/react-native-input-select/src/components/Dropdown/DropdownSelectedItemsView.tsx
++++ b/node_modules/react-native-input-select/src/components/Dropdown/DropdownSelectedItemsView.tsx
+@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
+     color: colors.white,
+     paddingHorizontal: 10,
+     paddingVertical: 5,
+-    borderRadius: 10,
++    borderRadius: 5,
+     backgroundColor: colors.primary,
+     marginRight: 10,
+     overflow: 'hidden',
+diff --git a/node_modules/react-native-input-select/src/styles/colors.ts b/node_modules/react-native-input-select/src/styles/colors.ts
+index a30c4b3..fa3e16d 100644
+--- a/node_modules/react-native-input-select/src/styles/colors.ts
++++ b/node_modules/react-native-input-select/src/styles/colors.ts
+@@ -1,10 +1,10 @@
+ export const colors: any = {
+-  primary: 'green',
+-  red: '#FA4169',
++  primary: '#BFFF41',
++  red: '#F00000',
+   black: '#000000',
+   white: '#FFFFFF',
+   dark: '#11142D',
+   gray: '#808191',
+   lightGray: '#F7F7F7',
+-  disabled: '#d3d3d3',
++  disabled: '#667085',
+ };
+diff --git a/node_modules/react-native-input-select/src/styles/input.ts b/node_modules/react-native-input-select/src/styles/input.ts
+index a154694..2d5f597 100644
+--- a/node_modules/react-native-input-select/src/styles/input.ts
++++ b/node_modules/react-native-input-select/src/styles/input.ts
+@@ -3,15 +3,15 @@ import { colors } from './colors';
+ 
+ export const inputStyles: any = StyleSheet.create({
+   input: {
+-    paddingVertical: 18,
+-    paddingHorizontal: 23,
++    paddingVertical: 12,
++    paddingLeft: 14,
+     backgroundColor: colors.lightGray,
+-    borderRadius: 8,
++    borderRadius: 5,
+     borderColor: colors.dark,
+     borderWidth: 1,
+     color: colors.dark,
+     width: '100%',
+-    minHeight: 64,
++    minHeight: 48,
+   },
+   inputFocusErrorState: {
+     borderWidth: 2,
+diff --git a/node_modules/react-native-input-select/src/styles/typography.ts b/node_modules/react-native-input-select/src/styles/typography.ts
+index f9b152c..6cafbe8 100644
+--- a/node_modules/react-native-input-select/src/styles/typography.ts
++++ b/node_modules/react-native-input-select/src/styles/typography.ts
+@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
+ export const typography: any = StyleSheet.create({
+   caption: {
+     fontStyle: 'normal',
+-    fontWeight: 'normal',
++    fontWeight: '500',
+     fontSize: 12,
+-    lineHeight: 15,
++    lineHeight: 21,
+   },
+ });

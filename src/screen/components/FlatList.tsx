@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { type FlatListProps, RefreshControl } from 'react-native';
+import { type FlatListProps } from 'react-native';
 import { Tabs } from 'react-native-collapsible-tab-view';
-import Animated, { ScrollHandlerProcessed } from 'react-native-reanimated';
+import Animated, { ScrollHandlerProcessed, SharedValue } from 'react-native-reanimated';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { Box, Row, type RowProps, useResponsiveProp, useSpacingHelpers } from '@grapp/stacks';
@@ -30,6 +30,7 @@ type Props<T> = RowProps &
     data: T[];
     endReachedThreshold?: number;
     onScroll?: ScrollHandlerProcessed;
+    numColumns?: number | (number & SharedValue<number | undefined>) | undefined;
   };
 
 export const FlatList = Row.from(<T,>(props: Props<T>) => {
@@ -57,6 +58,7 @@ export const FlatList = Row.from(<T,>(props: Props<T>) => {
     contentContainerStyle,
     onScroll,
     onLayout,
+    numColumns,
     // refreshControl,
     // refreshControlOffset,
     ...rest
@@ -89,6 +91,7 @@ export const FlatList = Row.from(<T,>(props: Props<T>) => {
   return (
     <Box flex={flex} onLayout={onLayout} {...rest}>
       <Component
+        numColumns={numColumns}
         renderItem={renderItem}
         keyboardDismissMode={keyboardDismissMode}
         ItemSeparatorComponent={ItemSeparatorComponent}

@@ -2,27 +2,23 @@ import React from 'react';
 
 import { Inline, Stack } from '@grapp/stacks';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useAuth } from 'src/providers';
 import { Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
-import { login } from 'src/user';
 
 const string = z.string();
 
 const loginFormSchema = z.object({
   email: string.min(1, 'Pole jest wymagane').email('Podano nieprawidłowy adres email'),
-  password: string.min(8, 'Hasło musi posiadać conajmniej 8 znaków'),
+  // password: string.min(8, 'Hasło musi posiadać conajmniej 8 znaków'),
+  password: string.min(3, 'Hasło musi posiadać conajmniej 3 znaków'),
 });
 
 type LoginFormFieldValues = z.infer<typeof loginFormSchema>;
-
-const useLogin = () => {
-  return useMutation({ mutationFn: login });
-};
 
 export const Form = () => {
   const {
@@ -39,13 +35,11 @@ export const Form = () => {
     },
   });
 
-  const { mutate, error, data } = useLogin();
-  console.log({ mutate, error, data });
+  const { onLogin } = useAuth();
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
-    console.log(data);
-    mutate();
+    onLogin?.(data);
     reset();
   });
 

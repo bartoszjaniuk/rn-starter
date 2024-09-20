@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
-import { Box, Column, Columns, FloatBox } from '@grapp/stacks';
+import { Box, Column, Columns } from '@grapp/stacks';
 import { F } from '@mobily/ts-belt';
 import { NavigationState, useNavigation, useRoute } from '@react-navigation/native';
 import { useIsMutating } from '@tanstack/react-query';
@@ -29,12 +29,14 @@ export const HeaderProgress = (props: Props) => {
 
   const navigation = useNavigation();
   const currentRoute = useRoute();
+  const progress = useSharedValue(0);
+
   const [state, setState] = React.useState<NavigationRoute | null>(null);
+  const [progressValue, setProgressValue] = React.useState(0);
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('state', (event) => {
       const path = event.data.state.routes.find((route) => route.key === currentRoute.key);
-      console.log(path?.state, 'fiofiof');
       if (path?.state) {
         setState(path);
       }
@@ -43,17 +45,14 @@ export const HeaderProgress = (props: Props) => {
     return () => unsubscribe();
   }, [navigation, currentRoute]);
 
-  const progress = useSharedValue(0);
-
   React.useEffect(() => {
     if (state) {
-      console.log({ state });
       const coerced = F.coerce<Required<NavigationRoute>>(state);
-      console.log(coerced, 'coerced');
       const { routeNames = [], index = 0 } = coerced.state;
       const current = index + 1;
       const count = routeNames.length;
       progress.value = current / count;
+      setProgressValue(current / count);
     }
   }, [progress, state]);
 
@@ -84,12 +83,15 @@ export const HeaderProgress = (props: Props) => {
 
   return (
     <HeaderContainer
-      height={DEFAULT_HEADER_PROGRESS_HEIGHT}
-      //   borderColor={borderColor}
-      //   backgroundColor={backgroundColor}
-      //   variant={variant}
+    // height={DEFAULT_HEADER_PROGRESS_HEIGHT}
+    //   borderColor={borderColor}
+    //   backgroundColor={backgroundColor}
+    //   variant={variant}
     >
-      <Box height={DEFAULT_HEADER_PROGRESS_HEIGHT} alignY="top">
+      <Box alignY="top">
+        <HeaderBottomElement>
+          <ProgressBar value={0} style={animatedStyle} />
+        </HeaderBottomElement>
         <Columns defaultFlex="content" alignX="between" alignY="center" height={DEFAULT_HEADER_HEIGHT}>
           <Column paddingStart={4}>
             <HeaderRightElement>
@@ -98,14 +100,10 @@ export const HeaderProgress = (props: Props) => {
           </Column>
           <Column paddingStart={4}>
             <HeaderRightElement>
-              <Text>{Math.floor(progress.value * 100)}%</Text>
+              <Text>{Math.floor(progressValue * 100)}%</Text>
             </HeaderRightElement>
           </Column>
         </Columns>
-
-        <HeaderBottomElement paddingTop={1}>
-          <ProgressBar value={0} style={animatedStyle} />
-        </HeaderBottomElement>
       </Box>
     </HeaderContainer>
   );

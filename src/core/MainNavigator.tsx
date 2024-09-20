@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import * as React from 'react';
+import { ActivityIndicator } from 'react-native';
 
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -8,13 +9,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
+import { useAuth } from 'src/providers';
 
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const { authState, isLoading } = useAuth();
+
+  if (isLoading) return <ActivityIndicator />;
 
   //   Wave.useSubscription(services.device.isInternetReachable(), (isInternetReachable) => {
   //     if (!isInternetReachable) {
@@ -31,7 +35,7 @@ const App = () => {
 
   return (
     <NativeStack.Navigator>
-      {isLoggedIn ? (
+      {authState?.authenticated ? (
         <NativeStack.Screen
           name="AppRootNavigator"
           component={AppRootNavigator}

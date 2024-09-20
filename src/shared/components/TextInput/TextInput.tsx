@@ -55,6 +55,7 @@ export const TextInput = (props: Props) => {
       </Inline>
       <TextInputRN
         {...rest}
+        autoCapitalize="none"
         cursorColor={theme.colors.primary}
         selectionColor={theme.colors.primary}
         onBlur={handleBlur}
