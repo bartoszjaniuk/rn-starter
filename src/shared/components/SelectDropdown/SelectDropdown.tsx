@@ -1,6 +1,9 @@
 import * as React from 'react';
 import Dropdown from 'react-native-input-select';
+import { CommonDropdownProps } from 'react-native-input-select/lib/typescript/src/types/index.types';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
+
+import { FieldError } from 'react-hook-form';
 
 import CheckMarkIcon from '../../../../assets/icons/chevron.svg';
 
@@ -13,15 +16,21 @@ type Props = {
   label: string;
   placeholder?: string;
   options: Option[];
+  selectedValue?: string;
+  onValueChange: CommonDropdownProps['onValueChange'];
+  error?: FieldError;
 };
 
 export const SelectDropdown = (props: Props) => {
-  const { label, options, placeholder } = props;
-  const [dropdown, setDropdown] = React.useState('');
+  const { label, options, placeholder, selectedValue, onValueChange, error } = props;
   const { styles, theme } = useStyles(stylesheet);
+  console.log({ error, selectedValue });
 
   return (
     <Dropdown
+      error={error?.message}
+      dropdownErrorTextStyle={styles.dropdownErrorText}
+      dropdownErrorStyle={styles.dropdownError}
       label={label}
       labelStyle={styles.label}
       primaryColor={theme.colors.primary}
@@ -32,8 +41,8 @@ export const SelectDropdown = (props: Props) => {
       dropdownIcon={<CheckMarkIcon width={12} height={12} />}
       dropdownIconStyle={styles.dropdownIcon}
       dropdownStyle={styles.dropdown}
-      selectedValue={dropdown}
-      onValueChange={setDropdown}
+      selectedValue={selectedValue || ''}
+      onValueChange={onValueChange}
       modalControls={{
         modalOptionsContainerStyle: styles.modalOptionsContainer,
       }}
@@ -73,4 +82,12 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: 14,
     lineHeight: 21,
   },
+
+  dropdownErrorText: {
+    color: theme.colors.error,
+    fontFamily: theme.fontFamily.satoshiRegular,
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  dropdownError: { borderColor: theme.colors.error, borderWidth: 1 },
 }));

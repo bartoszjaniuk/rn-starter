@@ -8,9 +8,10 @@ import { ActivityIndicator } from '../ActivityIndicator';
 // import { match } from 'ts-pattern';
 import { PressableScale } from '../Pressable';
 import { Text } from '../Text';
+import { ColorKeys } from '../Text/Text.types';
 
 type Props = {
-  variant?: 'primary' | 'danger';
+  variant?: 'primary' | 'danger' | 'inverted';
   size?: 'small' | 'large';
   isDisabled?: boolean;
   children: string;
@@ -19,6 +20,7 @@ type Props = {
   isLoading?: boolean;
   textAlign?: 'left' | 'right' | 'center';
   testID?: string;
+  color?: ColorKeys;
 };
 
 export const Button = (props: Props) => {
@@ -32,6 +34,7 @@ export const Button = (props: Props) => {
     isLoading = false,
     textAlign = 'center',
     testID,
+    color,
   } = props;
 
   const shouldDisplayDisabled = isDisabled || isLoading;
@@ -47,7 +50,7 @@ export const Button = (props: Props) => {
     <PressableScale testID={testID} isDisabled={shouldDisplayDisabled} onPress={onPress} activeScale={0.97}>
       <Box borderRadius={48} alignX={textAlign} alignY="center" direction="row" style={styles.view}>
         <Inline space={3} paddingX={4}>
-          <Text fontWeight="700" size="sm" color={shouldDisplayDisabled ? 'disabled' : 'typography'}>
+          <Text fontWeight="700" size="sm" color={color ? color : shouldDisplayDisabled ? 'disabled' : 'typography'}>
             {children}
           </Text>
           {isLoading ? <ActivityIndicator color="#667085" size={14} /> : null}
@@ -67,6 +70,12 @@ const stylesheet = createStyleSheet((theme) => {
           },
           danger: {
             backgroundColor: '#E83326',
+          },
+          inverted: {
+            backgroundColor: 'transparent',
+            borderWidth: 1,
+            borderColor: theme.colors.primary,
+            color: theme.colors.primary,
           },
         },
         size: {

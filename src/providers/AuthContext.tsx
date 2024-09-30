@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import { useGetUserInfoQuery } from 'src/api/auth/hooks/useGetUserInfoQuery';
+import { useGetUserInfoQuery } from 'src/api/user/hooks';
 
 import { useLoginMutation } from '../api/auth/hooks/useLoginMutation';
 import { useLogoutMutation } from '../api/auth/hooks/useLogoutMutation';
@@ -20,7 +20,7 @@ type AuthProps = {
   isLoading?: boolean;
   onLogin?: UseMutateFunction<LoginResponse, Error, UserCredentials, unknown>;
   onRegister?: UseMutateFunction<void, Error, string, unknown>;
-  onLogout?: UseMutateFunction<void, Error, string, unknown>;
+  onLogout?: UseMutateFunction<void, Error, void, unknown>;
 };
 
 const AuthContext = React.createContext<AuthProps>({});
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     },
   });
 
-  const { isPending: isGetUserInfoLoading, isSuccess } = useGetUserInfoQuery(!!authState.token);
+  const { isLoading: isGetUserInfoLoading, isSuccess } = useGetUserInfoQuery(!!authState.token);
 
   const { mutate: onLogout, isPending: isLogoutLoading } = useLogoutMutation({
     onSuccess: async () => {

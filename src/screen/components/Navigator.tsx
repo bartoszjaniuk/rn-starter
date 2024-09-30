@@ -18,7 +18,7 @@ type Props = {
 
 export const Navigator = (props: Props) => {
   const { as: Component, data = {} } = props;
-  const [navigationData, setNavigationData] = React.useState(data);
+  // const [navigationData, setNavigationData] = React.useState(data);
 
   const route = useRoute<RouteProp<Params>>();
   const [isFlushed, setFlushState] = React.useState(false);
@@ -28,14 +28,12 @@ export const Navigator = (props: Props) => {
     setFlushState(true);
   }, []);
 
-  const dataMemoized = React.useMemo(
-    () => ({ navigationData, setNavigationData }),
-    [navigationData, setNavigationData],
-  );
+  // const dataMemoized = React.useMemo(
+  //   () => ({ navigationData, setNavigationData }),
+  //   [navigationData, setNavigationData],
+  // );
 
-  return (
-    <NavigatorProvider data={dataMemoized}>{isFlushed ? <Component params={route.params} /> : null}</NavigatorProvider>
-  );
+  return <NavigatorProvider data={data}>{isFlushed ? <Component params={route.params} /> : null}</NavigatorProvider>;
 };
 
 Navigator.Item = NavigatorItem;

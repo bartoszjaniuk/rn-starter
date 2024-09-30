@@ -4,26 +4,19 @@ import { D, F } from '@mobily/ts-belt';
 
 type AnyObject = Record<string, unknown>;
 type Props<T extends AnyObject> = React.PropsWithChildren<{
-  //   data: {
-  //     navigationData: T;
-  //     updateNavigationData: VoidFunction;
-  //   };
   data: T;
+  // updateNavigationData: VoidFunction;
 }>;
 
 type ContextProps<T extends AnyObject> = {
-  data: {
-    navigationData: T;
-    updateNavigationData: (data: Partial<T>) => void;
-  };
+  navigationData: T;
+  updateNavigationData: (data: Partial<T>) => void;
 };
 
 const createNavigatorContext = F.once(<T extends AnyObject>() => {
   return React.createContext<ContextProps<T>>({
-    data: {
-      navigationData: {} as T,
-      updateNavigationData: F.ignore,
-    },
+    navigationData: {} as T,
+    updateNavigationData: F.ignore,
   });
 });
 
@@ -37,6 +30,7 @@ export const useNavigator = <T extends AnyObject>() => {
 
 export const NavigatorProvider = <T extends AnyObject>(props: Props<T>) => {
   const { children, data } = props;
+  console.log('data from props', data);
   const [navigationData, setNavigationData] = React.useState(data);
 
   const updateNavigationData = React.useCallback((partialData: Partial<T>) => {
@@ -48,39 +42,11 @@ export const NavigatorProvider = <T extends AnyObject>(props: Props<T>) => {
 
   const value = React.useMemo(
     () => ({
-      data: {
-        navigationData,
-        updateNavigationData,
-      },
+      navigationData,
+      updateNavigationData,
     }),
     [navigationData, updateNavigationData],
   );
 
   return <NavigatorContext.Provider value={value}>{children}</NavigatorContext.Provider>;
 };
-
-// export const NavigatorProvider = <T extends AnyObject>(props: Props<T>) => {
-//   const { children, data } = props;
-//   const NavigatorContext = createNavigatorContext<T>();
-
-//   const value = Wave.useSourceState(data.source, {} as T);
-//   const next = React.useCallback(
-//     (partialData: Partial<T>) => {
-//       data.next(D.merge(data.value, partialData));
-//     },
-//     [data],
-//   );
-
-//   return (
-//     <NavigatorContext.Provider
-//       value={{
-//         data: {
-//           value,
-//           next,
-//         },
-//       }}
-//     >
-//       {children}
-//     </NavigatorContext.Provider>
-//   );
-// };

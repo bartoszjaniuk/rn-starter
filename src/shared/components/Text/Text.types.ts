@@ -3,7 +3,7 @@ import { TextProps as RNTextProps, TextStyle } from 'react-native';
 import { TypographyKey } from 'src/providers';
 
 type FontKeys = 'small' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl' | 'heading';
-type ColorKeys =
+export type ColorKeys =
   | 'typography'
   | 'white'
   | 'gray'

@@ -1,7 +1,7 @@
 import { queryKeys } from 'src/api/utils';
 import { API_URL } from 'src/providers';
 
-import { LoginResponse, UserCredentials, UserInfoResponse } from './models';
+import { LoginResponse, UserCredentials } from './models';
 
 import { ApiService } from '../baseApi';
 
@@ -18,12 +18,8 @@ export class AuthService extends ApiService {
     return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.register(), payload));
   };
 
-  logout = async (payload: string) => {
-    return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.logout(), payload));
-  };
-
-  getUserInfo = async () => {
-    return this.responseHandler(await this.httpClient.get<Promise<UserInfoResponse>>(queryKeys.getUserInfo()));
+  logout = async () => {
+    return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.logout(), {}));
   };
 }
 

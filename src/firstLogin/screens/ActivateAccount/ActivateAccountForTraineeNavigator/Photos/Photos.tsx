@@ -1,30 +1,32 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import { FlatList, View } from 'react-native';
 
 import { Stack } from '@grapp/stacks';
 
+import { useGetUserInfoQuery, useProfileCompletionMutation } from 'src/api/user/hooks';
+import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
-import { Screen } from 'src/screen';
+import { Screen, useNavigator } from 'src/screen';
 import { Text } from 'src/shared';
-
-import { ImageFile } from './components/ImageFile';
 
 import * as route from '../../../../navigation/routes';
 import { StepLayout } from '../../_internals/components';
-
-const photos = [
-  { id: 1, src: '' },
-  { id: 2, src: '' },
-  { id: 3, src: '' },
-  { id: 4, src: '' },
-  { id: 5, src: '' },
-  { id: 6, src: '' },
-];
+import { ImageFile } from '../../_internals/components/ImageFile';
+import { useImagePicker } from '../../_internals/hooks/useImagePicker';
 
 const Content = () => {
+  const { onSelectImage, images } = useImagePicker();
+  const { data, isLoading } = useGetUserInfoQuery(true);
+  const { navigationData } = useNavigator();
+  const { mutate: activateProfile } = useProfileCompletionMutation(data?.id || '');
+
   const handleNextPress = () => {
-    goTo(route.toActivateAccountForTraineePhotos);
+    // goTo(route.toActivateAccountForTraineePhotos);
+    console.log('navigationData', navigationData);
   };
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <StepLayout
@@ -39,10 +41,19 @@ const Content = () => {
           Zdjęcie profilowe
         </Text>
         <FlatList
-          data={photos}
+          data={images}
           numColumns={2}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={(item) => <ImageFile isPrimary={item.index === 0} />}
+          keyExtractor={(item) => item.id}
+          renderItem={(item) => (
+            <ImageFile
+              uri={item.item.uri}
+              assetId={item.item.assetId}
+              id={item.item.id}
+              index={item.index}
+              onPress={onSelectImage}
+              isPrimary={item.index === 0}
+            />
+          )}
           columnWrapperStyle={{ gap: 16 }}
           ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         />

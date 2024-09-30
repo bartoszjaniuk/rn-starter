@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import * as React from 'react';
-import { ActivityIndicator } from 'react-native';
 
 import * as SplashScreen from 'expo-splash-screen';
 
@@ -11,6 +10,7 @@ import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
 import { useAuth } from 'src/providers';
 
+import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
@@ -18,7 +18,7 @@ const NativeStack = createNativeStackNavigator();
 const App = () => {
   const { authState, isLoading } = useAuth();
 
-  if (isLoading) return <ActivityIndicator />;
+  if (isLoading) return <LoadingScreen />;
 
   //   Wave.useSubscription(services.device.isInternetReachable(), (isInternetReachable) => {
   //     if (!isInternetReachable) {

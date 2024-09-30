@@ -1,0 +1,96 @@
+import 'react-native-get-random-values';
+
+import * as ImagePicker from 'expo-image-picker';
+
+import { v4 as uuidV4 } from 'uuid';
+
+export type ImageAsset = Partial<ImagePicker.ImagePickerAsset> & { id: string };
+
+export const IMAGE_PLACEHOLDERS: ImageAsset[] = [
+  {
+    id: uuidV4(),
+    assetId: '',
+    base64: null,
+    duration: null,
+    exif: null,
+    fileName: '',
+    fileSize: 0,
+    height: 0,
+    mimeType: 'image/jpeg',
+    type: 'image',
+    uri: '',
+    width: 0,
+  },
+  {
+    id: uuidV4(),
+    assetId: '',
+    base64: null,
+    duration: null,
+    exif: null,
+    fileName: '',
+    fileSize: 0,
+    height: 0,
+    mimeType: 'image/jpeg',
+    type: 'image',
+    uri: '',
+    width: 0,
+  },
+  {
+    id: uuidV4(),
+    assetId: '',
+    base64: null,
+    duration: null,
+    exif: null,
+    fileName: '',
+    fileSize: 0,
+    height: 0,
+    mimeType: 'image/jpeg',
+    type: 'image',
+    uri: '',
+    width: 0,
+  },
+  {
+    id: uuidV4(),
+    assetId: '',
+    base64: null,
+    duration: null,
+    exif: null,
+    fileName: '',
+    fileSize: 0,
+    height: 0,
+    mimeType: 'image/jpeg',
+    type: 'image',
+    uri: '',
+    width: 0,
+  },
+  {
+    id: uuidV4(),
+    assetId: '',
+    base64: null,
+    duration: null,
+    exif: null,
+    fileName: '',
+    fileSize: 0,
+    height: 0,
+    mimeType: 'image/jpeg',
+    type: 'image',
+    uri: '',
+    width: 0,
+  },
+  {
+    id: uuidV4(),
+    assetId: '',
+    base64: null,
+    duration: null,
+    exif: null,
+    fileName: '',
+    fileSize: 0,
+    height: 0,
+    mimeType: 'image/jpeg',
+    type: 'image',
+    uri: '',
+    width: 0,
+  },
+];
+
+export const SELECTION_LIMIT = 6;

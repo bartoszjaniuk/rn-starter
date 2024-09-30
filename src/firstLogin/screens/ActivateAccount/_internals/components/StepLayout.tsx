@@ -7,7 +7,7 @@ import { Button, Text } from 'src/shared';
 
 import { StepHeader } from './StepHeader';
 
-export type HeaderVariant = 'Profile' | 'Target' | 'Photos';
+export type HeaderVariant = 'Profile' | 'Target' | 'Photos' | 'Offer' | 'Contact';
 
 type PropsWithHeader = {
   buttonLabel: string;

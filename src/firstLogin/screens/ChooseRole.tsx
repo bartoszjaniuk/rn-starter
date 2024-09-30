@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Box, Stack } from '@grapp/stacks';
 
+import { onTemporaryLogout } from 'src/api/auth/hooks';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
 import { Text } from 'src/shared';
@@ -24,11 +25,16 @@ const Content = () => {
         <Screen.Content alignY="center">
           <Stack space={12}>
             <Stack space={4}>
-              <Button onPress={navigateToTrainee}>Trenujący</Button>
+              <Button onPress={navigateToTrainee}>Trenującym</Button>
               <Button onPress={navigateToTrainer}>Trenerem</Button>
             </Stack>
           </Stack>
         </Screen.Content>
+        <Screen.Footer>
+          <Button color="primary" variant="inverted" onPress={onTemporaryLogout}>
+            Wyloguj
+          </Button>
+        </Screen.Footer>
       </Screen.ScrollView>
     </>
   );

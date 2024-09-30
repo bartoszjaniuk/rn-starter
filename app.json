@@ -41,7 +41,15 @@
     "plugins": [
       "expo-router",
       "expo-splash-screen",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-file-system",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Zaznacz oraz wgraj zdjęcia",
+          "cameraPermission": "Pozwól $(PRODUCT_NAME) otworzyć aparat"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

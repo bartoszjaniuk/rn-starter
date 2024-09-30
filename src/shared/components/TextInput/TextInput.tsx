@@ -31,9 +31,9 @@ const getInputState = ({
 
 export const TextInput = (props: Props) => {
   const [isFocused, setIsFocused] = React.useState(false);
-  const { label, isError, isDisabled, errorMessage, isRequired, onFocus, ...rest } = props;
+  const { label, isError, isDisabled, errorMessage, isRequired, onFocus, multiline = false, ...rest } = props;
   const state = getInputState({ isDisabled, isError, isFocused });
-  const { styles, theme } = useStyles(stylesheet, { state });
+  const { styles, theme } = useStyles(stylesheet, { state, multiline });
 
   const handleFocus = () => setIsFocused(true);
   const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -55,6 +55,7 @@ export const TextInput = (props: Props) => {
       </Inline>
       <TextInputRN
         {...rest}
+        multiline={multiline}
         autoCapitalize="none"
         cursorColor={theme.colors.primary}
         selectionColor={theme.colors.primary}
@@ -77,7 +78,6 @@ const stylesheet = createStyleSheet((theme) => ({
   input: {
     paddingLeft: 14,
     paddingTop: 12,
-    paddingBottom: 12,
     fontFamily: theme.fontFamily.satoshiRegular,
     color: theme.colors.gray,
     borderRadius: 5,
@@ -96,6 +96,14 @@ const stylesheet = createStyleSheet((theme) => ({
         },
         focused: {
           borderColor: theme.colors.primary,
+        },
+      },
+      multiline: {
+        true: {
+          paddingBottom: 72,
+        },
+        false: {
+          paddingBottom: 12,
         },
       },
     },

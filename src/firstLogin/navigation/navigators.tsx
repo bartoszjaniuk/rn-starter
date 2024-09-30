@@ -111,64 +111,64 @@ export const ActivateAccountForTraineeNavigator = (props: Params) => {
   );
 };
 
-// export const ActivateAccountForTrainerNavigator = (props: Params) => {
-//   const { params } = props;
+export const ActivateAccountForTrainerNavigator = (props: Params) => {
+  const { params } = props;
 
-//   return (
-//     <ActivateAccountForTrainerNativeStack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}
-//     >
-//       <ActivateAccountForTrainerNativeStack.Screen
-//         name={route.routeActivateAccountForTrainerProfile}
-//         initialParams={{
-//           ...params,
+  return (
+    <ActivateAccountForTrainerNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <ActivateAccountForTrainerNativeStack.Screen
+        name={route.routeActivateAccountForTrainerProfile}
+        initialParams={{
+          ...params,
 
-//           meta: {
-//             presentation: 'card',
-//           },
-//         }}
-//         getComponent={() =>
-//           require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Profile')
-//             .ActivateAccountForTrainerProfile
-//         }
-//       />
-//       <ActivateAccountForTrainerNativeStack.Screen
-//         name={route.routeActivateAccountForTrainerContact}
-//         initialParams={{
-//           meta: {
-//             presentation: 'card',
-//           },
-//         }}
-//         getComponent={() =>
-//           require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Contact')
-//             .ActivateAccountForTrainerContact
-//         }
-//       />
-//       <ActivateAccountForTrainerNativeStack.Screen
-//         name={route.routeActivateAccountForTrainerOffer}
-//         initialParams={{
-//           meta: {
-//             presentation: 'card',
-//           },
-//         }}
-//         getComponent={() =>
-//           require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Offer').ActivateAccountForTrainerOffer
-//         }
-//       />
-//       <ActivateAccountForTrainerNativeStack.Screen
-//         name={route.routeActivateAccountForTrainerPhotos}
-//         initialParams={{
-//           meta: {
-//             presentation: 'card',
-//           },
-//         }}
-//         getComponent={() =>
-//           require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Photos')
-//             .ActivateAccountForTrainerPhotos
-//         }
-//       />
-//     </ActivateAccountForTrainerNativeStack.Navigator>
-//   );
-// };
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Profile')
+            .ActivateAccountForTrainerProfile
+        }
+      />
+      <ActivateAccountForTrainerNativeStack.Screen
+        name={route.routeActivateAccountForTrainerContact}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Contact')
+            .ActivateAccountForTrainerContact
+        }
+      />
+      <ActivateAccountForTrainerNativeStack.Screen
+        name={route.routeActivateAccountForTrainerOffer}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Offer').ActivateAccountForTrainerOffer
+        }
+      />
+      <ActivateAccountForTrainerNativeStack.Screen
+        name={route.routeActivateAccountForTrainerPhotos}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/ActivateAccount/ActivateAccountForTrainerNavigator/Photos')
+            .ActivateAccountForTrainerPhotos
+        }
+      />
+    </ActivateAccountForTrainerNativeStack.Navigator>
+  );
+};

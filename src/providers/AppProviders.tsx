@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import * as React from 'react';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { PortalProvider } from '@gorhom/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -14,11 +15,13 @@ export const AppProviders = ({ children }: PropsWithChildren) => {
   return (
     <FontLoader>
       <KeyboardProvider statusBarTranslucent={true} navigationBarTranslucent={true}>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <PortalProvider>{children}</PortalProvider>
-          </AuthProvider>
-        </QueryClientProvider>
+        <ActionSheetProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <PortalProvider>{children}</PortalProvider>
+            </AuthProvider>
+          </QueryClientProvider>
+        </ActionSheetProvider>
       </KeyboardProvider>
     </FontLoader>
   );

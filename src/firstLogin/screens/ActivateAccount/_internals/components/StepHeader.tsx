@@ -1,5 +1,3 @@
-import { useStyles } from 'react-native-unistyles';
-
 import { Box, Stack } from '@grapp/stacks';
 
 import { Text } from 'src/shared';
@@ -12,12 +10,16 @@ type Props = {
 
 const headerTitleMap: Record<HeaderVariant, string> = {
   Profile: 'Uzupełnij swój profil',
+  Contact: '... i informacje kontaktowe',
+  Offer: 'Jaki trening oferujesz?',
   Target: 'Jaki trening cię interesuje?',
   Photos: 'Dodaj zdjęcia',
 };
 
 const headerDescriptionMap: Record<HeaderVariant, string> = {
   Profile: '',
+  Contact: '',
+  Offer: 'Wybierz rodzaj oferowanego treningu. Będziesz mógł edytować te informacje po utworzeniu konta.',
   Target: 'Wybierz rodzaj preferowanego treningu.  Będziesz mógł edytować te informacje po utworzeniu konta.',
   Photos: '',
 };

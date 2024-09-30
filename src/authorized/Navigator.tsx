@@ -2,12 +2,14 @@ import * as React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { FirstLoginNavigator } from 'src/firstLogin/navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
 
 export const AuthorizedNavigator = () => {
-  const [isFirstLogin, setIsFirstLogin] = React.useState(true);
+  const { data } = useGetUserInfoQuery();
+  const isFirstLogin = data?.role === 'role_not_set';
   return (
     <NativeStack.Navigator>
       {isFirstLogin ? (
