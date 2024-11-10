@@ -33,8 +33,8 @@ const Content = () => {
       return setError('Musisz zaznaczyć conajmniej jeden rodzaj treningu');
     }
 
-    updateNavigationData({ trainingsPreference });
-    goTo(route.toActivateAccountForTraineePhotos);
+    updateNavigationData({ specializations: trainingsPreference });
+    goTo(route.toActivateAccountForTrainerPhotos);
   };
 
   if (isLoading) return <LoadingScreen />;

@@ -4,13 +4,27 @@ import { Screen } from 'src/screen';
 
 import { ActivateAccountForTrainerNavigator } from '../navigation/navigators';
 
-const formInitialState = {
+export type TrainerFormData = {
+  name: string;
+  surname: string;
+  gender: string;
+  phoneNumber: string;
+  city: string;
+  specializations: string[];
+  role: string;
+  description: string;
+  photos?: string[];
+};
+
+const formInitialState: TrainerFormData = {
   name: '',
   surname: '',
+  description: '',
+  phoneNumber: '2137',
   gender: '',
   city: '',
-  description: '',
-  trainingsPreference: [],
+  specializations: [],
+  role: 'trainer',
   photos: [],
 };
 

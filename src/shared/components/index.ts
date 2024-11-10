@@ -10,3 +10,4 @@ export * from './Checkbox';
 export * from './Badge';
 export * from './ProgressBar';
 export * from './SelectDropdown';
+export * from './RefreshControl';

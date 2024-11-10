@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useAuth } from 'src/providers';
 import { Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
@@ -35,7 +36,7 @@ export const Form = () => {
     },
   });
 
-  const { onLogin } = useAuth();
+  const { isLoading, onLogin } = useAuth();
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
@@ -85,7 +86,9 @@ export const Form = () => {
           </Text>
         </Inline>
       </Stack>
-      <Button onPress={onSubmit}>Zaloguj</Button>
+      <Button isLoading={isLoading} onPress={onSubmit}>
+        Zaloguj
+      </Button>
     </Stack>
   );
 };

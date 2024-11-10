@@ -1,3 +1,5 @@
 export const trainerQueryKeys = {
-  getTrainerSpecializations: () => 'trainer/specializations',
+  pathname: () => 'trainer',
+  getTrainerSpecializations: () => `${trainerQueryKeys.pathname()}/specializations`,
+  getTrainers: () => 'trainers',
 };

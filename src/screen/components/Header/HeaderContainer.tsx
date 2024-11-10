@@ -63,8 +63,7 @@ const stylesheet = createStyleSheet((theme) => {
       variants: {
         variant: {
           primary: {
-            // backgroundColor: theme.colors.typography,
-            backgroundColor: 'transparent',
+            backgroundColor: theme.colors.snacks,
           },
           transparent: {
             backgroundColor: 'transparent',

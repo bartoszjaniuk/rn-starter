@@ -2,23 +2,19 @@ import React from 'react';
 
 import { Inline } from '@grapp/stacks';
 
-import { IconWrapper } from 'src/shared';
-
-import AppleIcon from '../../../../../assets/icons/apple.svg';
-import FacebookIcon from '../../../../../assets/icons/facebook.svg';
-import GoogleIcon from '../../../../../assets/icons/google.svg';
+import { Icon, IconWrapper } from 'src/shared';
 
 export const SocialIcons = () => {
   return (
     <Inline space={15} alignX="center">
       <IconWrapper>
-        <FacebookIcon />
+        <Icon name="facebook" />
       </IconWrapper>
       <IconWrapper>
-        <GoogleIcon />
+        <Icon name="google" />
       </IconWrapper>
       <IconWrapper>
-        <AppleIcon />
+        <Icon name="apple" color="white" />
       </IconWrapper>
     </Inline>
   );

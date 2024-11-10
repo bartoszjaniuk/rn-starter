@@ -27,6 +27,7 @@ type PropsWithHeaderVariant = {
 
 type Props = React.PropsWithChildren<PropsWithHeader | PropsWithHeaderVariant> & {
   innerSpace?: ResponsiveProp<number>;
+  isLoading?: boolean;
 };
 
 export const StepLayout = ({
@@ -36,6 +37,7 @@ export const StepLayout = ({
   children,
   shouldShowError,
   handleButtonClick,
+  isLoading,
   innerSpace = 6,
 }: Props) => {
   const { paddingX: defaultPaddingX } = useScreen();
@@ -64,7 +66,9 @@ export const StepLayout = ({
         </Box>
       )}
       <Screen.Footer>
-        <Button onPress={handleButtonClick}>{buttonLabel}</Button>
+        <Button isLoading={isLoading} onPress={handleButtonClick}>
+          {buttonLabel}
+        </Button>
       </Screen.Footer>
     </>
   );

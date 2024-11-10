@@ -15,6 +15,7 @@ import { type NativeStackHeaderProps } from '@react-navigation/native-stack';
 import { platform } from 'src/core';
 import { useFocusEffect, useLazy, usePreventBack } from 'src/shared/hooks';
 
+import { BottomTabBar } from './BottomTabBar';
 import { Content } from './Content';
 import { FlatList } from './FlatList';
 import { Footer } from './Footer';
@@ -161,4 +162,5 @@ Screen.Footer = Footer;
 Screen.Content = Content;
 Screen.ScrollView = ScrollView;
 Screen.FlatList = FlatList;
+Screen.BottomTabBar = BottomTabBar;
 Header.Host = HeaderHostElement;

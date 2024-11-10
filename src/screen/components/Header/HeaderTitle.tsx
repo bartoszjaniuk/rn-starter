@@ -8,7 +8,9 @@ export const HeaderTitle = (props: React.PropsWithChildren) => {
   const { children } = props;
 
   const { backgroundColor: screenBackgroundColor } = useScreen();
-  const textColor = colord(screenBackgroundColor).isDark() ? 'white' : undefined;
+  const textColor = colord(screenBackgroundColor).isDark() ? 'white' : 'black';
+  console.log(textColor);
+  console.log({ screenBackgroundColor });
 
   return <Text style={{ color: textColor }}>{children}</Text>;
 };

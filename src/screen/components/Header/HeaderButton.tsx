@@ -9,12 +9,13 @@ import { colord } from 'colord';
 
 import { goBack, goTo } from 'src/navigation';
 import { Icon, PressableScale } from 'src/shared';
+import { ColorKeys } from 'src/shared/components/Text/Text.types';
 
 import { useHeader, useScreen } from '../../providers';
 
 type Props = {
   onPress: () => void;
-  color?: string;
+  color?: ColorKeys;
   //  TODO:    iconName: IconName;
   iconRotation?: number;
   testID?: string;
@@ -32,7 +33,7 @@ type CloseButtonProps = {
 type GoBackButtonProps = Pick<Props, 'variant'>;
 
 export const HeaderButton = (props: Props) => {
-  const { onPress, color, iconRotation = 0, testID, variant = 'primary', size = 40 } = props;
+  const { onPress, color = 'white', iconRotation = 0, testID, variant = 'primary', size = 40 } = props;
   const { styles } = useStyles(stylesheet, {
     variant,
   });
@@ -44,9 +45,7 @@ export const HeaderButton = (props: Props) => {
       activeScale={0.94}
       style={[styles.root, { width: size, height: size, borderRadius: size / 2 }]}
     >
-      {/* <Icon name={iconName} rotation={iconRotation} size={24} color={color} /> */}
-      {/* <Image source={require('../../../../assets/images/leftArrow.png')} /> */}
-      <Icon />
+      <Icon name="arrowLeft" color={color} svgProps={{ rotation: iconRotation }} />
     </PressableScale>
   );
 

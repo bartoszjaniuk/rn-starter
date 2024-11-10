@@ -1,6 +1,6 @@
 import { API_URL } from 'src/providers';
 
-import { TrainerSpecializations } from './models/trainer.models';
+import { TrainerSpecializations, TrainersGetV1Response } from './models/trainer.models';
 
 import { ApiService } from '../baseApi';
 import { queryKeys } from '../utils';
@@ -14,6 +14,10 @@ export class TrainerService extends ApiService {
     return this.responseHandler(
       await this.httpClient.get<Promise<TrainerSpecializations>>(queryKeys.getTrainerSpecializations()),
     );
+  };
+
+  getTrainers = async () => {
+    return this.responseHandler(await this.httpClient.get<Promise<TrainersGetV1Response>>(queryKeys.getTrainers()));
   };
 }
 

@@ -37,12 +37,18 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
   const { isLoading: isGetUserInfoLoading, isSuccess } = useGetUserInfoQuery(!!authState.token);
 
-  const { mutate: onLogout, isPending: isLogoutLoading } = useLogoutMutation({
+  const { mutate: logout, isPending: isLogoutLoading } = useLogoutMutation({
     onSuccess: async () => {
       setAuthState({ token: null, authenticated: false });
-      await SecureStore.deleteItemAsync(ACCESS_TOKEN);
     },
   });
+
+  const onLogout = React.useCallback(async () => {
+    logout();
+    setAuthState({ authenticated: false, token: null });
+    await SecureStore.deleteItemAsync(ACCESS_TOKEN);
+  }, [logout, setAuthState]);
+
   const { mutate: onRegister, isPending: isRegisterLoading } = useRegisterMutation();
 
   React.useEffect(() => {

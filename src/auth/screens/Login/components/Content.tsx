@@ -1,16 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 
 import { Box, Inline, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Divider, IconWrapper, Text } from 'src/shared';
+import { Divider, Icon, IconWrapper, Text } from 'src/shared';
 
 import { Form } from './Form';
 
-import AppleIcon from '../../../../../assets/icons/apple.svg';
-import FacebookIcon from '../../../../../assets/icons/facebook.svg';
-import GoogleIcon from '../../../../../assets/icons/google.svg';
 import * as route from '../../../navigation/routes';
 
 export const Content = () => {
@@ -31,13 +28,13 @@ export const Content = () => {
               <Divider />
               <Inline space={15} alignX="center">
                 <IconWrapper>
-                  <FacebookIcon />
+                  <Icon name="facebook" />
                 </IconWrapper>
                 <IconWrapper>
-                  <GoogleIcon />
+                  <Icon name="google" />
                 </IconWrapper>
                 <IconWrapper>
-                  <AppleIcon />
+                  <Icon name="apple" color="white" />
                 </IconWrapper>
               </Inline>
             </Stack>

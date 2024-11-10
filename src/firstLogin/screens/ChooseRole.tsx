@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { Box, Stack } from '@grapp/stacks';
 
-import { onTemporaryLogout } from 'src/api/auth/hooks';
 import { goTo } from 'src/navigation';
+import { useAuth } from 'src/providers';
 import { Screen } from 'src/screen';
 import { Text } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
@@ -11,6 +11,7 @@ import { Button } from 'src/shared/components/Button';
 import * as route from '../navigation/routes';
 
 const Content = () => {
+  const { onLogout, isLoading } = useAuth();
   const navigateToTrainee = () => goTo(route.toFirstLoginTrainee);
   const navigateToTrainer = () => goTo(route.toFirstLoginTrainer);
 
@@ -31,7 +32,7 @@ const Content = () => {
           </Stack>
         </Screen.Content>
         <Screen.Footer>
-          <Button color="primary" variant="inverted" onPress={onTemporaryLogout}>
+          <Button isLoading={isLoading} color="primary" variant="inverted" onPress={onLogout}>
             Wyloguj
           </Button>
         </Screen.Footer>

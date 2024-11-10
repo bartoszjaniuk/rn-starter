@@ -10,15 +10,14 @@ import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
 import { useAuth } from 'src/providers';
 
-import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
 
 const App = () => {
-  const { authState, isLoading } = useAuth();
+  const { authState } = useAuth();
 
-  if (isLoading) return <LoadingScreen />;
+  // if (isLoading) return <LoadingScreen />;
 
   //   Wave.useSubscription(services.device.isInternetReachable(), (isInternetReachable) => {
   //     if (!isInternetReachable) {
@@ -32,6 +31,8 @@ const App = () => {
   //     }
   //     toast.hide();
   //   });
+
+  console.log(authState, 'authState');
 
   return (
     <NativeStack.Navigator>

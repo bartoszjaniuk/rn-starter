@@ -12,7 +12,8 @@ export type ColorKeys =
   | 'disabled'
   | 'error'
   | 'border'
-  | 'asteriskError';
+  | 'asteriskError'
+  | 'transparent';
 
 export type TextProps = {
   color?: ColorKeys;

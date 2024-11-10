@@ -6,6 +6,7 @@ import { Stack } from '@grapp/stacks';
 
 import { useGetUserInfoQuery, useProfileCompletionMutation } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
+import { TraineeFormData } from 'src/firstLogin/screens/Trainee';
 import { goTo } from 'src/navigation';
 import { Screen, useNavigator } from 'src/screen';
 import { Text } from 'src/shared';
@@ -18,12 +19,20 @@ import { useImagePicker } from '../../_internals/hooks/useImagePicker';
 const Content = () => {
   const { onSelectImage, images } = useImagePicker();
   const { data, isLoading } = useGetUserInfoQuery(true);
-  const { navigationData } = useNavigator();
-  const { mutate: activateProfile } = useProfileCompletionMutation(data?.id || '');
-
+  const { navigationData } = useNavigator<TraineeFormData>();
+  const { mutate: activateProfile, isPending } = useProfileCompletionMutation(data?.id || '');
+  console.log(navigationData, 'navigationData');
   const handleNextPress = () => {
     // goTo(route.toActivateAccountForTraineePhotos);
     console.log('navigationData', navigationData);
+    activateProfile({
+      name: `${navigationData.name} ${navigationData.surname}`,
+      role: navigationData.role,
+      phoneNumber: navigationData.phoneNumber,
+      city: navigationData.city,
+      specializations: navigationData.specializations,
+      gender: navigationData.gender,
+    });
   };
 
   if (isLoading) return <LoadingScreen />;
@@ -35,6 +44,7 @@ const Content = () => {
       shouldShowError={false}
       handleButtonClick={handleNextPress}
       innerSpace={0}
+      isLoading={isPending}
     >
       <Stack space={1}>
         <Text fontWeight="500" size="xs">
