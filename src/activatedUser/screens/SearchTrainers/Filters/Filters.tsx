@@ -2,12 +2,13 @@ import * as React from 'react';
 
 import { Stack } from '@grapp/stacks';
 
-import { ActivityList } from 'src/firstLogin/screens/ActivateAccount/_internals/components';
-import { useTrainerSpecializations } from 'src/firstLogin/screens/ActivateAccount/_internals/hooks';
 import { Screen } from 'src/screen';
 import { PressableScale, Text } from 'src/shared';
 
 import { CheckboxList } from './components/CheckboxList';
+
+import { ActivityList } from '../../ActivateAccount/_internals/components/ActivityList';
+import { useTrainerSpecializations } from '../../ActivateAccount/_internals/hooks/useTrainerSpecializations';
 
 const today = new Date().toLocaleDateString('pl-PL');
 const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toLocaleDateString('pl-PL');

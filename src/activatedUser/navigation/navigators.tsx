@@ -17,11 +17,140 @@ import { BottomTabsHome } from '../screens/BottomTabs/Home';
 import { BottomTabsMyPlans } from '../screens/BottomTabs/MyPlans';
 import { BottomTabsProfile } from '../screens/BottomTabs/Profile';
 import { BottomTabsTrainerTrainees } from '../screens/BottomTabs/TrainerTrainees';
+import { FirstLoginChooseRole } from '../screens/FirstLogin/ChooseRole';
+import { FirstLoginTrainee } from '../screens/FirstLogin/Trainee';
+import { FirstLoginTrainer } from '../screens/FirstLogin/Trainer';
 
+const FirstLoginNativeStack = createNativeStackNavigator();
+const ActivateAccountTraineeNativeStack = createNativeStackNavigator();
+const ActivateAccountTrainerNativeStack = createNativeStackNavigator();
 const BottomTabsBottomTab = createBottomTabNavigator();
 const SearchTrainersNativeStack = createNativeStackNavigator();
 const AccountNativeStack = createNativeStackNavigator();
 const ActivatedUserNativeStack = createNativeStackNavigator();
+
+export const FirstLoginNavigator = () => {
+  return (
+    <FirstLoginNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <FirstLoginNativeStack.Screen
+        name={route.routeFirstLoginChooseRole}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={FirstLoginChooseRole}
+      />
+      <FirstLoginNativeStack.Screen
+        name={route.routeFirstLoginTrainee}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={FirstLoginTrainee}
+      />
+      <FirstLoginNativeStack.Screen
+        name={route.routeFirstLoginTrainer}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={FirstLoginTrainer}
+      />
+    </FirstLoginNativeStack.Navigator>
+  );
+};
+
+export const ActivateAccountTraineeNavigator = () => {
+  return (
+    <ActivateAccountTraineeNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <ActivateAccountTraineeNativeStack.Screen
+        name={route.routeActivateAccountTraineeProfile}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/ActivateAccount/Trainee/Profile').ActivateAccountTraineeProfile}
+      />
+      <ActivateAccountTraineeNativeStack.Screen
+        name={route.routeActivateAccountTraineeTarget}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/ActivateAccount/Trainee/Target').ActivateAccountTraineeTarget}
+      />
+      <ActivateAccountTraineeNativeStack.Screen
+        name={route.routeActivateAccountTraineePhotos}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/ActivateAccount/Trainee/Photos').ActivateAccountTraineePhotos}
+      />
+    </ActivateAccountTraineeNativeStack.Navigator>
+  );
+};
+
+export const ActivateAccountTrainerNavigator = () => {
+  return (
+    <ActivateAccountTrainerNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <ActivateAccountTrainerNativeStack.Screen
+        name={route.routeActivateAccountTrainerProfile}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/ActivateAccount/Trainer/Profile').ActivateAccountTrainerProfile}
+      />
+      <ActivateAccountTrainerNativeStack.Screen
+        name={route.routeActivateAccountTrainerContact}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/ActivateAccount/Trainer/Contact').ActivateAccountTrainerContact}
+      />
+      <ActivateAccountTrainerNativeStack.Screen
+        name={route.routeActivateAccountTrainerOffer}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/ActivateAccount/Trainer/Offer').ActivateAccountTrainerOffer}
+      />
+      <ActivateAccountTrainerNativeStack.Screen
+        name={route.routeActivateAccountTrainerPhotos}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/ActivateAccount/Trainer/Photos').ActivateAccountTrainerPhotos}
+      />
+    </ActivateAccountTrainerNativeStack.Navigator>
+  );
+};
 
 const BottomTabsNavigator = () => {
   return (
@@ -166,6 +295,33 @@ export const ActivatedUserNavigator = () => {
           },
         }}
         component={SearchTrainersNavigator}
+      />
+      <ActivatedUserNativeStack.Screen
+        name={route.routeFirstLoginNavigator}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={FirstLoginNavigator}
+      />
+      <ActivatedUserNativeStack.Screen
+        name={route.routeActivateAccountTraineeNavigator}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={ActivateAccountTraineeNavigator}
+      />
+      <ActivatedUserNativeStack.Screen
+        name={route.routeActivateAccountTrainerNavigator}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={ActivateAccountTrainerNavigator}
       />
     </ActivatedUserNativeStack.Navigator>
   );

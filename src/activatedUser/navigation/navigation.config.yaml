@@ -7,11 +7,39 @@ aliases:
   - &modal
     presentation: "'modal'"
 
-
 navigatorsImports:
   BottomTabBar: ../components
 
 navigators:
+  FirstLogin:
+    export: true
+    lazy: false
+    path: ../screens/FirstLogin
+    props:
+      screenOptions: *hideHeader
+    children:
+      - ChooseRole
+      - Trainee
+      - Trainer
+  ActivateAccountTrainee:
+    export: true
+    path: ../screens/ActivateAccount/Trainee
+    props:
+      screenOptions: *hideHeader
+    children:
+      - Profile
+      - Target
+      - Photos
+  ActivateAccountTrainer:
+    export: true
+    path: ../screens/ActivateAccount/Trainer
+    props:
+      screenOptions: *hideHeader
+    children:
+      - Profile
+      - Contact
+      - Offer
+      - Photos
   BottomTabs:
     type: bottom-tab
     path: ../screens/BottomTabs
@@ -54,3 +82,6 @@ navigators:
       - navigator: BottomTabs
       - navigator: Account
       - navigator: SearchTrainers
+      - navigator: FirstLogin
+      - navigator: ActivateAccountTrainee
+      - navigator: ActivateAccountTrainer

@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { ActivatedUserNavigator } from 'src/activatedUser/navigation';
+import { ActivatedUserNavigator, FirstLoginNavigator } from 'src/activatedUser/navigation';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
-import { FirstLoginNavigator } from 'src/firstLogin/navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
 
@@ -16,7 +15,7 @@ export const AuthorizedNavigator = () => {
     <NativeStack.Navigator>
       {isFirstLogin ? (
         <NativeStack.Screen
-          name="FirstLoginNavigator"
+          name="FirstLogin"
           component={FirstLoginNavigator}
           options={{
             headerShown: false,
