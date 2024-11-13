@@ -32,6 +32,10 @@ navigators:
       screenOptions: *hideHeader
     children:
       - List
+      - Filters:
+         props:
+            options:
+              << : [*modal]
   Account:
     path: ../screens/Account
     props:

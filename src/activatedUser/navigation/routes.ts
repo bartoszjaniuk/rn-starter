@@ -10,6 +10,7 @@ export const routeBottomTabsMyPlans = '/bottom-tabs/my-plans';
 export const routeBottomTabsTrainerTrainees = '/bottom-tabs/trainer-trainees';
 export const routeBottomTabsProfile = '/bottom-tabs/profile';
 export const routeSearchTrainersList = '/search-trainers/list';
+export const routeSearchTrainersFilters = '/search-trainers/filters';
 export const routeAccountSettings = '/account/settings';
 export const routeBottomTabsNavigator = '/bottom-tabs';
 export const routeAccountNavigator = '/account';
@@ -23,6 +24,7 @@ export const toBottomTabsTrainerTrainees = [
 ] as unknown as Route;
 export const toBottomTabsProfile = [routeBottomTabsNavigator, routeBottomTabsProfile] as unknown as Route;
 export const toSearchTrainersList = [routeSearchTrainersNavigator, routeSearchTrainersList] as unknown as Route;
+export const toSearchTrainersFilters = [routeSearchTrainersNavigator, routeSearchTrainersFilters] as unknown as Route;
 export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] as unknown as Route;
 export const toBottomTabsNavigator = routeBottomTabsNavigator as unknown as Route;
 export const toAccountNavigator = routeAccountNavigator as unknown as Route;

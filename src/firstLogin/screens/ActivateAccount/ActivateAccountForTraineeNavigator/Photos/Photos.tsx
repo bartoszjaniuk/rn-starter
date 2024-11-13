@@ -4,6 +4,7 @@ import { FlatList, View } from 'react-native';
 
 import { Stack } from '@grapp/stacks';
 
+import { useUploadImagesMutation } from 'src/api/upload/hooks';
 import { useGetUserInfoQuery, useProfileCompletionMutation } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { TraineeFormData } from 'src/firstLogin/screens/Trainee';
@@ -15,27 +16,34 @@ import * as route from '../../../../navigation/routes';
 import { StepLayout } from '../../_internals/components';
 import { ImageFile } from '../../_internals/components/ImageFile';
 import { useImagePicker } from '../../_internals/hooks/useImagePicker';
+import { makeFormData } from '../../_internals/utils';
 
 const Content = () => {
   const { onSelectImage, images } = useImagePicker();
-  const { data, isLoading } = useGetUserInfoQuery(true);
+  const userInfoQuery = useGetUserInfoQuery(true);
   const { navigationData } = useNavigator<TraineeFormData>();
-  const { mutate: activateProfile, isPending } = useProfileCompletionMutation(data?.id || '');
-  console.log(navigationData, 'navigationData');
+  const profileCompletionMutation = useProfileCompletionMutation(userInfoQuery.data?.id || '');
+  const uploadImagesMutation = useUploadImagesMutation({
+    onSuccess: () => {
+      profileCompletionMutation.mutate({
+        name: `${navigationData.name} ${navigationData.surname}`,
+        role: navigationData.role,
+        phoneNumber: navigationData.phoneNumber,
+        city: navigationData.city,
+        specializations: navigationData.specializations,
+        gender: navigationData.gender,
+      });
+    },
+  });
   const handleNextPress = () => {
-    // goTo(route.toActivateAccountForTraineePhotos);
-    console.log('navigationData', navigationData);
-    activateProfile({
-      name: `${navigationData.name} ${navigationData.surname}`,
-      role: navigationData.role,
-      phoneNumber: navigationData.phoneNumber,
-      city: navigationData.city,
-      specializations: navigationData.specializations,
-      gender: navigationData.gender,
-    });
+    images
+      .filter((img) => img.fileName)
+      .forEach(async (img) => {
+        await uploadImagesMutation.mutateAsync(makeFormData(img));
+      });
   };
 
-  if (isLoading) return <LoadingScreen />;
+  if (userInfoQuery.isPending) return <LoadingScreen />;
 
   return (
     <StepLayout
@@ -44,7 +52,7 @@ const Content = () => {
       shouldShowError={false}
       handleButtonClick={handleNextPress}
       innerSpace={0}
-      isLoading={isPending}
+      isLoading={profileCompletionMutation.isPending || uploadImagesMutation.isPending}
     >
       <Stack space={1}>
         <Text fontWeight="500" size="xs">
@@ -56,6 +64,7 @@ const Content = () => {
           keyExtractor={(item) => item.id}
           renderItem={(item) => (
             <ImageFile
+              isLoading={uploadImagesMutation.isPending}
               uri={item.item.uri}
               assetId={item.item.assetId}
               id={item.item.id}

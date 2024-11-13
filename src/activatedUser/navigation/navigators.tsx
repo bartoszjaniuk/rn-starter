@@ -97,6 +97,18 @@ const SearchTrainersNavigator = () => {
         }}
         getComponent={() => require('../screens/SearchTrainers/List').SearchTrainersList}
       />
+      <SearchTrainersNativeStack.Screen
+        options={{
+          presentation: 'modal',
+        }}
+        name={route.routeSearchTrainersFilters}
+        initialParams={{
+          meta: {
+            presentation: 'modal',
+          },
+        }}
+        getComponent={() => require('../screens/SearchTrainers/Filters').SearchTrainersFilters}
+      />
     </SearchTrainersNativeStack.Navigator>
   );
 };

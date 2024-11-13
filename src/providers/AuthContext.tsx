@@ -13,7 +13,7 @@ import { AuthState, LoginResponse, UserCredentials } from '../api/auth/models/au
 
 export const ACCESS_TOKEN = 'JWT';
 
-export const API_URL = 'http://3.71.173.93/api';
+export const API_URL = 'http://3.68.214.141/api';
 
 type AuthProps = {
   authState?: AuthState;
@@ -53,9 +53,9 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
   React.useEffect(() => {
     const loadToken = async () => {
-      const token = await SecureStore.getItemAsync(ACCESS_TOKEN);
-      if (!token) return;
-      setAuthState((prev) => ({ ...prev, token: token }));
+      // const token = await SecureStore.getItemAsync(ACCESS_TOKEN);
+      // if (!token) return;
+      // setAuthState((prev) => ({ ...prev, token: token }));
     };
     loadToken();
   }, []);

@@ -21,3 +21,14 @@ export const updateImages = (existingImages: ImageAsset[], selectedImages: Image
 
   return updatedImages;
 };
+
+export const makeFormData = (imageAsset: ImageAsset) => {
+  const formData = new FormData();
+  const file = {
+    uri: imageAsset.uri,
+    type: imageAsset.type,
+    name: imageAsset.fileName,
+  };
+  formData.append('file', file);
+  return formData;
+};

@@ -1,7 +1,7 @@
 import { Image } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { PressableScale } from 'src/shared';
+import { ActivityIndicator, Icon, PressableScale } from 'src/shared';
 
 import PlusSvg from '../../../../../../assets/icons/plus.svg';
 
@@ -12,16 +12,23 @@ type Props = {
   uri?: string;
   assetId?: string | null;
   index: number;
+  isLoading?: boolean;
 };
 
 export const ImageFile = (props: Props) => {
-  const { isPrimary = false, onPress, uri, assetId, index } = props;
+  const { isPrimary = false, onPress, uri, assetId, index, isLoading } = props;
   const { styles } = useStyles(stylesheet, { isPrimary });
   const handlePress = () => onPress(index, true, assetId);
 
   return (
     <PressableScale style={styles.card} onPress={handlePress}>
-      {uri ? <Image width={isPrimary ? 160 : 162} height={isPrimary ? 149 : 151} source={{ uri }} /> : <PlusSvg />}
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : uri ? (
+        <Image width={isPrimary ? 160 : 162} height={isPrimary ? 149 : 151} source={{ uri }} />
+      ) : (
+        <Icon name="plus" color="primary" />
+      )}
     </PressableScale>
   );
 };

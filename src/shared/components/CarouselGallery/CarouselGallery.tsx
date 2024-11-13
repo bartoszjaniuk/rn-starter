@@ -4,7 +4,11 @@ import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { UnistylesRuntime, createStyleSheet, useStyles } from 'react-native-unistyles';
 
+import { Image } from 'expo-image';
+
 import { Bleed, Box, FloatBox } from '@grapp/stacks';
+
+import { useAuth } from 'src/providers';
 
 import { Pagination } from './components/Pagination';
 
@@ -26,6 +30,10 @@ const images = [
 ];
 
 export const CarouselGallery = () => {
+  const { authState } = useAuth();
+
+  const JWT = `Bearer ${authState?.token}`;
+
   const { styles } = useStyles(stylesheet);
   const width = UnistylesRuntime.screen.width;
   const height = UnistylesRuntime.screen.height;
@@ -61,7 +69,14 @@ export const CarouselGallery = () => {
         }}
         renderItem={({ item }) => (
           <Box flex="fluid">
-            <LocalImage source={item.uri} style={styles.image} />
+            {/* <LocalImage source={item.uri} style={styles.image} /> */}
+            <Image
+              style={styles.image}
+              source={{
+                uri: 'http://3.68.214.141/api/file/18fa7dcf-a6e4-4083-a77a-cb7c384ec122',
+                headers: { Authorization: JWT },
+              }}
+            />
           </Box>
         )}
       />

@@ -8,8 +8,14 @@ export class UploadService extends ApiService {
     super(API_URL);
   }
 
-  postUploadImages = async () => {
-    return this.responseHandler(await this.httpClient.post<Promise<any>>(queryKeys.postUploadImages()));
+  postUploadImages = async (payload: unknown) => {
+    return this.responseHandler(
+      await this.httpClient.post(queryKeys.postUploadImages(), payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+    );
   };
 }
 

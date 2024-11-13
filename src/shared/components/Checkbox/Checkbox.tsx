@@ -20,7 +20,7 @@ export const Checkbox = (props: React.PropsWithChildren<Props>) => {
       <Inline space={4} alignY="center">
         <CheckBoxCommunity
           {...rest}
-          lineWidth={3}
+          lineWidth={2}
           boxType="square"
           tintColor={theme.colors.gray}
           tintColors={{ false: theme.colors.gray, true: theme.colors.typography }}

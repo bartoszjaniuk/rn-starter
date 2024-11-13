@@ -4,6 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 import { PressableScale, Text } from 'src/shared';
 
 type Props = {
+  variant?: 'primary' | 'secondary';
   label: string;
   value: number;
   isSelected: boolean;

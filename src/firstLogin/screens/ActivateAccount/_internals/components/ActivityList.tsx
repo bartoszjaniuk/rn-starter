@@ -7,6 +7,7 @@ import { Text } from 'src/shared';
 import { Tile } from './Tile';
 
 type Props = {
+  variant?: 'primary' | 'secondary';
   onPress: (activityId: number) => void;
   activities: {
     label: string;
@@ -17,12 +18,13 @@ type Props = {
 };
 
 export const ActivityList = (props: Props) => {
-  const { onPress, activities, error } = props;
+  const { onPress, activities, error, variant = 'primary' } = props;
   return (
     <Stack space={2}>
       <Box direction="row" gap={4} wrap="wrap">
         {activities.map((activity) => (
           <Tile
+            variant={variant}
             key={activity.value}
             label={activity.label}
             value={activity.value}
