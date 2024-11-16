@@ -10,10 +10,13 @@ export type Trainer = {
   city: string;
   specializations: string[];
   rating?: number;
-  profileImage?: string;
+  // profileImage?: string;
+  images: string[];
 };
 
 export type TrainersGetV1Response = {
   data: Trainer[];
-  total: number;
+  meta: {
+    total: number;
+  };
 };

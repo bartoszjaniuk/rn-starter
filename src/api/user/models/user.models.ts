@@ -1,4 +1,4 @@
-type Role = 'role_not_set' | 'trainee' | 'trainer';
+export type Role = 'role_not_set' | 'trainee' | 'trainer';
 
 export type UserInfoResponse = {
   id: string;

@@ -59,11 +59,25 @@ navigators:
     props:
       screenOptions: *hideHeader
     children:
+      - Home 
       - List
+  SearchTrainersListNavigator:
+    path: ../screens/SearchTrainers/SearchTrainersListNavigator
+    export: true
+    passParams: true
+    props:
+      screenOptions: *hideHeader
+    children:
+      - List:
+          props:
+            options:
+              << : [*hideHeader]
       - Filters:
-         props:
+          props:
             options:
               << : [*modal]
+
+
   Account:
     path: ../screens/Account
     props:
@@ -82,6 +96,6 @@ navigators:
       - navigator: BottomTabs
       - navigator: Account
       - navigator: SearchTrainers
-      - navigator: FirstLogin
       - navigator: ActivateAccountTrainee
       - navigator: ActivateAccountTrainer
+      - navigator: FirstLogin

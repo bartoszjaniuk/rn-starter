@@ -15,20 +15,18 @@ export type CheckBoxListOptions = CheckBoxListOption[];
 type Props = {
   heading: string;
   data: CheckBoxListOptions;
+  defaultValue?: string;
+  onSelect?: (from: string) => void;
 };
 
 export const CheckboxList = (props: Props) => {
-  const { data, heading } = props;
-  const initialState = data.map((option) => ({
-    [option.key]: '',
-  }));
-  const [checkbox, setCheckbox] = React.useState(initialState);
+  const { data, heading, onSelect, defaultValue } = props;
+
+  const [selectedKey, setSelectedKey] = React.useState<string | undefined>(defaultValue);
 
   const handleChangeValue = (key: string, value: string) => {
-    setCheckbox({
-      ...initialState,
-      [key]: value,
-    });
+    setSelectedKey((prevKey) => (prevKey === key ? undefined : key));
+    onSelect?.(value);
   };
 
   return (
@@ -39,7 +37,7 @@ export const CheckboxList = (props: Props) => {
       {data.map((option) => (
         <Checkbox
           key={option.key}
-          value={!!checkbox[option.key]}
+          value={selectedKey === option.key}
           onValueChange={() => handleChangeValue(option.key, option.value)}
         >
           <Text>{option.title}</Text>

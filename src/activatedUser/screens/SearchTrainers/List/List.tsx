@@ -1,25 +1,29 @@
-import React from 'react';
+import * as React from 'react';
 
+import { SearchTrainersListNavigator } from 'src/activatedUser/navigation';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
 import { PressableScale, Text } from 'src/shared';
 
-import { Header } from './components/Header';
-import { TrainersList } from './components/TrainerList';
-
 import * as route from '../../../navigation/routes';
 
-const Content = () => {
-  return (
-    <Screen.Content>
-      <Header count={84} isSorted={false} />
-      <TrainersList />
-    </Screen.Content>
-  );
+export type QueryParamsList = {
+  from?: string;
+  to?: string;
+  specialization?: string;
+  gender?: string;
+};
+
+const data: QueryParamsList = {
+  from: '',
+  to: '',
+  specialization: '',
+  gender: '',
 };
 
 export const SearchTrainersList = () => {
-  const openFilters = () => goTo(route.toSearchTrainersFilters);
+  const openFilters = () => goTo(route.toSearchTrainersListFilters);
+
   return (
     <Screen
       HeaderComponent={
@@ -33,9 +37,8 @@ export const SearchTrainersList = () => {
           </Screen.Header.Right>
         </Screen.Header>
       }
-      statusBarStyle="light"
     >
-      <Content />
+      <Screen.Navigator as={SearchTrainersListNavigator} data={data} />
     </Screen>
   );
 };

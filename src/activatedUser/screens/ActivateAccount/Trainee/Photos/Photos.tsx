@@ -3,9 +3,11 @@ import * as React from 'react';
 import { FlatList, View } from 'react-native';
 
 import { Stack } from '@grapp/stacks';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { TraineeFormData } from 'src/activatedUser/screens/FirstLogin/Trainee';
 import { useUploadImagesMutation } from 'src/api/upload/hooks';
+import { userQueryKeys } from 'src/api/user';
 import { useGetUserInfoQuery, useProfileCompletionMutation } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo, popToTop, replace } from 'src/navigation';
@@ -22,29 +24,29 @@ const Content = () => {
   const { onSelectImage, images } = useImagePicker();
   const userInfoQuery = useGetUserInfoQuery(true);
   const { navigationData } = useNavigator<TraineeFormData>();
-  const profileCompletionMutation = useProfileCompletionMutation(userInfoQuery.data?.id || '');
+  const queryClient = useQueryClient();
+  const profileCompletionMutation = useProfileCompletionMutation(userInfoQuery.data?.id || '', {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [userQueryKeys.getUserInfo()] });
+    },
+  });
   const uploadImagesMutation = useUploadImagesMutation({
     onSuccess: () => {
-      // profileCompletionMutation.mutate({
-      //   name: `${navigationData.name} ${navigationData.surname}`,
-      //   role: navigationData.role,
-      //   phoneNumber: navigationData.phoneNumber,
-      //   city: navigationData.city,
-      //   specializations: navigationData.specializations,
-      //   gender: navigationData.gender,
-      // });
-      console.log('SHREK: ', navigationData);
-      goTo(route.toBottomTabsNavigator);
-      popToTop();
+      profileCompletionMutation.mutate({
+        name: `${navigationData.name} ${navigationData.surname}`,
+        role: navigationData.role,
+        phoneNumber: navigationData.phoneNumber,
+        city: navigationData.city,
+        specializations: navigationData.specializations,
+        gender: navigationData.gender,
+      });
     },
   });
   const handleNextPress = () => {
-    replace(route.toBottomTabsNavigator);
-
     images
       .filter((img) => img.fileName)
       .forEach(async (img) => {
-        // await uploadImagesMutation.mutateAsync(makeFormData(img));
+        await uploadImagesMutation.mutateAsync(makeFormData(img));
       });
   };
 

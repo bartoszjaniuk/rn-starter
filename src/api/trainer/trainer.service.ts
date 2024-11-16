@@ -16,8 +16,11 @@ export class TrainerService extends ApiService {
     );
   };
 
-  getTrainers = async () => {
-    return this.responseHandler(await this.httpClient.get<Promise<TrainersGetV1Response>>(queryKeys.getTrainers()));
+  getTrainers = async (params?: string) => {
+    console.log('getTrainers params', params);
+    return this.responseHandler(
+      await this.httpClient.get<Promise<TrainersGetV1Response>>(queryKeys.getTrainers(params)),
+    );
   };
 }
 

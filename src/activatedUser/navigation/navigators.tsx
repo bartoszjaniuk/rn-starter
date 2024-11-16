@@ -21,11 +21,16 @@ import { FirstLoginChooseRole } from '../screens/FirstLogin/ChooseRole';
 import { FirstLoginTrainee } from '../screens/FirstLogin/Trainee';
 import { FirstLoginTrainer } from '../screens/FirstLogin/Trainer';
 
+type Params = {
+  params: Record<string, unknown>;
+};
+
 const FirstLoginNativeStack = createNativeStackNavigator();
 const ActivateAccountTraineeNativeStack = createNativeStackNavigator();
 const ActivateAccountTrainerNativeStack = createNativeStackNavigator();
 const BottomTabsBottomTab = createBottomTabNavigator();
 const SearchTrainersNativeStack = createNativeStackNavigator();
+const SearchTrainersListNativeStack = createNativeStackNavigator();
 const AccountNativeStack = createNativeStackNavigator();
 const ActivatedUserNativeStack = createNativeStackNavigator();
 
@@ -218,6 +223,15 @@ const SearchTrainersNavigator = () => {
       }}
     >
       <SearchTrainersNativeStack.Screen
+        name={route.routeSearchTrainersHome}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/SearchTrainers/Home').SearchTrainersHome}
+      />
+      <SearchTrainersNativeStack.Screen
         name={route.routeSearchTrainersList}
         initialParams={{
           meta: {
@@ -226,19 +240,50 @@ const SearchTrainersNavigator = () => {
         }}
         getComponent={() => require('../screens/SearchTrainers/List').SearchTrainersList}
       />
-      <SearchTrainersNativeStack.Screen
+    </SearchTrainersNativeStack.Navigator>
+  );
+};
+
+export const SearchTrainersListNavigator = (props: Params) => {
+  const { params } = props;
+
+  return (
+    <SearchTrainersListNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <SearchTrainersListNativeStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name={route.routeSearchTrainersListList}
+        initialParams={{
+          ...params,
+
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/SearchTrainers/SearchTrainersListNavigator/List').SearchTrainersListList
+        }
+      />
+      <SearchTrainersListNativeStack.Screen
         options={{
           presentation: 'modal',
         }}
-        name={route.routeSearchTrainersFilters}
+        name={route.routeSearchTrainersListFilters}
         initialParams={{
           meta: {
             presentation: 'modal',
           },
         }}
-        getComponent={() => require('../screens/SearchTrainers/Filters').SearchTrainersFilters}
+        getComponent={() =>
+          require('../screens/SearchTrainers/SearchTrainersListNavigator/Filters').SearchTrainersListFilters
+        }
       />
-    </SearchTrainersNativeStack.Navigator>
+    </SearchTrainersListNativeStack.Navigator>
   );
 };
 
@@ -297,15 +342,6 @@ export const ActivatedUserNavigator = () => {
         component={SearchTrainersNavigator}
       />
       <ActivatedUserNativeStack.Screen
-        name={route.routeFirstLoginNavigator}
-        initialParams={{
-          meta: {
-            presentation: 'card',
-          },
-        }}
-        component={FirstLoginNavigator}
-      />
-      <ActivatedUserNativeStack.Screen
         name={route.routeActivateAccountTraineeNavigator}
         initialParams={{
           meta: {
@@ -322,6 +358,15 @@ export const ActivatedUserNavigator = () => {
           },
         }}
         component={ActivateAccountTrainerNavigator}
+      />
+      <ActivatedUserNativeStack.Screen
+        name={route.routeFirstLoginNavigator}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={FirstLoginNavigator}
       />
     </ActivatedUserNativeStack.Navigator>
   );

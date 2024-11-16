@@ -6,8 +6,13 @@ import { Image } from 'expo-image';
 import { Box, FloatBox, Inline, Stack } from '@grapp/stacks';
 
 import { Trainer } from 'src/api/trainer';
+import { URL, useAuth } from 'src/providers';
 import { Icon, PressableScale, Text } from 'src/shared';
-import { LocalImage } from 'src/shared/components/LocalImage/LocalImage';
+
+const replaceApiHost = (url: string | undefined) => {
+  if (!url) return undefined;
+  return url.replace('{{fitapka-api-host}}', URL);
+};
 
 const formatSpecializations = (specializations: string[]): string => {
   if (specializations.length <= 2) {
@@ -31,6 +36,9 @@ type Props = {
 
 export const TrainerListItem = ({ trainer }: Props) => {
   const { theme } = useStyles();
+  const { authState } = useAuth();
+
+  const JWT = `Bearer ${authState?.token}`;
 
   const placeholderImage = `https://avatar.iran.liara.run/public/${randomIntBetween(1, 93)}`;
   return (
@@ -39,10 +47,8 @@ export const TrainerListItem = ({ trainer }: Props) => {
         <Inline space={5} alignY="center">
           <Box>
             <Image
-              source={{ uri: trainer.profileImage ?? placeholderImage }}
+              source={{ uri: replaceApiHost(trainer.images[0]) ?? placeholderImage, headers: { Authorization: JWT } }}
               style={{ borderRadius: 62, width: 72, height: 72 }}
-              // width={72}
-              // height={72}
             />
             <FloatBox offset={0} alignY="bottom">
               <Box

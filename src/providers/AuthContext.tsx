@@ -14,6 +14,7 @@ import { AuthState, LoginResponse, UserCredentials } from '../api/auth/models/au
 export const ACCESS_TOKEN = 'JWT';
 
 export const API_URL = 'http://3.68.214.141/api';
+export const URL = 'http://3.68.214.141';
 
 type AuthProps = {
   authState?: AuthState;
@@ -32,16 +33,16 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     role: 'role_not_set',
   });
 
-  const { mutate: onLogin, isPending: isLoginLoading } = useLoginMutation({
+  const loginMutation = useLoginMutation({
     onSuccess: async (data) => {
       setAuthState({ token: data.token, authenticated: true });
       await SecureStore.setItemAsync(ACCESS_TOKEN, data.token);
     },
   });
 
-  const { isLoading: isGetUserInfoLoading, isSuccess } = useGetUserInfoQuery(!!authState.token);
+  const { data: userData } = useGetUserInfoQuery(!!authState.token);
 
-  const { mutate: logout, isPending: isLogoutLoading } = useLogoutMutation({
+  const { mutate: logout } = useLogoutMutation({
     onSuccess: async () => {
       setAuthState({ token: null, authenticated: false });
     },
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     await SecureStore.deleteItemAsync(ACCESS_TOKEN);
   }, [logout, setAuthState]);
 
-  const { mutate: onRegister, isPending: isRegisterLoading } = useRegisterMutation();
+  const { mutate: onRegister } = useRegisterMutation();
 
   React.useEffect(() => {
     const loadToken = async () => {
@@ -65,27 +66,20 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   }, []);
 
   React.useEffect(() => {
-    if (isSuccess) setAuthState((prev) => ({ ...prev, authenticated: true }));
-  }, [isSuccess]);
+    if (userData?.role) {
+      setAuthState((prev) => ({ ...prev, authenticated: true, role: userData?.role }));
+    }
+  }, [userData?.role]);
 
   const value = React.useMemo(
     () => ({
-      onLogin,
+      onLogin: loginMutation.mutate,
       onLogout,
       onRegister,
       authState,
-      isLoading: isLoginLoading || isRegisterLoading || isLogoutLoading || isGetUserInfoLoading,
+      isLoading: loginMutation.isPending,
     }),
-    [
-      authState,
-      isGetUserInfoLoading,
-      isLoginLoading,
-      isLogoutLoading,
-      isRegisterLoading,
-      onLogin,
-      onLogout,
-      onRegister,
-    ],
+    [authState, loginMutation.isPending, loginMutation.mutate, onLogout, onRegister],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
