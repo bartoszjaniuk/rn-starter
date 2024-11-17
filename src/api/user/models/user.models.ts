@@ -9,11 +9,18 @@ export type UserInfoResponse = {
 };
 
 export type ProfileCompletion = {
+  // name: string;
+  // role: string;
+  // phoneNumber: string;
+  // city: string;
+  // gender: string;
+  // specializations: string[];
+  // profileImages?: string[];
+
   name: string;
   role: string;
   phoneNumber: string;
   city: string;
-  gender: string;
   specializations: string[];
-  profileImages?: string[];
+  gender: string;
 };

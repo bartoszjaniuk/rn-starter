@@ -2,11 +2,7 @@ import * as React from 'react';
 
 import { useTrainerSpecializationsQuery } from 'src/api/trainer';
 
-export type Specialization = {
-  label: string;
-  value: number;
-  isSelected: boolean;
-};
+import { Specialization } from '../models/specialization';
 
 const makeSpecializations = (dataFromBackend: string[]): Specialization[] =>
   dataFromBackend.map((spec, i) => ({
@@ -15,25 +11,14 @@ const makeSpecializations = (dataFromBackend: string[]): Specialization[] =>
     isSelected: false,
   }));
 
-export const useTrainerSpecializations = (defaultValue: string[] = []) => {
+export const useTrainerSpecializations = () => {
   const [specializations, setSpecializations] = React.useState<Specialization[]>([]);
 
   const { data, isLoading } = useTrainerSpecializationsQuery();
 
   React.useEffect(() => {
-    if (data?.data && data.data.length > 0) {
-      if (defaultValue.length > 0) {
-        const initialSpecializations = makeSpecializations(data.data);
-        const selectedSpecializations = initialSpecializations.map((spec) => ({
-          ...spec,
-          isSelected: defaultValue.includes(spec.label),
-        }));
-        setSpecializations(selectedSpecializations);
-      } else {
-        setSpecializations(makeSpecializations(data.data));
-      }
-    }
-  }, [data?.data, defaultValue]);
+    if (data?.data && data.data.length > 0) setSpecializations(makeSpecializations(data.data));
+  }, [data?.data]);
 
   return { isLoading, specializations, setSpecializations };
 };

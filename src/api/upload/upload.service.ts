@@ -17,6 +17,10 @@ export class UploadService extends ApiService {
       }),
     );
   };
+
+  postDeleteImage = async (id: string) => {
+    return this.responseHandler(await this.httpClient.delete<void>(queryKeys.postDeleteImage(id)));
+  };
 }
 
 export const uploadService = new UploadService();

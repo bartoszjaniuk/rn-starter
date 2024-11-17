@@ -13,7 +13,7 @@ export const updateImages = (existingImages: ImageAsset[], selectedImages: Image
     if (!updatedImages[i]?.uri) {
       updatedImages[i] = {
         ...selectedImages[selectedIndex],
-        id: uuidV4(),
+        id: selectedImages[selectedIndex]?.id || uuidV4(),
       };
       selectedIndex++;
     }

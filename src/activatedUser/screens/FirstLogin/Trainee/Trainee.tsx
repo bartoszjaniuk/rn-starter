@@ -32,6 +32,7 @@ export const FirstLoginTrainee = () => {
         <Screen.Header
           // dismissRoute={isInsideMyJobNavigator ? route.toMyJobDetails : route.toEmploymentCertificatesApply}
           as={Screen.Header.Progress}
+          variant="transparent"
         />
       }
     >

@@ -3,11 +3,10 @@ import * as React from 'react';
 import { Stack } from '@grapp/stacks';
 
 import { ActivityList } from 'src/activatedUser/screens/ActivateAccount/_internals/components/ActivityList';
-import {
-  Specialization,
-  useTrainerSpecializations,
-} from 'src/activatedUser/screens/ActivateAccount/_internals/hooks/useTrainerSpecializations';
+import { Specialization } from 'src/activatedUser/screens/ActivateAccount/_internals/models/specialization';
 import { ActivityIndicator, Text } from 'src/shared';
+
+import { useTrainerSpecializationsFilters } from '../hooks/useTrainerSpecializationsFilters';
 
 type Props = {
   defaultValue?: string;
@@ -18,7 +17,7 @@ const filterSelected = (arr: Specialization[]) => arr.filter((a) => a.isSelected
 
 export const SpecializationFilters = (props: Props) => {
   const { defaultValue, onSelectSpecialization } = props;
-  const { specializations, isLoading, setSpecializations } = useTrainerSpecializations(
+  const { specializations, isLoading, setSpecializations } = useTrainerSpecializationsFilters(
     React.useMemo(() => defaultValue?.split(','), [defaultValue]),
   );
   const [error, setError] = React.useState('');

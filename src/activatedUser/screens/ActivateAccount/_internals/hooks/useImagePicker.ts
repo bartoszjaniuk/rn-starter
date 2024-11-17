@@ -6,10 +6,13 @@ import * as ImagePicker from 'expo-image-picker';
 
 import { v4 as uuidV4 } from 'uuid';
 
+import { useUploadImagesMutation } from 'src/api/upload/hooks';
+import { useDeleteImageMutation } from 'src/api/upload/hooks/useDeleteImageMutation';
+
 import { useImageAction } from './useImageAction';
 
 import { IMAGE_PLACEHOLDERS, ImageAsset, SELECTION_LIMIT } from '../constants';
-import { updateImages } from '../utils';
+import { makeFormData, updateImages } from '../utils';
 
 const imagePickerOptions: ImagePicker.ImagePickerOptions = {
   allowsMultipleSelection: true,
@@ -18,9 +21,12 @@ const imagePickerOptions: ImagePicker.ImagePickerOptions = {
 
 export const useImagePicker = () => {
   const [images, setImages] = React.useState<ImageAsset[]>(IMAGE_PLACEHOLDERS);
+  const uploadImagesMutation = useUploadImagesMutation();
+  const deleteImageMutation = useDeleteImageMutation();
 
   const deletePhoto = (index: number) => {
     const updatedPhotos = [...images];
+    if (updatedPhotos[index]?.id) deleteImageMutation.mutate(updatedPhotos[index].id);
     updatedPhotos.splice(index, 1);
     updatedPhotos.push({ ...IMAGE_PLACEHOLDERS[0], id: uuidV4(), height: 0, uri: '', width: 0 });
     setImages(updatedPhotos);
@@ -57,9 +63,27 @@ export const useImagePicker = () => {
         id: uuidV4(),
       }));
 
-      setImages(updateImages(images, selectedImages));
+      const updatedImages = [...images];
+
+      for (let i = 0; i < selectedImages.length; i++) {
+        const tempImage = selectedImages[i];
+        if (!tempImage) return;
+        const data = await uploadImagesMutation.mutateAsync(makeFormData(tempImage));
+        console.log('data', data);
+
+        if (data.fileId) {
+          updatedImages[index + i] = {
+            ...tempImage,
+            id: data.fileId,
+          };
+        }
+      }
+
+      const shapedImages = updateImages(images, updatedImages);
+
+      setImages(shapedImages);
     }
   };
 
-  return { images, onSelectImage };
+  return { images, onSelectImage, isLoading: uploadImagesMutation.isPending || deleteImageMutation.isPending };
 };

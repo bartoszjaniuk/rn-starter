@@ -8,4 +8,5 @@ export const queryKeys = {
   ...trainerQueryKeys,
   ...uploadQueryKeys,
   ...userQueryKeys,
+  ...uploadQueryKeys,
 };

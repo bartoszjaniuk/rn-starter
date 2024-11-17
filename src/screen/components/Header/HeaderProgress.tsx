@@ -84,9 +84,9 @@ export const HeaderProgress = (props: Props) => {
   return (
     <HeaderContainer
     // height={DEFAULT_HEADER_PROGRESS_HEIGHT}
-    //   borderColor={borderColor}
-    //   backgroundColor={backgroundColor}
-    //   variant={variant}
+    // borderColor={borderColor}
+    // backgroundColor={backgroundColor}
+    // variant="transparent"
     >
       <Box alignY="top">
         <HeaderBottomElement>
