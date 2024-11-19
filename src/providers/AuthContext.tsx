@@ -4,17 +4,12 @@ import * as SecureStore from 'expo-secure-store';
 
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
-
 import { useLoginMutation } from '../api/auth/hooks/useLoginMutation';
 import { useLogoutMutation } from '../api/auth/hooks/useLogoutMutation';
 import { useRegisterMutation } from '../api/auth/hooks/useRegisterMutation';
 import { AuthState, LoginResponse, UserCredentials } from '../api/auth/models/auth.models';
-
-export const ACCESS_TOKEN = 'JWT';
-
-export const API_URL = 'http://3.68.214.141/api';
-export const URL = 'http://3.68.214.141';
+import { useGetUserInfoQuery } from '../api/user/hooks/useGetUserInfoQuery';
+import { ACCESS_TOKEN } from '../shared/constants/accessToken';
 
 type AuthProps = {
   authState?: AuthState;

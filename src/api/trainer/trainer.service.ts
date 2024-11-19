@@ -1,6 +1,11 @@
-import { API_URL } from 'src/providers';
+import { API_URL } from 'src/providers/AuthContext';
 
-import { TrainerSpecializations, TrainersGetV1Response } from './models/trainer.models';
+import {
+  TrainerAvailabilitiesGetV1Params,
+  TrainerAvailabilitiesGetV1Response,
+  TrainerSpecializations,
+  TrainersGetV1Response,
+} from './models/trainer.models';
 
 import { ApiService } from '../baseApi';
 import { queryKeys } from '../utils';
@@ -17,9 +22,16 @@ export class TrainerService extends ApiService {
   };
 
   getTrainers = async (params?: string) => {
-    console.log('getTrainers params', params);
     return this.responseHandler(
       await this.httpClient.get<Promise<TrainersGetV1Response>>(queryKeys.getTrainers(params)),
+    );
+  };
+
+  getTrainerAvailabilities = async (params: TrainerAvailabilitiesGetV1Params) => {
+    return this.responseHandler(
+      await this.httpClient.get<Promise<TrainerAvailabilitiesGetV1Response>>(
+        queryKeys.getTrainerAvailabilities(params),
+      ),
     );
   };
 }

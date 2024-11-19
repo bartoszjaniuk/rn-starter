@@ -16,6 +16,7 @@
     "lint:fix": "eslint './**/*.{ts,tsx}' --fix",
     "type-check": "tsc --pretty --noEmit",
     "build": "npx eas-cli@latest build --local --output devClient/ios.tar.gz --profile development-simulator --platform ios",
+    "build:prod:ios": "npx eas-cli@9.2.0 build --local --output prod/ios.ipa --profile production --platform ios --clear-cache",
     "generate-navigation": "ts-node -T scripts/generate-navigation.ts",
     "postinstall": "patch-package"
   },
@@ -26,6 +27,7 @@
     "prettier --write ."
   ],
   "dependencies": {
+    "@expo/metro-config": "0.19.4",
     "@expo/react-native-action-sheet": "4.1.0",
     "@expo/vector-icons": "^14.0.2",
     "@gorhom/portal": "1.0.14",

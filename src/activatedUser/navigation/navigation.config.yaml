@@ -61,6 +61,20 @@ navigators:
     children:
       - Home 
       - List
+      - ProfileDetails:
+          params:
+            id: string
+            name: string
+            city: string
+            email: string
+            phoneNumber: string
+            specializations: string[]
+            images: string[]
+            averageBookingRating: string
+      - AvailabilitySlots:
+          params:
+            trainerId: string
+
   SearchTrainersListNavigator:
     path: ../screens/SearchTrainers/SearchTrainersListNavigator
     export: true

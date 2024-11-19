@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { queryKeys } from 'src/api';
+import { queryKeys } from 'src/api/utils';
 
 import { trainerService } from '../trainer.service';
 

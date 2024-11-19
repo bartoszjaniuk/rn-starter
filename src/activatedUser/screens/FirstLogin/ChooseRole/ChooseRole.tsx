@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Box, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
-import { useAuth } from 'src/providers';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Text } from 'src/shared';
 import { Button } from 'src/shared/components/Button';

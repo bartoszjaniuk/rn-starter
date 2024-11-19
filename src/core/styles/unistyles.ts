@@ -6,6 +6,7 @@ const theme = {
     typography: '#000000',
     white: '#ffffff',
     gray: '#B6B6B6',
+    veryGray: '#8F8F8F',
     disabled: '#667085',
     background: '#ffffff',
     primary: '#BFFF41',
@@ -13,6 +14,7 @@ const theme = {
     asteriskError: '#F00000',
     snacks: '#303033',
     border: '#3A3A40',
+
     transparent: 'transparent',
   },
   margins: {

@@ -4,8 +4,8 @@ import { Stack } from '@grapp/stacks';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { TraineeFormData } from 'src/activatedUser/screens/FirstLogin/Trainee';
-import { userQueryKeys } from 'src/api/user';
 import { useGetUserInfoQuery, useProfileCompletionMutation } from 'src/api/user/hooks';
+import { userQueryKeys } from 'src/api/user/user.keys';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useNavigator } from 'src/screen';
 import { Text } from 'src/shared';

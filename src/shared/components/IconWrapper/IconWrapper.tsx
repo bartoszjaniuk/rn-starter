@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { PressableScale } from 'src/shared';
+import { PressableScale } from '../Pressable/PressableScale';
 
 type Props = {
   onPress?: VoidFunction;

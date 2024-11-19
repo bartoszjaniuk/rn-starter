@@ -1,7 +1,6 @@
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
-import { queryKeys } from 'src/api';
-
+import { queryKeys } from '../../utils/queryKeys';
 import { authService } from '../auth.service';
 import { LoginResponse, UserCredentials } from '../models';
 

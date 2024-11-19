@@ -2,10 +2,10 @@ import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 import { AxiosResponse } from 'axios';
 
-import { queryKeys } from 'src/api';
-import { userService } from 'src/api/user';
+import { queryKeys } from 'src/api/utils';
 
 import { ProfileCompletion } from '../models';
+import { userService } from '../user.service';
 
 export const useProfileCompletionMutation = (
   id: string,

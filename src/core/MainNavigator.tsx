@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
-import { useAuth } from 'src/providers';
+import { useAuth } from 'src/providers/AuthContext';
 
 import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';

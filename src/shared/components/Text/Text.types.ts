@@ -1,6 +1,6 @@
 import { TextProps as RNTextProps, TextStyle } from 'react-native';
 
-import { TypographyKey } from 'src/providers';
+import { TypographyKey } from 'src/providers/FontLoader';
 
 type FontKeys = 'small' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl' | 'heading';
 export type ColorKeys =
@@ -13,6 +13,7 @@ export type ColorKeys =
   | 'error'
   | 'border'
   | 'asteriskError'
+  | 'veryGray'
   | 'transparent';
 
 export type TextProps = {

@@ -1,2 +1,3 @@
 export * from './useTrainerSpecializationsQuery';
 export * from './useTrainersQuery';
+export * from './useTrainerAvailabilitiesQuery';

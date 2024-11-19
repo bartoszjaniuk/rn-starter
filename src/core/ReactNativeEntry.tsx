@@ -6,7 +6,7 @@ import { enableFreeze } from 'react-native-screens';
 
 import { preventAutoHideAsync } from 'expo-splash-screen';
 
-import { AppProviders } from 'src/providers';
+import { AppProviders } from 'src/providers/AppProviders';
 
 import { ErrorFallback } from './ErrorFallback';
 import { MainNavigator } from './MainNavigator';

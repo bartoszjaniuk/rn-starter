@@ -9,11 +9,14 @@ import DotsSvg from '../../../../assets/icons/dots.svg';
 import FacebookSvg from '../../../../assets/icons/facebook.svg';
 import GoogleSvg from '../../../../assets/icons/google.svg';
 import HomeSvg from '../../../../assets/icons/home.svg';
+import MailSvg from '../../../../assets/icons/mail.svg';
 import MusculeSvg from '../../../../assets/icons/muscule.svg';
+import PhoneSvg from '../../../../assets/icons/phone.svg';
 import PhotoSvg from '../../../../assets/icons/photo.svg';
 import PlusSvg from '../../../../assets/icons/plus.svg';
 import ProfileSvg from '../../../../assets/icons/profile.svg';
 import SortDescSvg from '../../../../assets/icons/sortDesc.svg';
+import StarSvg from '../../../../assets/icons/star.svg';
 import TraineesSvg from '../../../../assets/icons/trainees.svg';
 
 export const icons = {
@@ -34,6 +37,9 @@ export const icons = {
   photo: PhotoSvg,
   dots: DotsSvg,
   sortDesc: SortDescSvg,
+  star: StarSvg,
+  mail: MailSvg,
+  phone: PhoneSvg,
 };
 
 export type IconName = keyof typeof icons;

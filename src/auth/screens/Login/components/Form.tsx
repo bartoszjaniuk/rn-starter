@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
-import { useAuth } from 'src/providers';
+import { useAuth } from 'src/providers/AuthContext';
 import { Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
 

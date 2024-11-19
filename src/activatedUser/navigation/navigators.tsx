@@ -240,6 +240,24 @@ const SearchTrainersNavigator = () => {
         }}
         getComponent={() => require('../screens/SearchTrainers/List').SearchTrainersList}
       />
+      <SearchTrainersNativeStack.Screen
+        name={route.routeSearchTrainersProfileDetails}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/SearchTrainers/ProfileDetails').SearchTrainersProfileDetails}
+      />
+      <SearchTrainersNativeStack.Screen
+        name={route.routeSearchTrainersAvailabilitySlots}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/SearchTrainers/AvailabilitySlots').SearchTrainersAvailabilitySlots}
+      />
     </SearchTrainersNativeStack.Navigator>
   );
 };

@@ -2,7 +2,7 @@ import * as SecureStore from 'expo-secure-store';
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { ACCESS_TOKEN } from 'src/providers';
+import { ACCESS_TOKEN } from '../shared/constants/accessToken';
 
 export abstract class ApiService {
   protected httpClient: AxiosInstance;

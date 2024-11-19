@@ -21,6 +21,8 @@ export const routeBottomTabsTrainerTrainees = '/bottom-tabs/trainer-trainees';
 export const routeBottomTabsProfile = '/bottom-tabs/profile';
 export const routeSearchTrainersHome = '/search-trainers/home';
 export const routeSearchTrainersList = '/search-trainers/list';
+export const routeSearchTrainersProfileDetails = '/search-trainers/profile-details';
+export const routeSearchTrainersAvailabilitySlots = '/search-trainers/availability-slots';
 export const routeSearchTrainersListList = '/search-trainers-list/list';
 export const routeSearchTrainersListFilters = '/search-trainers-list/filters';
 export const routeAccountSettings = '/account/settings';
@@ -50,6 +52,28 @@ export const toBottomTabsTrainerTrainees = [
 export const toBottomTabsProfile = [routeBottomTabsNavigator, routeBottomTabsProfile] as unknown as Route;
 export const toSearchTrainersHome = [routeSearchTrainersNavigator, routeSearchTrainersHome] as unknown as Route;
 export const toSearchTrainersList = [routeSearchTrainersNavigator, routeSearchTrainersList] as unknown as Route;
+
+export const toSearchTrainersProfileDetails = [
+  routeSearchTrainersNavigator,
+  routeSearchTrainersProfileDetails,
+] as unknown as Route<{
+  readonly id: string;
+  readonly name: string;
+  readonly city: string;
+  readonly email: string;
+  readonly phoneNumber: string;
+  readonly specializations: string[];
+  readonly images: string[];
+  readonly averageBookingRating: string;
+}>;
+
+export const toSearchTrainersAvailabilitySlots = [
+  routeSearchTrainersNavigator,
+  routeSearchTrainersAvailabilitySlots,
+] as unknown as Route<{
+  readonly trainerId: string;
+}>;
+
 export const toSearchTrainersListList = routeSearchTrainersListList as unknown as Route;
 export const toSearchTrainersListFilters = routeSearchTrainersListFilters as unknown as Route;
 export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] as unknown as Route;

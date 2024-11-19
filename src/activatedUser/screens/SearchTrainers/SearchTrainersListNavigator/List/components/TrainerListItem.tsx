@@ -6,13 +6,12 @@ import { Image } from 'expo-image';
 import { Box, FloatBox, Inline, Stack } from '@grapp/stacks';
 
 import { Trainer } from 'src/api/trainer';
-import { URL, useAuth } from 'src/providers';
+import { goTo } from 'src/navigation';
+import { useAuth } from 'src/providers/AuthContext';
 import { Icon, PressableScale, Text } from 'src/shared';
+import { replaceApiHost } from 'src/shared/utils/replaceApiHost';
 
-const replaceApiHost = (url: string | undefined) => {
-  if (!url) return undefined;
-  return url.replace('{{fitapka-api-host}}', URL);
-};
+import * as route from '../../../../../navigation/routes';
 
 const formatSpecializations = (specializations: string[]): string => {
   if (specializations.length <= 2) {
@@ -40,9 +39,23 @@ export const TrainerListItem = ({ trainer }: Props) => {
 
   const JWT = `Bearer ${authState?.token}`;
 
-  const placeholderImage = `https://avatar.iran.liara.run/public/${randomIntBetween(1, 93)}`;
+  const placeholderImage = `https://i.pravatar.cc/${randomIntBetween(1, 300)}`;
+
+  const handleNavigateProfileDetails = () => {
+    goTo(route.toSearchTrainersProfileDetails, {
+      id: trainer.id,
+      name: trainer.name,
+      city: trainer.city,
+      phoneNumber: trainer.phoneNumber,
+      specializations: trainer.specializations,
+      images: trainer.images,
+      email: trainer.email,
+      averageBookingRating: trainer.rating ?? randomBetween1And5(),
+    });
+  };
+
   return (
-    <PressableScale>
+    <PressableScale onPress={handleNavigateProfileDetails}>
       <Inline alignX="between" alignY="center">
         <Inline space={5} alignY="center">
           <Box>

@@ -14,6 +14,7 @@ const { assetExts, sourceExts } = defaultConfig.resolver;
 const config = {
   transformer: {
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
+    assetPlugins: ['expo-asset/tools/hashAssetFiles'],
   },
   resolver: {
     assetExts: assetExts.filter((ext) => ext !== 'svg'),
@@ -22,3 +23,25 @@ const config = {
 };
 
 module.exports = mergeConfig(defaultConfig, config);
+
+// const { getDefaultConfig } = require('expo/metro-config');
+
+// /** @type {import('expo/metro-config').MetroConfig} */
+
+// module.exports = (() => {
+//   const config = getDefaultConfig(__dirname);
+
+//   const { transformer, resolver } = config;
+
+//   config.transformer = {
+//     ...transformer,
+//     babelTransformerPath: require.resolve('react-native-svg-transformer'),
+//   };
+//   config.resolver = {
+//     ...resolver,
+//     assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
+//     sourceExts: [...resolver.sourceExts, 'svg'],
+//   };
+
+//   return config;
+// })();

@@ -8,28 +8,34 @@ import { Image } from 'expo-image';
 
 import { Bleed, Box, FloatBox } from '@grapp/stacks';
 
-import { useAuth } from 'src/providers';
+import { useAuth } from 'src/providers/AuthContext';
 
 import { Pagination } from './components/Pagination';
 
-import { LocalImage } from '../LocalImage/LocalImage';
-
-const images = [
+const mock = [
   {
-    id: 1,
-    uri: require('../../../../assets/vegeta/vegeta1.jpg'),
+    id: '1',
+    uri: 'https://avatar.iran.liara.run/public/1',
   },
   {
-    id: 2,
-    uri: require('../../../../assets/vegeta/vegeta2.webp'),
+    id: '2',
+    uri: 'https://avatar.iran.liara.run/public/2',
   },
   {
-    id: 3,
-    uri: require('../../../../assets/vegeta/vegeta3.jpg'),
+    id: '3',
+    uri: 'https://avatar.iran.liara.run/public/3',
   },
 ];
 
-export const CarouselGallery = () => {
+type Props = {
+  images?: {
+    id: number;
+    uri: string;
+  }[];
+};
+
+export const CarouselGallery = (props: Props) => {
+  const { images = mock } = props;
   const { authState } = useAuth();
 
   const JWT = `Bearer ${authState?.token}`;
@@ -43,14 +49,12 @@ export const CarouselGallery = () => {
 
   const onPressPagination = (index: number) => {
     ref.current?.scrollTo({
-      /**
-       * Calculate the difference between the current index and the target index
-       * to ensure that the carousel scrolls to the nearest index
-       */
       count: index - progress.value,
       animated: true,
     });
   };
+
+  console.log(images, 'images');
 
   return (
     <Bleed space={8} flex="fluid" backgroundColor="transparent">
@@ -61,7 +65,7 @@ export const CarouselGallery = () => {
         height={height / 2.5}
         pagingEnabled={true}
         // mode="parallax"
-        data={images}
+        data={images.length > 0 ? images : mock}
         scrollAnimationDuration={1000}
         snapEnabled={true}
         onProgressChange={(_offsetProgress, absoluteProgress) => {
@@ -69,11 +73,10 @@ export const CarouselGallery = () => {
         }}
         renderItem={({ item }) => (
           <Box flex="fluid">
-            {/* <LocalImage source={item.uri} style={styles.image} /> */}
             <Image
               style={styles.image}
               source={{
-                uri: 'http://3.68.214.141/api/file/18fa7dcf-a6e4-4083-a77a-cb7c384ec122',
+                uri: item.uri,
                 headers: { Authorization: JWT },
               }}
             />

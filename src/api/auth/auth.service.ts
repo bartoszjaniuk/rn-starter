@@ -1,9 +1,8 @@
-import { queryKeys } from 'src/api/utils';
-import { API_URL } from 'src/providers';
-
 import { LoginResponse, UserCredentials } from './models';
 
+import { API_URL } from '../../shared/constants/apiUrl';
 import { ApiService } from '../baseApi';
+import { queryKeys } from '../utils';
 
 export class AuthService extends ApiService {
   constructor() {

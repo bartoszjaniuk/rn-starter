@@ -1,4 +1,4 @@
-import { API_URL } from 'src/providers';
+import { API_URL } from 'src/providers/AuthContext';
 
 import { ApiService } from '../baseApi';
 import { queryKeys } from '../utils';

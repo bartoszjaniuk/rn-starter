@@ -1,9 +1,8 @@
-import { queryKeys } from 'src/api/utils';
-import { API_URL } from 'src/providers';
-
 import { ProfileCompletion, UserInfoResponse } from './models';
 
+import { API_URL } from '../../shared/constants/apiUrl';
 import { ApiService } from '../baseApi';
+import { queryKeys } from '../utils/queryKeys';
 
 export class UserService extends ApiService {
   constructor() {

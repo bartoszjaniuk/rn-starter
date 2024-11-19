@@ -1,6 +1,6 @@
 import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
-import { queryKeys } from 'src/api';
+import { queryKeys } from 'src/api/utils';
 
 import { PostUploadImagesResponse } from '../models/upload';
 import { uploadService } from '../upload.service';

@@ -3,7 +3,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 import { Box, Stack } from '@grapp/stacks';
 
-import { useAuth } from 'src/providers';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen, ScrollView } from 'src/screen';
 import { Text } from 'src/shared';
 import { LocalImage } from 'src/shared/components/LocalImage/LocalImage';

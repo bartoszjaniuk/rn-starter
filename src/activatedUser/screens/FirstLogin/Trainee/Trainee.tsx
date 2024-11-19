@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { ActivateAccountTraineeNavigator } from 'src/activatedUser/navigation';
-import { Screen } from 'src/screen';
+import { ActivateAccountTraineeNavigator } from '../../../../activatedUser/navigation/navigators';
+import { Screen } from '../../../../screen';
 
 export type TraineeFormData = {
   name: string;

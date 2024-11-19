@@ -7,10 +7,11 @@ import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
 import { PressableScale, Text } from 'src/shared';
 import { CarouselGallery } from 'src/shared/components/CarouselGallery';
+import { TrainingSnacks } from 'src/shared/components/TrainingSnacks/TrainingSnacks';
 
 import { Snack } from './components/Snack';
-import { TrainingSnack } from './components/TrainingSnack';
 
+import { TrainingSnack } from '../../../../shared/components/TrainingSnacks/components/TrainingSnack';
 import * as route from '../../../navigation/routes';
 
 const parameters = [
@@ -75,15 +76,7 @@ const Content = () => {
             <Text fontWeight="700" size="sm">
               Interesuje mnie trening:
             </Text>
-            <FlatList
-              scrollEnabled={false}
-              numColumns={3}
-              contentContainerStyle={{ gap: 8 }}
-              columnWrapperStyle={{ gap: 8 }}
-              data={['Joga', 'Sylwetkowy', 'Kalistenika']}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => <TrainingSnack title={item} />}
-            />
+            <TrainingSnacks data={['Joga', 'Sylwetkowy', 'Kalistenika']} />
           </Stack>
         </Stack>
       </Screen.Content>
