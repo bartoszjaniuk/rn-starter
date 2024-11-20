@@ -4,6 +4,7 @@ import { useTrainersQuery } from 'src/api/trainer';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useNavigator } from 'src/screen';
 import { RefreshControl, Text } from 'src/shared';
+import { TryAgainError } from 'src/shared/components/TryAgainError/TryAgainError';
 import { getQueryStringFromParams } from 'src/shared/utils/getQueryStringFromParams';
 
 import { Header } from './Header';
@@ -20,7 +21,7 @@ export const TrainersList = () => {
   if (trainersQuery.isPending) return <LoadingScreen />;
 
   if (trainersQuery.isError) {
-    return <Text>Ups! Coś poszło nie tak ☠️</Text>;
+    return <TryAgainError onRefetch={trainersQuery.refetch} isLoading={trainersQuery.isPending} />;
   }
 
   if (trainersQuery.data.data.length === 0) {

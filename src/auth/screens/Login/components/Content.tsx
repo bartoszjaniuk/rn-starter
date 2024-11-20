@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Box, Inline, Stack } from '@grapp/stacks';
+import { Inline, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
@@ -17,12 +17,15 @@ export const Content = () => {
     <>
       <Screen.ScrollView backgroundColor="transparent">
         <Screen.Content>
-          <Stack space={12}>
-            <Box width={150}>
+          <Stack space={8}>
+            <Stack>
               <Text fontWeight="700" size="heading">
-                Miło Cię widzieć!
+                Miło Cię
               </Text>
-            </Box>
+              <Text fontWeight="700" size="heading">
+                widzieć!
+              </Text>
+            </Stack>
             <Stack space={8}>
               <Form />
               <Divider />

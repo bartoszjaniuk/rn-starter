@@ -36,59 +36,62 @@ export const Form = () => {
     },
   });
 
-  const { isLoading, onLogin } = useAuth();
+  const auth = useAuth();
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
-    onLogin?.(data);
+    auth.onLogin?.(data);
     reset();
   });
 
   return (
-    <Stack space={8}>
-      <Stack space={6}>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-            <TextInput
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value}
-              label="Email"
-              placeholder="twójmail@gmail.com"
-              isError={!!error}
-              errorMessage={error?.message}
-            />
-          )}
-          name="email"
-        />
+    <Stack space={4}>
+      <Text>{auth.loginError ? <Text color="error">{auth.loginError?.response?.data.message}</Text> : null}</Text>
+      <Stack space={8}>
+        <Stack space={6}>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value}
+                label="Email"
+                placeholder="twójmail@gmail.com"
+                isError={!!error}
+                errorMessage={error?.message}
+              />
+            )}
+            name="email"
+          />
 
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-            <TextInput
-              onBlur={onBlur}
-              onChangeText={(value) => onChange(value)}
-              value={value}
-              label="Hasło"
-              placeholder="*********"
-              secureTextEntry={true}
-              multiline={false}
-              isError={!!error}
-              errorMessage={error?.message}
-            />
-          )}
-          name="password"
-        />
-        <Inline alignX="right">
-          <Text color="gray" size="sm" fontWeight="500">
-            Nie pamiętasz hasła?
-          </Text>
-        </Inline>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+              <TextInput
+                onBlur={onBlur}
+                onChangeText={(value) => onChange(value)}
+                value={value}
+                label="Hasło"
+                placeholder="*********"
+                secureTextEntry={true}
+                multiline={false}
+                isError={!!error}
+                errorMessage={error?.message}
+              />
+            )}
+            name="password"
+          />
+          <Inline alignX="right">
+            <Text color="gray" size="sm" fontWeight="500">
+              Nie pamiętasz hasła?
+            </Text>
+          </Inline>
+        </Stack>
+        <Button isLoading={auth.isLoading} onPress={onSubmit}>
+          Zaloguj
+        </Button>
       </Stack>
-      <Button isLoading={isLoading} onPress={onSubmit}>
-        Zaloguj
-      </Button>
     </Stack>
   );
 };

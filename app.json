@@ -2,7 +2,7 @@
   "expo": {
     "name": "rn-starter",
     "slug": "rn-starter",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -23,7 +23,6 @@
       "config": {
         "usesNonExemptEncryption": false
       }
-      
     },
     "android": {
       "usesCleartextTraffic": true,
@@ -49,7 +48,8 @@
           "photosPermission": "Zaznacz oraz wgraj zdjęcia",
           "cameraPermission": "Pozwól $(PRODUCT_NAME) otworzyć aparat"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

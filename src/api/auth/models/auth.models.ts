@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 import { Role } from 'src/api/user/models';
 
 export type AuthState = {
@@ -14,3 +16,5 @@ export type UserCredentials = {
 export type LoginResponse = {
   token: string;
 };
+
+export type LoginError = AxiosError<{ message: string; code: number }>;

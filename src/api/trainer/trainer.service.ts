@@ -1,4 +1,4 @@
-import { API_URL } from 'src/providers/AuthContext';
+import { API_URL } from 'src/shared/constants/apiUrl';
 
 import {
   TrainerAvailabilitiesGetV1Params,

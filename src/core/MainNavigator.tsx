@@ -10,15 +10,12 @@ import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
 import { useAuth } from 'src/providers/AuthContext';
 
-import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
 
 const App = () => {
-  const { authState, isLoading } = useAuth();
-
-  if (isLoading) return <LoadingScreen />;
+  const auth = useAuth();
 
   //   Wave.useSubscription(services.device.isInternetReachable(), (isInternetReachable) => {
   //     if (!isInternetReachable) {
@@ -35,7 +32,7 @@ const App = () => {
 
   return (
     <NativeStack.Navigator>
-      {authState?.authenticated ? (
+      {auth.authState?.authenticated ? (
         <NativeStack.Screen
           name="AppRootNavigator"
           component={AppRootNavigator}

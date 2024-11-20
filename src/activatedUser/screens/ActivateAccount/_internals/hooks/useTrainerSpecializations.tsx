@@ -14,11 +14,16 @@ const makeSpecializations = (dataFromBackend: string[]): Specialization[] =>
 export const useTrainerSpecializations = () => {
   const [specializations, setSpecializations] = React.useState<Specialization[]>([]);
 
-  const { data, isLoading } = useTrainerSpecializationsQuery();
+  const trainerSpecializationsQuery = useTrainerSpecializationsQuery();
 
   React.useEffect(() => {
-    if (data?.data && data.data.length > 0) setSpecializations(makeSpecializations(data.data));
-  }, [data?.data]);
+    if (trainerSpecializationsQuery.data?.data && trainerSpecializationsQuery.data.data.length > 0)
+      setSpecializations(makeSpecializations(trainerSpecializationsQuery.data.data));
+  }, [trainerSpecializationsQuery.data?.data]);
 
-  return { isLoading, specializations, setSpecializations };
+  return {
+    ...trainerSpecializationsQuery,
+    specializations,
+    setSpecializations,
+  };
 };

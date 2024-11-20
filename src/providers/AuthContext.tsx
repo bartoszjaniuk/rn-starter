@@ -7,7 +7,7 @@ import { UseMutateFunction } from '@tanstack/react-query';
 import { useLoginMutation } from '../api/auth/hooks/useLoginMutation';
 import { useLogoutMutation } from '../api/auth/hooks/useLogoutMutation';
 import { useRegisterMutation } from '../api/auth/hooks/useRegisterMutation';
-import { AuthState, LoginResponse, UserCredentials } from '../api/auth/models/auth.models';
+import { AuthState, LoginError, LoginResponse, UserCredentials } from '../api/auth/models/auth.models';
 import { useGetUserInfoQuery } from '../api/user/hooks/useGetUserInfoQuery';
 import { ACCESS_TOKEN } from '../shared/constants/accessToken';
 
@@ -17,6 +17,7 @@ type AuthProps = {
   onLogin?: UseMutateFunction<LoginResponse, Error, UserCredentials, unknown>;
   onRegister?: UseMutateFunction<void, Error, string, unknown>;
   onLogout?: UseMutateFunction<void, Error, void, unknown>;
+  loginError?: LoginError | null;
 };
 
 const AuthContext = React.createContext<AuthProps>({});
@@ -73,8 +74,9 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
       onRegister,
       authState,
       isLoading: loginMutation.isPending,
+      loginError: loginMutation.error,
     }),
-    [authState, loginMutation.isPending, loginMutation.mutate, onLogout, onRegister],
+    [authState, loginMutation.error, loginMutation.isPending, loginMutation.mutate, onLogout, onRegister],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
