@@ -14,7 +14,7 @@ const Content = () => {
   const handleNavigateToSearchTrainers = () => goTo(route.toSearchTrainersList);
   return (
     <Screen.Content>
-      <Stack space={2} width={50} align="center">
+      <Stack space={2} align="center">
         <PressableScale style={{ width: 48, height: 48 }} onPress={handleNavigateToSearchTrainers}>
           <Box
             width={48}

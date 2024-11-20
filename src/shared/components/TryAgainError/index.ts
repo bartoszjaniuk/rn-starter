@@ -1,1 +1,1 @@
-export * from '../TryAgainError';
+export * from './TryAgainError';
