@@ -107,9 +107,9 @@ navigators:
     props:
       screenOptions: *hideHeader
     children:
-      - navigator: FirstLogin
       - navigator: BottomTabs
       - navigator: Account
       - navigator: SearchTrainers
       - navigator: ActivateAccountTrainee
       - navigator: ActivateAccountTrainer
+      - navigator: FirstLogin

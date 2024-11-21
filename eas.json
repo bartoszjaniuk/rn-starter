@@ -1,4 +1,10 @@
 {
+	"cli": {
+		"version": ">= 2.6.0",
+		"promptToConfigurePushNotifications": false,
+		"appVersionSource": "local"
+
+	},
 	"build": {
 		"development-simulator": {
 			"developmentClient": true,
@@ -9,7 +15,9 @@
 			"node": "20.12.1"
 
 		},
-		"production": {}
+		"production": {
+			"autoIncrement": true,
+		}
 	},
 	"submit": {
 		"test": {

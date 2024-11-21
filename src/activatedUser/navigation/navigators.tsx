@@ -333,15 +333,6 @@ export const ActivatedUserNavigator = () => {
       }}
     >
       <ActivatedUserNativeStack.Screen
-        name={route.routeFirstLoginNavigator}
-        initialParams={{
-          meta: {
-            presentation: 'card',
-          },
-        }}
-        component={FirstLoginNavigator}
-      />
-      <ActivatedUserNativeStack.Screen
         name={route.routeBottomTabsNavigator}
         initialParams={{
           meta: {
@@ -385,6 +376,15 @@ export const ActivatedUserNavigator = () => {
           },
         }}
         component={ActivateAccountTrainerNavigator}
+      />
+      <ActivatedUserNativeStack.Screen
+        name={route.routeFirstLoginNavigator}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={FirstLoginNavigator}
       />
     </ActivatedUserNativeStack.Navigator>
   );
