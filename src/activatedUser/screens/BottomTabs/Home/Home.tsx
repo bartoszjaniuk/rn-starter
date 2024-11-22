@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useStyles } from 'react-native-unistyles';
 
 import { Box, Stack } from '@grapp/stacks';

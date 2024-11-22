@@ -1,8 +1,9 @@
 import * as React from 'react';
 
+import { today } from 'src/shared';
+
 import { CheckBoxListOptions, CheckboxList } from './CheckboxList';
 
-const today = new Date().toISOString().slice(0, 10);
 const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
 const data: CheckBoxListOptions = [

@@ -14,7 +14,7 @@ import { StepLayout } from '../../_internals/components/StepLayout';
 
 const contactFormSchema = z.object({
   phoneNumber: z.string().min(9, 'Pole jest wymagane'),
-  email: z.string().min(1, 'Pole jest wymagane').email('Podano nieprawidłowy adres email'),
+  // email: z.string().min(1, 'Pole jest wymagane').email('Podano nieprawidłowy adres email'),
 });
 
 type ProfileFormFieldValues = z.infer<typeof contactFormSchema>;
@@ -44,7 +44,7 @@ const Form = (props: Props) => {
         name="phoneNumber"
       />
 
-      <Controller
+      {/* <Controller
         control={control}
         render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
           <TextInput
@@ -59,7 +59,7 @@ const Form = (props: Props) => {
           />
         )}
         name="email"
-      />
+      /> */}
     </>
   );
 };
@@ -72,7 +72,7 @@ const Content = () => {
   } = useForm<ProfileFormFieldValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      email: '',
+      // email: '',
       phoneNumber: '',
     },
   });

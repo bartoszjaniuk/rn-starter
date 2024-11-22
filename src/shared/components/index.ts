@@ -12,3 +12,4 @@ export * from './ProgressBar';
 export * from './SelectDropdown';
 export * from './RefreshControl';
 export * from './TryAgainError';
+export * from './CalendarMonthly';

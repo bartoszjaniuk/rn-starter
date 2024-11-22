@@ -38,15 +38,11 @@ type DateSchedule = {
   [date: string]: ScheduleEntry[]; // Keys are dates in "YYYY-MM-DD" format
 };
 
-type SchedulesData = {
-  [key: string]: DateSchedule; // Dynamic keys, e.g., "c1b8bbc5-5cc3-476c-962b-3b09505eb639"
-};
-
 type Meta = {
   totalItems: number; // Total number of items in the response
 };
 
 export type TrainerAvailabilitiesGetV1Response = {
-  data: SchedulesData;
+  data: DateSchedule;
   meta: Meta;
 };

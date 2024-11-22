@@ -70,7 +70,7 @@ export const SearchTrainersListFilters = () => {
           <Screen.Header.Right>
             <PressableScale onPress={handleApplyFilters}>
               <Text fontWeight="700" size="xs" color="primary">
-                Filtruj
+                Zapisz filtry
               </Text>
             </PressableScale>
           </Screen.Header.Right>
