@@ -2,7 +2,7 @@ import * as React from 'react';
 import { I18nManager } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { Box } from '@grapp/stacks';
+import { Box, Inline } from '@grapp/stacks';
 import { useIsMutating } from '@tanstack/react-query';
 
 import { colord } from 'colord';
@@ -21,6 +21,7 @@ type Props = {
   testID?: string;
   variant?: 'primary' | 'secondary';
   size?: 40 | 44;
+  children?: React.ReactNode;
 };
 
 type CloseButtonProps = {
@@ -30,7 +31,7 @@ type CloseButtonProps = {
   shouldBlockNavigation?: boolean;
 };
 
-type GoBackButtonProps = Pick<Props, 'variant'>;
+type GoBackButtonProps = Pick<Props, 'variant' | 'children'>;
 
 export const HeaderButton = (props: Props) => {
   const { onPress, color = 'white', iconRotation = 0, testID, variant = 'primary', size = 40 } = props;
@@ -39,21 +40,32 @@ export const HeaderButton = (props: Props) => {
   });
 
   const content = (
-    <PressableScale
-      testID={testID}
-      onPress={onPress}
-      activeScale={0.94}
-      style={[styles.root, { width: size, height: size, borderRadius: size / 2 }]}
-    >
-      <Icon name="arrowLeft" color={color} svgProps={{ rotation: iconRotation }} />
-    </PressableScale>
+    <>
+      {props.children ? (
+        <PressableScale testID={testID} onPress={onPress} activeScale={0.94} style={styles.headerButtonWithChildren}>
+          <Inline alignY="center" space={2}>
+            <Icon name="arrowLeft" color={color} svgProps={{ rotation: iconRotation }} />
+            {props.children ? props.children : null}
+          </Inline>
+        </PressableScale>
+      ) : (
+        <PressableScale
+          testID={testID}
+          onPress={onPress}
+          activeScale={0.94}
+          style={[styles.root, { width: size, height: size, borderRadius: size / 2 }]}
+        >
+          <Icon name="arrowLeft" color={color} svgProps={{ rotation: iconRotation }} />
+        </PressableScale>
+      )}
+    </>
   );
 
   return variant === 'secondary' ? <Box>{content}</Box> : content;
 };
 
 export const HeaderGoBackButton = (props: GoBackButtonProps) => {
-  const { variant } = props;
+  const { variant, children } = props;
   const { headerProps } = useHeader();
   const isMutating = useIsMutating();
 
@@ -68,11 +80,12 @@ export const HeaderGoBackButton = (props: GoBackButtonProps) => {
   return (
     <HeaderButton
       variant={variant}
-      // iconName="arrow"
       iconRotation={I18nManager.isRTL ? undefined : 180}
       color={color}
       onPress={handlePress}
-    />
+    >
+      {children}
+    </HeaderButton>
   );
 };
 
@@ -113,6 +126,10 @@ const stylesheet = createStyleSheet((theme) => {
           },
         },
       },
+    },
+    headerButtonWithChildren: {
+      flex: 1,
+      justifyContent: 'center',
     },
   };
 });

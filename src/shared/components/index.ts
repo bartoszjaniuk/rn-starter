@@ -13,3 +13,4 @@ export * from './SelectDropdown';
 export * from './RefreshControl';
 export * from './TryAgainError';
 export * from './CalendarMonthly';
+export * from './TimelineWeekly';

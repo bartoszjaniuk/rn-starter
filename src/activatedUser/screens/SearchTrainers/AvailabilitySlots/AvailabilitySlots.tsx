@@ -18,10 +18,11 @@ const Content = () => {
   });
 
   const calendarSlots = useCalendarSlots(trainerAvailabilitiesQuery.data);
+  console.log(calendarSlots.markedDates, 'markedDates');
 
   return (
     <Screen.Content>
-      <Stack space={4}>
+      <Stack space={4} paddingTop={4}>
         <Text fontWeight="400" size="sm" color="veryGray">
           Zielona kropka oznacza wolny termin, wybierz go i zarezerwuj trening!
         </Text>
@@ -35,13 +36,14 @@ export const SearchTrainersAvailabilitySlots = () => {
   return (
     <Screen
       HeaderComponent={
-        <Screen.Header variant="transparent">
-          {/* <Screen.Header.Left>
-          <Screen.Header.GoBackButton>
-            <Text>Wróć do profilu</Text>
-          </Screen.Header.GoBackButton>
-        </Screen.Header.Left> */}
-          <Screen.Header.Title>Wróć do profilu</Screen.Header.Title>
+        <Screen.Header variant="primary">
+          <Screen.Header.Left>
+            <Screen.Header.GoBackButton>
+              <Text fontWeight="700" size="xs">
+                Wróć do profilu
+              </Text>
+            </Screen.Header.GoBackButton>
+          </Screen.Header.Left>
         </Screen.Header>
       }
       statusBarStyle="light"
