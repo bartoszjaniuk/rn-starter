@@ -1047,3 +1047,1131 @@ index 735afb5..e5d7a16 100644
 +    ...(theme['stylesheet.calendar.main'] || {}),
 +  });
  }
+diff --git a/node_modules/react-native-calendars/src/commons/WeekDaysNames.js b/node_modules/react-native-calendars/src/commons/WeekDaysNames.js
+index f57b436..ebd1f4a 100644
+--- a/node_modules/react-native-calendars/src/commons/WeekDaysNames.js
++++ b/node_modules/react-native-calendars/src/commons/WeekDaysNames.js
+@@ -1,10 +1,14 @@
+ import React from 'react';
+ import { Text } from 'react-native';
++
+ import { weekDayNames } from '../dateutils';
++
+ const WeekDaysNames = React.memo(({ firstDay, style }) => {
+-    const dayNames = weekDayNames(firstDay);
+-    return dayNames.map((day, index) => (<Text allowFontScaling={false} key={index} style={style} numberOfLines={1} accessibilityLabel={''}>
++  const dayNames = weekDayNames(firstDay);
++  return dayNames.map((day, index) => (
++    <Text allowFontScaling={false} key={index} style={style} numberOfLines={1} accessibilityLabel={''}>
+       {day}
+-    </Text>));
++    </Text>
++  ));
+ });
+ export default WeekDaysNames;
+diff --git a/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js b/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js
+index c030f84..82864bf 100644
+--- a/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js
++++ b/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js
+@@ -1,16 +1,19 @@
+-import XDate from 'xdate';
+ import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
+ import { FlatList, View } from 'react-native';
+-import { sameWeek, onSameDateRange, getWeekDates } from '../../dateutils';
+-import { toMarkingFormat } from '../../interface';
+-import styleConstructor from '../style';
++
++import XDate from 'xdate';
++
+ import WeekDaysNames from '../../commons/WeekDaysNames';
+-import Week from '../week';
+-import { UpdateSources } from '../commons';
+ import constants from '../../commons/constants';
+ import { extractCalendarProps } from '../../componentUpdater';
+-import CalendarContext from '../Context';
++import { getWeekDates, onSameDateRange, sameWeek } from '../../dateutils';
+ import { useDidUpdate } from '../../hooks';
++import { toMarkingFormat } from '../../interface';
++import CalendarContext from '../Context';
++import { UpdateSources } from '../commons';
++import styleConstructor from '../style';
++import Week from '../week';
++
+ export const NUMBER_OF_PAGES = 6;
+ const NUM_OF_ITEMS = NUMBER_OF_PAGES * 2 + 1; // NUMBER_OF_PAGES before + NUMBER_OF_PAGES after + current
+ /**
+@@ -19,184 +22,224 @@ const NUM_OF_ITEMS = NUMBER_OF_PAGES * 2 + 1; // NUMBER_OF_PAGES before + NUMBER
+  * @example: https://github.com/wix/react-native-calendars/blob/master/example/src/screens/expandableCalendar.js
+  */
+ const WeekCalendar = (props) => {
+-    const { calendarWidth, hideDayNames, current, theme, testID, markedDates, } = props;
+-    const context = useContext(CalendarContext);
+-    const { allowShadow = true, ...calendarListProps } = props;
+-    const { style: propsStyle, onDayPress, firstDay = 0, ...others } = extractCalendarProps(calendarListProps);
+-    const { date, numberOfDays, updateSource, setDate, timelineLeftInset } = context;
+-    const visibleWeek = useRef(date);
+-    const style = useRef(styleConstructor(theme));
+-    const items = useRef(getDatesArray(current ?? date, firstDay, numberOfDays));
+-    const [listData, setListData] = useState(items.current);
+-    const changedItems = useRef(constants.isRTL);
+-    const list = useRef(null);
+-    const currentIndex = useRef(NUMBER_OF_PAGES);
+-    useDidUpdate(() => {
+-        items.current = getDatesArray(date, firstDay, numberOfDays);
+-        setListData(items.current);
+-        visibleWeek.current = date;
+-        list?.current?.scrollToIndex({ index: NUMBER_OF_PAGES, animated: false });
+-    }, [numberOfDays]);
+-    useDidUpdate(() => {
+-        if (updateSource !== UpdateSources.WEEK_SCROLL) {
+-            const pageIndex = items.current.findIndex(item => isCustomNumberOfDays(numberOfDays) ?
+-                onSameDateRange({
+-                    firstDay: item,
+-                    secondDay: date,
+-                    numberOfDays: numberOfDays,
+-                    firstDateInRange: item
+-                }) :
+-                sameWeek(item, date, firstDay));
+-            if (pageIndex !== currentIndex.current) {
+-                const adjustedIndexFrScroll = constants.isAndroidRTL ? NUM_OF_ITEMS - 1 - pageIndex : pageIndex;
+-                if (pageIndex >= 0) {
+-                    visibleWeek.current = items.current[adjustedIndexFrScroll];
+-                    currentIndex.current = adjustedIndexFrScroll;
+-                }
+-                else {
+-                    visibleWeek.current = date;
+-                    currentIndex.current = NUMBER_OF_PAGES;
+-                }
+-                pageIndex <= 0 ? onEndReached() : list?.current?.scrollToIndex({ index: adjustedIndexFrScroll, animated: false });
+-            }
++  const { calendarWidth, hideDayNames, current, theme, testID, markedDates } = props;
++  const context = useContext(CalendarContext);
++  const { allowShadow = true, ...calendarListProps } = props;
++  const { style: propsStyle, onDayPress, firstDay = 0, ...others } = extractCalendarProps(calendarListProps);
++  const { date, numberOfDays, updateSource, setDate, timelineLeftInset } = context;
++  const visibleWeek = useRef(date);
++  const style = useRef(styleConstructor(theme));
++  const items = useRef(getDatesArray(current ?? date, firstDay, numberOfDays));
++  const [listData, setListData] = useState(items.current);
++  const changedItems = useRef(constants.isRTL);
++  const list = useRef(null);
++  const currentIndex = useRef(NUMBER_OF_PAGES);
++  useDidUpdate(() => {
++    items.current = getDatesArray(date, firstDay, numberOfDays);
++    setListData(items.current);
++    visibleWeek.current = date;
++    list?.current?.scrollToIndex({ index: NUMBER_OF_PAGES, animated: false });
++  }, [numberOfDays]);
++  useDidUpdate(() => {
++    if (updateSource !== UpdateSources.WEEK_SCROLL) {
++      const pageIndex = items.current.findIndex((item) =>
++        isCustomNumberOfDays(numberOfDays)
++          ? onSameDateRange({
++              firstDay: item,
++              secondDay: date,
++              numberOfDays: numberOfDays,
++              firstDateInRange: item,
++            })
++          : sameWeek(item, date, firstDay),
++      );
++      if (pageIndex !== currentIndex.current) {
++        const adjustedIndexFrScroll = constants.isAndroidRTL ? NUM_OF_ITEMS - 1 - pageIndex : pageIndex;
++        if (pageIndex >= 0) {
++          visibleWeek.current = items.current[adjustedIndexFrScroll];
++          currentIndex.current = adjustedIndexFrScroll;
++        } else {
++          visibleWeek.current = date;
++          currentIndex.current = NUMBER_OF_PAGES;
+         }
+-    }, [date, updateSource]);
+-    const containerWidth = useMemo(() => {
+-        return calendarWidth ?? constants.screenWidth;
+-    }, [calendarWidth]);
+-    const _onDayPress = useCallback((value) => {
+-        if (onDayPress) {
+-            onDayPress(value);
+-        }
+-        else {
+-            setDate?.(value.dateString, UpdateSources.DAY_PRESS);
+-        }
+-    }, [onDayPress]);
+-    const getCurrentWeekMarkings = useCallback((date, markings) => {
+-        if (!markings) {
+-            return;
+-        }
+-        const dates = getWeekDates(date, firstDay);
+-        return dates?.reduce((acc, date) => {
+-            const dateString = toMarkingFormat(date);
+-            return {
+-                ...acc,
+-                ...(markings[dateString] && { [dateString]: markings[dateString] }),
+-            };
+-        }, {});
+-    }, []);
+-    const weekStyle = useMemo(() => {
+-        return [{ width: containerWidth }, propsStyle];
+-    }, [containerWidth, propsStyle]);
+-    const renderItem = useCallback(({ item }) => {
+-        const currentContext = sameWeek(date, item, firstDay) ? context : undefined;
+-        const markings = getCurrentWeekMarkings(item, markedDates);
+-        return (<Week {...others} markedDates={markings} current={item} firstDay={firstDay} style={weekStyle} context={currentContext} onDayPress={_onDayPress} numberOfDays={numberOfDays} timelineLeftInset={timelineLeftInset}/>);
+-    }, [firstDay, _onDayPress, context, date, markedDates]);
+-    const keyExtractor = useCallback((item) => item, []);
+-    const renderWeekDaysNames = useMemo(() => {
+-        return (<WeekDaysNames firstDay={firstDay} style={style.current.dayHeader}/>);
+-    }, [firstDay]);
+-    const weekCalendarStyle = useMemo(() => {
+-        return [
+-            allowShadow && style.current.containerShadow,
+-            !hideDayNames && style.current.containerWrapper
+-        ];
+-    }, [allowShadow, hideDayNames]);
+-    const containerStyle = useMemo(() => {
+-        return [style.current.week, style.current.weekCalendar];
+-    }, []);
+-    const getItemLayout = useCallback((_, index) => {
+-        return {
+-            length: containerWidth,
+-            offset: containerWidth * index,
+-            index
+-        };
+-    }, [containerWidth]);
+-    const onEndReached = useCallback(() => {
+-        changedItems.current = true;
+-        items.current = (getDatesArray(visibleWeek.current, firstDay, numberOfDays));
+-        setListData(items.current);
+-        currentIndex.current = NUMBER_OF_PAGES;
+-        list?.current?.scrollToIndex({ index: NUMBER_OF_PAGES, animated: false });
+-    }, [firstDay, numberOfDays]);
+-    const onViewableItemsChanged = useCallback(({ viewableItems }) => {
+-        if (changedItems.current || viewableItems.length === 0) {
+-            changedItems.current = false;
+-            return;
+-        }
+-        const currItems = items.current;
+-        const newDate = viewableItems[0]?.item;
+-        if (newDate !== visibleWeek.current) {
+-            if (constants.isAndroidRTL) {
+-                //in android RTL the item we see is the one in the opposite direction
+-                const newDateOffset = -1 * (NUMBER_OF_PAGES - currItems.indexOf(newDate));
+-                const adjustedNewDate = currItems[NUMBER_OF_PAGES - newDateOffset];
+-                visibleWeek.current = adjustedNewDate;
+-                currentIndex.current = currItems.indexOf(adjustedNewDate);
+-                setDate(adjustedNewDate, UpdateSources.WEEK_SCROLL);
+-                if (visibleWeek.current === currItems[currItems.length - 1]) {
+-                    onEndReached();
+-                }
+-            }
+-            else {
+-                currentIndex.current = currItems.indexOf(newDate);
+-                visibleWeek.current = newDate;
+-                setDate(newDate, UpdateSources.WEEK_SCROLL);
+-                if (visibleWeek.current === currItems[0]) {
+-                    onEndReached();
+-                }
+-            }
++        pageIndex <= 0
++          ? onEndReached()
++          : list?.current?.scrollToIndex({ index: adjustedIndexFrScroll, animated: false });
++      }
++    }
++  }, [date, updateSource]);
++  const containerWidth = useMemo(() => {
++    return calendarWidth ?? constants.screenWidth;
++  }, [calendarWidth]);
++  const _onDayPress = useCallback(
++    (value) => {
++      if (onDayPress) {
++        onDayPress(value);
++      } else {
++        setDate?.(value.dateString, UpdateSources.DAY_PRESS);
++      }
++    },
++    [onDayPress],
++  );
++  const getCurrentWeekMarkings = useCallback((date, markings) => {
++    if (!markings) {
++      return;
++    }
++    const dates = getWeekDates(date, firstDay);
++    return dates?.reduce((acc, date) => {
++      const dateString = toMarkingFormat(date);
++      return {
++        ...acc,
++        ...(markings[dateString] && { [dateString]: markings[dateString] }),
++      };
++    }, {});
++  }, []);
++  const weekStyle = useMemo(() => {
++    return [{ width: containerWidth }, propsStyle];
++  }, [containerWidth, propsStyle]);
++  const renderItem = useCallback(
++    ({ item }) => {
++      const currentContext = sameWeek(date, item, firstDay) ? context : undefined;
++      const markings = getCurrentWeekMarkings(item, markedDates);
++      return (
++        <Week
++          {...others}
++          markedDates={markings}
++          current={item}
++          firstDay={firstDay}
++          style={weekStyle}
++          context={currentContext}
++          onDayPress={_onDayPress}
++          numberOfDays={numberOfDays}
++          timelineLeftInset={timelineLeftInset}
++        />
++      );
++    },
++    [firstDay, _onDayPress, context, date, markedDates],
++  );
++  const keyExtractor = useCallback((item) => item, []);
++  const renderWeekDaysNames = useMemo(() => {
++    return <WeekDaysNames firstDay={firstDay} style={style.current.dayHeader} />;
++  }, [firstDay]);
++  const weekCalendarStyle = useMemo(() => {
++    return [allowShadow && style.current.containerShadow, !hideDayNames && style.current.containerWrapper];
++  }, [allowShadow, hideDayNames]);
++  const containerStyle = useMemo(() => {
++    return [style.current.week, style.current.weekCalendar];
++  }, []);
++  const getItemLayout = useCallback(
++    (_, index) => {
++      return {
++        length: containerWidth,
++        offset: containerWidth * index,
++        index,
++      };
++    },
++    [containerWidth],
++  );
++  const onEndReached = useCallback(() => {
++    changedItems.current = true;
++    items.current = getDatesArray(visibleWeek.current, firstDay, numberOfDays);
++    setListData(items.current);
++    currentIndex.current = NUMBER_OF_PAGES;
++    list?.current?.scrollToIndex({ index: NUMBER_OF_PAGES, animated: false });
++  }, [firstDay, numberOfDays]);
++  const onViewableItemsChanged = useCallback(
++    ({ viewableItems }) => {
++      if (changedItems.current || viewableItems.length === 0) {
++        changedItems.current = false;
++        return;
++      }
++      const currItems = items.current;
++      const newDate = viewableItems[0]?.item;
++      if (newDate !== visibleWeek.current) {
++        if (constants.isAndroidRTL) {
++          //in android RTL the item we see is the one in the opposite direction
++          const newDateOffset = -1 * (NUMBER_OF_PAGES - currItems.indexOf(newDate));
++          const adjustedNewDate = currItems[NUMBER_OF_PAGES - newDateOffset];
++          visibleWeek.current = adjustedNewDate;
++          currentIndex.current = currItems.indexOf(adjustedNewDate);
++          setDate(adjustedNewDate, UpdateSources.WEEK_SCROLL);
++          if (visibleWeek.current === currItems[currItems.length - 1]) {
++            onEndReached();
++          }
++        } else {
++          currentIndex.current = currItems.indexOf(newDate);
++          visibleWeek.current = newDate;
++          setDate(newDate, UpdateSources.WEEK_SCROLL);
++          if (visibleWeek.current === currItems[0]) {
++            onEndReached();
++          }
+         }
+-    }, [onEndReached]);
+-    const viewabilityConfigCallbackPairs = useRef([{
+-            viewabilityConfig: {
+-                itemVisiblePercentThreshold: 20,
+-            },
+-            onViewableItemsChanged,
+-        }]);
+-    return (<View testID={testID} style={weekCalendarStyle}>
+-      {!hideDayNames && (<View style={containerStyle}>
+-          {renderWeekDaysNames}
+-        </View>)}
++      }
++    },
++    [onEndReached],
++  );
++  const viewabilityConfigCallbackPairs = useRef([
++    {
++      viewabilityConfig: {
++        itemVisiblePercentThreshold: 20,
++      },
++      onViewableItemsChanged,
++    },
++  ]);
++  return (
++    <View testID={testID} style={weekCalendarStyle}>
++      {!hideDayNames && <View style={containerStyle}>{renderWeekDaysNames}</View>}
+       <View style={style.current.container}>
+-          <FlatList testID={`${testID}.list`} ref={list} style={style.current.container} data={listData} horizontal showsHorizontalScrollIndicator={false} pagingEnabled scrollEnabled renderItem={renderItem} keyExtractor={keyExtractor} initialScrollIndex={NUMBER_OF_PAGES} getItemLayout={getItemLayout} viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current} onEndReached={onEndReached} onEndReachedThreshold={1 / NUM_OF_ITEMS}/>
++        <FlatList
++          testID={`${testID}.list`}
++          ref={list}
++          style={style.current.container}
++          data={listData}
++          horizontal
++          showsHorizontalScrollIndicator={false}
++          pagingEnabled
++          scrollEnabled
++          renderItem={renderItem}
++          keyExtractor={keyExtractor}
++          initialScrollIndex={NUMBER_OF_PAGES}
++          getItemLayout={getItemLayout}
++          viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
++          onEndReached={onEndReached}
++          onEndReachedThreshold={1 / NUM_OF_ITEMS}
++        />
+       </View>
+-    </View>);
++    </View>
++  );
+ };
+ function getDateForDayRange(date, weekIndex, numberOfDays) {
+-    const d = new XDate(date);
+-    if (weekIndex !== 0) {
+-        d.addDays(numberOfDays * weekIndex);
+-    }
+-    return toMarkingFormat(d);
++  const d = new XDate(date);
++  if (weekIndex !== 0) {
++    d.addDays(numberOfDays * weekIndex);
++  }
++  return toMarkingFormat(d);
+ }
+ function getDate(date, firstDay, weekIndex, numberOfDays) {
+-    const d = new XDate(date);
+-    // get the first day of the week as date (for the on scroll mark)
+-    let dayOfTheWeek = d.getDay();
+-    if (dayOfTheWeek < firstDay && firstDay > 0) {
+-        dayOfTheWeek = 7 + dayOfTheWeek;
+-    }
+-    if (weekIndex !== 0) {
+-        d.addDays(firstDay - dayOfTheWeek);
+-    }
+-    const newDate = numberOfDays && numberOfDays > 1 ? d.addDays(weekIndex * numberOfDays) : d.addWeeks(weekIndex);
+-    const today = new XDate();
+-    const offsetFromNow = newDate.diffDays(today);
+-    const isSameWeek = offsetFromNow > 0 && offsetFromNow < (numberOfDays ?? 7);
+-    return toMarkingFormat(isSameWeek ? today : newDate);
++  const d = new XDate(date);
++  // get the first day of the week as date (for the on scroll mark)
++  let dayOfTheWeek = d.getDay();
++  if (dayOfTheWeek < firstDay && firstDay > 0) {
++    dayOfTheWeek = 7 + dayOfTheWeek;
++  }
++  if (weekIndex !== 0) {
++    d.addDays(firstDay - dayOfTheWeek);
++  }
++  const newDate = numberOfDays && numberOfDays > 1 ? d.addDays(weekIndex * numberOfDays) : d.addWeeks(weekIndex);
++  const today = new XDate();
++  const offsetFromNow = newDate.diffDays(today);
++  const isSameWeek = offsetFromNow > 0 && offsetFromNow < (numberOfDays ?? 7);
++  return toMarkingFormat(isSameWeek ? today : newDate);
+ }
+ function getDatesArray(date, firstDay, numberOfDays) {
+-    return [...Array(NUM_OF_ITEMS).keys()].map((index) => {
+-        if (isCustomNumberOfDays(numberOfDays)) {
+-            return getDateForDayRange(date, index - NUMBER_OF_PAGES, numberOfDays);
+-        }
+-        return getDate(date, firstDay, index - NUMBER_OF_PAGES);
+-    });
++  return [...Array(NUM_OF_ITEMS).keys()].map((index) => {
++    if (isCustomNumberOfDays(numberOfDays)) {
++      return getDateForDayRange(date, index - NUMBER_OF_PAGES, numberOfDays);
++    }
++    return getDate(date, firstDay, index - NUMBER_OF_PAGES);
++  });
+ }
+ function isCustomNumberOfDays(numberOfDays) {
+-    return numberOfDays && numberOfDays > 1;
++  return numberOfDays && numberOfDays > 1;
+ }
+ WeekCalendar.displayName = 'WeekCalendar';
+ export default WeekCalendar;
+diff --git a/node_modules/react-native-calendars/src/expandableCalendar/style.js b/node_modules/react-native-calendars/src/expandableCalendar/style.js
+index 775ff1c..4803420 100644
+--- a/node_modules/react-native-calendars/src/expandableCalendar/style.js
++++ b/node_modules/react-native-calendars/src/expandableCalendar/style.js
+@@ -1,170 +1,165 @@
+-import { StyleSheet, Platform } from 'react-native';
+-import * as defaultStyle from '../style';
++import { Platform, StyleSheet } from 'react-native';
++
+ import constants from '../commons/constants';
++import * as defaultStyle from '../style';
++
+ export const HEADER_HEIGHT = 68;
+ export const KNOB_CONTAINER_HEIGHT = 24;
+ export default function styleConstructor(theme = {}) {
+-    const appStyle = { ...defaultStyle, ...theme };
+-    return StyleSheet.create({
+-        containerShadow: {
+-            backgroundColor: appStyle.calendarBackground,
+-            ...Platform.select({
+-                ios: {
+-                    shadowColor: '#858F96',
+-                    shadowOpacity: 0.25,
+-                    shadowRadius: 10,
+-                    shadowOffset: { height: 2, width: 0 },
+-                    zIndex: 99
+-                },
+-                android: {
+-                    elevation: 3
+-                }
+-            })
+-        },
+-        containerWrapper: {
+-            paddingBottom: 6
+-        },
+-        container: {
+-            backgroundColor: appStyle.calendarBackground
+-        },
+-        knobContainer: {
+-            position: 'absolute',
+-            left: 0,
+-            right: 0,
+-            height: KNOB_CONTAINER_HEIGHT,
+-            bottom: 0,
+-            alignItems: 'center',
+-            justifyContent: 'center',
+-            backgroundColor: appStyle.calendarBackground
+-        },
+-        knob: {
+-            width: 40,
+-            height: 4,
+-            borderRadius: 3,
+-            backgroundColor: appStyle.expandableKnobColor
+-        },
+-        sectionText: {
+-            fontWeight: 'bold',
+-            fontSize: 12,
+-            lineHeight: 16,
+-            color: '#7a92a5',
+-            paddingTop: 24,
+-            paddingBottom: 8,
+-            paddingLeft: 20,
+-            paddingRight: 20,
+-            backgroundColor: appStyle.calendarBackground,
+-            textAlign: 'left',
+-            textTransform: 'uppercase'
+-        },
+-        header: {
+-            position: 'absolute',
+-            left: 0,
+-            right: 0,
+-            backgroundColor: appStyle.calendarBackground
+-        },
+-        headerTitle: {
+-            alignSelf: 'center',
+-            paddingTop: 13,
+-            paddingBottom: 18,
+-            fontSize: appStyle.textMonthFontSize,
+-            fontFamily: appStyle.textMonthFontFamily,
+-            fontWeight: appStyle.textMonthFontWeight,
+-            color: appStyle.monthTextColor
+-        },
+-        weekDayNames: {
+-            flexDirection: 'row',
+-            justifyContent: 'space-between'
+-        },
+-        dayHeader: {
+-            width: 32,
+-            textAlign: 'center',
+-            fontSize: appStyle.textDayHeaderFontSize,
+-            fontFamily: appStyle.textDayHeaderFontFamily,
+-            fontWeight: appStyle.textDayHeaderFontWeight,
+-            color: appStyle.textSectionTitleColor
+-        },
+-        monthView: {
+-            backgroundColor: appStyle.calendarBackground
+-        },
+-        weekContainer: {
+-            position: 'absolute',
+-            left: 0,
+-            right: 0,
+-            top: HEADER_HEIGHT + (constants.isAndroid ? 8 : 9), // align row on top of calendar's first row
+-        },
+-        hidden: {
+-            opacity: 0
+-        },
+-        visible: {
+-            opacity: 1
+-        },
+-        weekCalendar: {
+-            marginTop: 12,
+-            marginBottom: -2
+-        },
+-        week: {
+-            marginTop: 7,
+-            marginBottom: 7,
+-            paddingRight: 15,
+-            paddingLeft: 15,
+-            flexDirection: 'row',
+-            justifyContent: 'space-around'
+-        },
+-        partialWeek: {
+-            paddingRight: 0
+-        },
+-        dayContainer: {
+-            flex: 1,
+-            alignItems: 'center'
+-        },
+-        emptyDayContainer: {
+-            flex: 1
+-        },
+-        arrowImage: {
+-            tintColor: appStyle.arrowColor,
+-            transform: constants.isRTL ? [{ scaleX: -1 }] : undefined
+-        },
+-        contextWrapper: {
+-            flex: 1
+-        },
+-        todayButtonContainer: {
+-            alignItems: appStyle.todayButtonPosition === 'right' ? 'flex-end' : 'flex-start',
+-            position: 'absolute',
+-            left: 20,
+-            right: 20,
+-            bottom: 0
+-        },
+-        todayButton: {
+-            height: constants.isTablet ? 40 : 28,
+-            paddingHorizontal: constants.isTablet ? 20 : 12,
+-            borderRadius: constants.isTablet ? 20 : 14,
+-            flexDirection: appStyle.todayButtonPosition === 'right' ? 'row-reverse' : 'row',
+-            justifyContent: 'center',
+-            alignItems: 'center',
+-            backgroundColor: 'white',
+-            ...Platform.select({
+-                ios: {
+-                    shadowColor: '#79838A',
+-                    shadowOpacity: 0.3,
+-                    shadowRadius: 14,
+-                    shadowOffset: { height: 6, width: 0 }
+-                },
+-                android: {
+-                    elevation: 6
+-                }
+-            })
+-        },
+-        todayButtonText: {
+-            color: appStyle.todayButtonTextColor,
+-            fontSize: constants.isTablet ? appStyle.todayButtonFontSize + 2 : appStyle.todayButtonFontSize,
+-            fontWeight: appStyle.todayButtonFontWeight,
+-            fontFamily: appStyle.todayButtonFontFamily
+-        },
+-        todayButtonImage: {
+-            tintColor: appStyle.todayButtonTextColor,
+-            marginLeft: appStyle.todayButtonPosition === 'right' ? 7 : undefined,
+-            marginRight: appStyle.todayButtonPosition === 'right' ? undefined : 7
+-        },
+-        ...(theme?.stylesheet?.expandable?.main || {})
+-    });
++  const appStyle = { ...defaultStyle, ...theme };
++  return StyleSheet.create({
++    containerShadow: {
++      // backgroundColor: appStyle.calendarBackground,
++      backgroundColor: '#303033',
++      ...Platform.select({}),
++    },
++    containerWrapper: {
++      paddingBottom: 6,
++    },
++    container: {
++      // backgroundColor: appStyle.calendarBackground
++      backgroundColor: '#303033',
++    },
++    knobContainer: {
++      position: 'absolute',
++      left: 0,
++      right: 0,
++      height: KNOB_CONTAINER_HEIGHT,
++      bottom: 0,
++      alignItems: 'center',
++      justifyContent: 'center',
++      // backgroundColor: appStyle.calendarBackground
++      backgroundColor: '#303033',
++    },
++    knob: {
++      width: 40,
++      height: 4,
++      borderRadius: 3,
++      backgroundColor: appStyle.expandableKnobColor,
++    },
++    sectionText: {
++      fontWeight: 'bold',
++      fontSize: 12,
++      lineHeight: 16,
++      color: '#7a92a5',
++      paddingTop: 24,
++      paddingBottom: 8,
++      paddingLeft: 20,
++      paddingRight: 20,
++      // backgroundColor: appStyle.calendarBackground,
++      backgroundColor: '#303033',
++      textAlign: 'left',
++      textTransform: 'uppercase',
++    },
++    header: {
++      position: 'absolute',
++      left: 0,
++      right: 0,
++      backgroundColor: appStyle.calendarBackground,
++    },
++    headerTitle: {
++      alignSelf: 'center',
++      paddingTop: 13,
++      paddingBottom: 18,
++      fontSize: appStyle.textMonthFontSize,
++      fontFamily: appStyle.textMonthFontFamily,
++      fontWeight: appStyle.textMonthFontWeight,
++      color: appStyle.monthTextColor,
++    },
++    weekDayNames: {
++      flexDirection: 'row',
++      justifyContent: 'space-between',
++    },
++    dayHeader: {
++      width: 32,
++      textAlign: 'center',
++      fontSize: appStyle.textDayHeaderFontSize,
++      fontFamily: appStyle.textDayHeaderFontFamily,
++      fontWeight: appStyle.textDayHeaderFontWeight,
++      color: '#fff',
++    },
++    monthView: {
++      backgroundColor: appStyle.calendarBackground,
++    },
++    weekContainer: {
++      position: 'absolute',
++      left: 0,
++      right: 0,
++      top: HEADER_HEIGHT + (constants.isAndroid ? 8 : 9), // align row on top of calendar's first row
++    },
++    hidden: {
++      opacity: 0,
++    },
++    visible: {
++      opacity: 1,
++    },
++    weekCalendar: {
++      marginTop: 12,
++      marginBottom: -2,
++    },
++    week: {
++      marginTop: 7,
++      marginBottom: 7,
++      paddingRight: 15,
++      paddingLeft: 15,
++      flexDirection: 'row',
++      justifyContent: 'space-around',
++    },
++    partialWeek: {
++      paddingRight: 0,
++    },
++    dayContainer: {
++      flex: 1,
++      alignItems: 'center',
++    },
++    emptyDayContainer: {
++      flex: 1,
++    },
++    arrowImage: {
++      tintColor: appStyle.arrowColor,
++      transform: constants.isRTL ? [{ scaleX: -1 }] : undefined,
++    },
++    contextWrapper: {
++      flex: 1,
++    },
++    todayButtonContainer: {
++      alignItems: appStyle.todayButtonPosition === 'right' ? 'flex-end' : 'flex-start',
++      position: 'absolute',
++      left: 20,
++      right: 20,
++      bottom: 0,
++    },
++    todayButton: {
++      height: constants.isTablet ? 40 : 28,
++      paddingHorizontal: constants.isTablet ? 20 : 12,
++      borderRadius: constants.isTablet ? 20 : 14,
++      flexDirection: appStyle.todayButtonPosition === 'right' ? 'row-reverse' : 'row',
++      justifyContent: 'center',
++      alignItems: 'center',
++      backgroundColor: 'white',
++      ...Platform.select({
++        ios: {
++          shadowColor: '#79838A',
++          shadowOpacity: 0.3,
++          shadowRadius: 14,
++          shadowOffset: { height: 6, width: 0 },
++        },
++        android: {
++          elevation: 6,
++        },
++      }),
++    },
++    todayButtonText: {
++      color: appStyle.todayButtonTextColor,
++      fontSize: constants.isTablet ? appStyle.todayButtonFontSize + 2 : appStyle.todayButtonFontSize,
++      fontWeight: appStyle.todayButtonFontWeight,
++      fontFamily: appStyle.todayButtonFontFamily,
++    },
++    todayButtonImage: {
++      tintColor: appStyle.todayButtonTextColor,
++      marginLeft: appStyle.todayButtonPosition === 'right' ? 7 : undefined,
++      marginRight: appStyle.todayButtonPosition === 'right' ? undefined : 7,
++    },
++    ...(theme?.stylesheet?.expandable?.main || {}),
++  });
+ }
+diff --git a/node_modules/react-native-calendars/src/style.js b/node_modules/react-native-calendars/src/style.js
+index 5efb8bd..aed2efa 100644
+--- a/node_modules/react-native-calendars/src/style.js
++++ b/node_modules/react-native-calendars/src/style.js
+@@ -1,10 +1,10 @@
+ // default values for app style (see all options for theme type in types.ts)
+ const FOREGROUND_COLOR = 'white';
+-const DEFAULT_TEXT_COLOR = '#2d4150';
+-const SECONDARY_TEXT_COLOR = '#00BBF2';
++const DEFAULT_TEXT_COLOR = '#fff';
++const SECONDARY_TEXT_COLOR = '#BFFF41';
+ const AGENDA_TEXT_COLOR = '#7a92a5';
+ const AGENDA_BG_COLOR = '#f2F4f5';
+-const DISABLED_COLOR = '#d9e1e8';
++const DISABLED_COLOR = '#8E8E93';
+ export const textDayFontFamily = 'System';
+ export const textMonthFontFamily = 'System';
+ export const textDayHeaderFontFamily = 'System';
+@@ -23,8 +23,8 @@ export const arrowStyle = undefined;
+ export const calendarBackground = FOREGROUND_COLOR;
+ export const textSectionTitleColor = '#b6c1cd';
+ export const textSectionTitleDisabledColor = DISABLED_COLOR;
+-export const selectedDayBackgroundColor = SECONDARY_TEXT_COLOR;
+-export const selectedDayTextColor = FOREGROUND_COLOR;
++export const selectedDayBackgroundColor = '#fff';
++export const selectedDayTextColor = '#000000';
+ export const todayBackgroundColor = undefined;
+ export const todayTextColor = SECONDARY_TEXT_COLOR;
+ export const dayTextColor = DEFAULT_TEXT_COLOR;
+@@ -46,6 +46,6 @@ export const agendaKnobColor = AGENDA_BG_COLOR;
+ export const expandableKnobColor = '#e8ecf0';
+ export const backgroundColor = AGENDA_BG_COLOR; // Agenda's reservations bg color - renamed: 'reservationsBackgroundColor'. TODO: remove in V2
+ export const reservationsBackgroundColor = AGENDA_BG_COLOR;
+-export const todayButtonTextColor = SECONDARY_TEXT_COLOR;
++export const todayButtonTextColor = '#000000';
+ export const todayButtonPosition = undefined; // right' / 'left'(default)
+ export const weekVerticalMargin = 7;
+diff --git a/node_modules/react-native-calendars/src/timeline/NowIndicator.js b/node_modules/react-native-calendars/src/timeline/NowIndicator.js
+index 9d82188..9ad40d4 100644
+--- a/node_modules/react-native-calendars/src/timeline/NowIndicator.js
++++ b/node_modules/react-native-calendars/src/timeline/NowIndicator.js
+@@ -1,16 +1,20 @@
+ import React, { useMemo } from 'react';
+ import { View } from 'react-native';
+-import { calcTimeOffset } from './helpers/presenter';
++
+ import { HOUR_BLOCK_HEIGHT } from './Packer';
++import { calcTimeOffset } from './helpers/presenter';
++
+ const NowIndicator = (props) => {
+-    const { styles, width, left } = props;
+-    const indicatorPosition = calcTimeOffset(HOUR_BLOCK_HEIGHT);
+-    const nowIndicatorStyle = useMemo(() => {
+-        return [styles.nowIndicator, { top: indicatorPosition, left }];
+-    }, [indicatorPosition, left]);
+-    return (<View style={nowIndicatorStyle}>
+-      <View style={[styles.nowIndicatorLine, { width }]}/>
+-      <View style={styles.nowIndicatorKnob}/>
+-    </View>);
++  const { styles, width, left } = props;
++  const indicatorPosition = calcTimeOffset(HOUR_BLOCK_HEIGHT);
++  const nowIndicatorStyle = useMemo(() => {
++    return [styles.nowIndicator, { top: indicatorPosition, left }];
++  }, [indicatorPosition, left]);
++  return (
++    <View style={nowIndicatorStyle}>
++      <View style={[styles.nowIndicatorLine, { width }]} />
++      <View style={styles.nowIndicatorKnob} />
++    </View>
++  );
+ };
+ export default NowIndicator;
+diff --git a/node_modules/react-native-calendars/src/timeline/helpers/presenter.js b/node_modules/react-native-calendars/src/timeline/helpers/presenter.js
+index 6a50437..6aefa9e 100644
+--- a/node_modules/react-native-calendars/src/timeline/helpers/presenter.js
++++ b/node_modules/react-native-calendars/src/timeline/helpers/presenter.js
+@@ -1,25 +1,29 @@
+ import XDate from 'xdate';
++
+ import constants from '../../commons/constants';
+ import { generateDay } from '../../dateutils';
++
+ export function calcTimeByPosition(yPosition, hourBlockHeight) {
+-    let time = yPosition / hourBlockHeight;
+-    time = Math.floor(time * 2) / 2;
+-    const hour = Math.floor(time);
+-    const minutes = (time - Math.floor(time)) * 60;
+-    return { hour, minutes };
++  let time = yPosition / hourBlockHeight;
++  time = Math.floor(time * 2) / 2;
++  const hour = Math.floor(time);
++  const minutes = (time - Math.floor(time)) * 60;
++  return { hour, minutes };
+ }
+ export function calcDateByPosition(xPosition, timelineLeftInset, numberOfDays = 1, firstDate = new XDate()) {
+-    const timelineWidth = constants.screenWidth - timelineLeftInset;
+-    const dayWidth = timelineWidth / numberOfDays;
+-    const positionIndex = Math.floor((xPosition - timelineLeftInset) / dayWidth);
+-    return generateDay(firstDate, positionIndex);
++  const timelineWidth = constants.screenWidth - timelineLeftInset;
++  const dayWidth = timelineWidth / numberOfDays;
++  const positionIndex = Math.floor((xPosition - timelineLeftInset) / dayWidth);
++  return generateDay(firstDate, positionIndex);
+ }
+ export function buildTimeString(hour = 0, minutes = 0, date = '') {
+-    return `${date} ${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`.trimStart();
++  return `${date} ${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`.trimStart();
+ }
+ export function calcTimeOffset(hourBlockHeight, hour, minutes) {
+-    const now = new Date();
+-    const h = hour ?? now.getHours();
+-    const m = minutes ?? now.getMinutes();
+-    return (h + m / 60) * hourBlockHeight;
++  const now = new Date();
++  console.log({ now });
++  const h = hour ?? now.getHours();
++  const m = minutes ?? now.getMinutes();
++
++  return (h + m / 60) * hourBlockHeight - 600; // 600 mean that range is from 6:00
+ }
+diff --git a/node_modules/react-native-calendars/src/timeline/style.js b/node_modules/react-native-calendars/src/timeline/style.js
+index 18593af..19fdc9b 100644
+--- a/node_modules/react-native-calendars/src/timeline/style.js
++++ b/node_modules/react-native-calendars/src/timeline/style.js
+@@ -1,112 +1,116 @@
+ import { StyleSheet } from 'react-native';
+-import * as defaultStyle from '../style';
++
+ import constants from '../commons/constants';
+-const LINE_COLOR = '#D8D8D8';
+-const TIME_LABEL_COLOR = '#AAAAAA';
+-const EVENT_TEXT_COLOR = '#615B73';
+-const NOW_INDICATOR_COLOR = 'red';
+-const UNAVAILABLE_HOURS_BLOCK_COLOR = '#F8F9FA';
++import * as defaultStyle from '../style';
++
++const LINE_COLOR = '#C7C7CC';
++const TIME_LABEL_COLOR = '#8E8E93';
++const EVENT_TEXT_COLOR = '#000000';
++const NOW_INDICATOR_COLOR = '#BFFF41';
++const UNAVAILABLE_HOURS_BLOCK_COLOR = '#181A1E';
+ export default function styleConstructor(theme = {}, calendarHeight) {
+-    const appStyle = { ...defaultStyle, ...theme };
+-    return StyleSheet.create({
+-        container: {
+-            backgroundColor: appStyle.calendarBackground,
+-            ...appStyle.timelineContainer,
+-        },
+-        contentStyle: {
+-            backgroundColor: appStyle.calendarBackground,
+-            ...appStyle.contentStyle,
+-            flexDirection: 'row',
+-            height: calendarHeight + 10
+-        },
+-        line: {
+-            height: 1,
+-            backgroundColor: LINE_COLOR,
+-            ...theme.line,
+-            position: 'absolute'
+-        },
+-        verticalLine: {
+-            width: 1,
+-            backgroundColor: LINE_COLOR,
+-            ...appStyle.verticalLine,
+-            position: 'absolute',
+-            height: '105%'
+-        },
+-        nowIndicator: {
+-            position: 'absolute',
+-            right: 0
+-        },
+-        nowIndicatorLine: {
+-            height: 1,
+-            backgroundColor: NOW_INDICATOR_COLOR,
+-            ...appStyle.nowIndicatorLine,
+-            position: 'absolute',
+-            left: 0,
+-            right: 0
+-        },
+-        nowIndicatorKnob: {
+-            width: 7,
+-            height: 7,
+-            borderRadius: 4,
+-            backgroundColor: NOW_INDICATOR_COLOR,
+-            ...appStyle.nowIndicatorKnob,
+-            position: 'absolute',
+-            left: -3,
+-            top: -3
+-        },
+-        timeLabel: {
+-            color: TIME_LABEL_COLOR,
+-            fontSize: 10,
+-            fontWeight: '500',
+-            fontFamily: constants.isIOS ? 'Helvetica Neue' : 'Roboto',
+-            paddingLeft: 12,
+-            textAlign: 'center',
+-            ...appStyle.timeLabel,
+-            position: 'absolute'
+-        },
+-        unavailableHoursBlock: {
+-            position: 'absolute',
+-            right: 0,
+-            backgroundColor: UNAVAILABLE_HOURS_BLOCK_COLOR
+-        },
+-        event: {
+-            opacity: 1,
+-            paddingLeft: 4,
+-            paddingTop: 5,
+-            paddingBottom: 0,
+-            backgroundColor: '#F0F4FF',
+-            borderColor: '#DDE5FD',
+-            borderWidth: 1,
+-            ...appStyle.event,
+-            position: 'absolute',
+-            flex: 1,
+-            flexDirection: 'column',
+-            alignItems: 'flex-start',
+-            overflow: 'hidden',
+-            minHeight: 25,
+-        },
+-        eventTitle: {
+-            color: EVENT_TEXT_COLOR,
+-            fontWeight: '600',
+-            ...appStyle.eventTitle,
+-            minHeight: 15
+-        },
+-        eventSummary: {
+-            color: EVENT_TEXT_COLOR,
+-            fontSize: 12,
+-            ...appStyle.eventSummary,
+-            flexWrap: 'wrap'
+-        },
+-        eventTimes: {
+-            marginTop: 3,
+-            color: EVENT_TEXT_COLOR,
+-            fontSize: 10,
+-            fontWeight: 'bold',
+-            ...appStyle.eventTimes,
+-            flexWrap: 'wrap'
+-        },
+-        eventsContainer: {
+-            flex: 1
+-        }
+-    });
++  const appStyle = { ...defaultStyle, ...theme };
++  return StyleSheet.create({
++    container: {
++      //   backgroundColor: appStyle.calendarBackground,
++      backgroundColor: '#181A1E',
++      ...appStyle.timelineContainer,
++    },
++    contentStyle: {
++      //   backgroundColor: appStyle.calendarBackground,
++      backgroundColor: '#181A1E',
++      ...appStyle.contentStyle,
++      flexDirection: 'row',
++      height: calendarHeight + 10,
++    },
++    line: {
++      height: 1,
++      backgroundColor: LINE_COLOR,
++      ...theme.line,
++      position: 'absolute',
++    },
++    verticalLine: {
++      width: 1,
++      backgroundColor: LINE_COLOR,
++      ...appStyle.verticalLine,
++      position: 'absolute',
++      height: '105%',
++    },
++    nowIndicator: {
++      position: 'absolute',
++      right: 0,
++    },
++    nowIndicatorLine: {
++      height: 1,
++      backgroundColor: NOW_INDICATOR_COLOR,
++      ...appStyle.nowIndicatorLine,
++      position: 'absolute',
++      left: 0,
++      right: 0,
++    },
++    nowIndicatorKnob: {
++      width: 7,
++      height: 7,
++      borderRadius: 4,
++      backgroundColor: NOW_INDICATOR_COLOR,
++      ...appStyle.nowIndicatorKnob,
++      position: 'absolute',
++      left: -3,
++      top: -3,
++    },
++    timeLabel: {
++      color: TIME_LABEL_COLOR,
++      fontSize: 10,
++      fontWeight: '500',
++      fontFamily: constants.isIOS ? 'Helvetica Neue' : 'Roboto',
++      paddingLeft: 12,
++      textAlign: 'center',
++      ...appStyle.timeLabel,
++      position: 'absolute',
++    },
++    unavailableHoursBlock: {
++      position: 'absolute',
++      right: 0,
++      backgroundColor: UNAVAILABLE_HOURS_BLOCK_COLOR,
++    },
++    event: {
++      opacity: 1,
++      paddingLeft: 4,
++      paddingTop: 5,
++      paddingBottom: 0,
++      backgroundColor: '#F0F4FF',
++      borderColor: '#DDE5FD',
++      borderWidth: 1,
++      ...appStyle.event,
++      position: 'absolute',
++      flex: 1,
++      flexDirection: 'column',
++      alignItems: 'flex-start',
++      overflow: 'hidden',
++      minHeight: 25,
++    },
++    eventTitle: {
++      color: EVENT_TEXT_COLOR,
++      fontWeight: '600',
++      ...appStyle.eventTitle,
++      minHeight: 15,
++    },
++    eventSummary: {
++      color: EVENT_TEXT_COLOR,
++      fontSize: 12,
++      ...appStyle.eventSummary,
++      flexWrap: 'wrap',
++    },
++    eventTimes: {
++      marginTop: 3,
++      color: EVENT_TEXT_COLOR,
++      fontSize: 10,
++      fontWeight: 'bold',
++      ...appStyle.eventTimes,
++      flexWrap: 'wrap',
++    },
++    eventsContainer: {
++      flex: 1,
++    },
++  });
+ }
