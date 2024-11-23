@@ -23,6 +23,7 @@ export const routeSearchTrainersHome = '/search-trainers/home';
 export const routeSearchTrainersList = '/search-trainers/list';
 export const routeSearchTrainersProfileDetails = '/search-trainers/profile-details';
 export const routeSearchTrainersAvailabilitySlots = '/search-trainers/availability-slots';
+export const routeSearchTrainersAvailabilitySlotDetails = '/search-trainers/availability-slot-details';
 export const routeSearchTrainersListList = '/search-trainers-list/list';
 export const routeSearchTrainersListFilters = '/search-trainers-list/filters';
 export const routeAccountSettings = '/account/settings';
@@ -74,6 +75,10 @@ export const toSearchTrainersAvailabilitySlots = [
   readonly trainerId: string;
 }>;
 
+export const toSearchTrainersAvailabilitySlotDetails = [
+  routeSearchTrainersNavigator,
+  routeSearchTrainersAvailabilitySlotDetails,
+] as unknown as Route;
 export const toSearchTrainersListList = routeSearchTrainersListList as unknown as Route;
 export const toSearchTrainersListFilters = routeSearchTrainersListFilters as unknown as Route;
 export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] as unknown as Route;

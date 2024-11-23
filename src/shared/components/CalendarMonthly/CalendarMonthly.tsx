@@ -4,7 +4,10 @@ import { LocaleConfig } from 'react-native-calendars';
 import { useStyles } from 'react-native-unistyles';
 
 import { CalendarSlots } from 'src/activatedUser/screens/SearchTrainers/AvailabilitySlots/hooks/useCalendarSlots';
+import { goTo } from 'src/navigation';
 import { today } from 'src/shared/utils';
+
+import * as route from '../../../activatedUser/navigation/routes';
 
 LocaleConfig.locales['pl'] = {
   monthNames: [
@@ -34,7 +37,6 @@ export const CalendarMonthly = ({ calendarSlots }: { calendarSlots: CalendarSlot
 
   return (
     <Calendar
-      // hideDayNames={true}
       hideArrows={true}
       disableAllTouchEventsForDisabledDays={true}
       disableArrowLeft={new Date().getMonth() === 0}
@@ -67,7 +69,7 @@ export const CalendarMonthly = ({ calendarSlots }: { calendarSlots: CalendarSlot
         console.log({ day });
         // LOG  {"day": {"dateString": "2024-11-28", "day": 28, "month": 11, "timestamp": 1732752000000, "year": 2024}}
         if (calendarSlots.availableSlots.includes(day.dateString)) {
-          console.log('true');
+          goTo(route.toSearchTrainersAvailabilitySlotDetails);
         }
       }}
       minDate={today}

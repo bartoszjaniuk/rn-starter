@@ -258,6 +258,17 @@ const SearchTrainersNavigator = () => {
         }}
         getComponent={() => require('../screens/SearchTrainers/AvailabilitySlots').SearchTrainersAvailabilitySlots}
       />
+      <SearchTrainersNativeStack.Screen
+        name={route.routeSearchTrainersAvailabilitySlotDetails}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/SearchTrainers/AvailabilitySlotDetails').SearchTrainersAvailabilitySlotDetails
+        }
+      />
     </SearchTrainersNativeStack.Navigator>
   );
 };

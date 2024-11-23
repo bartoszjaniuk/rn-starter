@@ -13,31 +13,31 @@ const Content = () => {
   const { theme } = useStyles();
   const handleNavigateToSearchTrainers = () => goTo(route.toSearchTrainersList);
   return (
-    // <Screen.Content>
-    //   <Stack space={2} align="center">
-    //     <PressableScale style={{ width: 48, height: 48 }} onPress={handleNavigateToSearchTrainers}>
-    //       <Box
-    //         width={48}
-    //         height={48}
-    //         alignX="center"
-    //         alignY="center"
-    //         borderRadius={24}
-    //         backgroundColor={theme.colors.primary}
-    //       >
-    //         <Icon name="plus" svgProps={{ width: 24, height: 24 }} color="typography" />
-    //       </Box>
-    //     </PressableScale>
-    //     <Stack>
-    //       <Text align="center" fontWeight="500" size="xs">
-    //         Szukaj
-    //       </Text>
-    //       <Text align="center" fontWeight="500" size="xs">
-    //         treningu
-    //         </Text>
-    //         </Stack>
-    //         </Stack>
-    // </Screen.Content>
-    <TimelineWeekly />
+    <Screen.Content>
+      <Stack space={2} align="center">
+        <PressableScale style={{ width: 48, height: 48 }} onPress={handleNavigateToSearchTrainers}>
+          <Box
+            width={48}
+            height={48}
+            alignX="center"
+            alignY="center"
+            borderRadius={24}
+            backgroundColor={theme.colors.primary}
+          >
+            <Icon name="plus" svgProps={{ width: 24, height: 24 }} color="typography" />
+          </Box>
+        </PressableScale>
+        <Stack>
+          <Text align="center" fontWeight="500" size="xs">
+            Szukaj
+          </Text>
+          <Text align="center" fontWeight="500" size="xs">
+            treningu
+          </Text>
+        </Stack>
+      </Stack>
+    </Screen.Content>
+    // <TimelineWeekly />
   );
 };
 

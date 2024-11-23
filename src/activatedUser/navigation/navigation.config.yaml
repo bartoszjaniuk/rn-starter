@@ -74,6 +74,8 @@ navigators:
       - AvailabilitySlots:
           params:
             trainerId: string
+      - AvailabilitySlotDetails
+
 
   SearchTrainersListNavigator:
     path: ../screens/SearchTrainers/SearchTrainersListNavigator
