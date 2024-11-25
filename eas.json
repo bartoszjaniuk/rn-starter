@@ -2,7 +2,7 @@
 	"cli": {
 		"version": ">= 2.6.0",
 		"promptToConfigurePushNotifications": false,
-		"appVersionSource": "local"
+		"appVersionSource": "remote"
 
 	},
 	"build": {
@@ -16,8 +16,14 @@
 
 		},
 		"production": {
-			"autoIncrement": true,
-		}
+			"autoIncrement": true, // Automatically increment build numbers
+			"android": {
+			  "autoIncrement": "versionCode" // For Android, increments the versionCode
+			},
+			"ios": {
+			  "autoIncrement": "buildNumber" // For iOS, increments the buildNumber
+			}
+		  }
 	},
 	"submit": {
 		"test": {

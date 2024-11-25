@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Dimensions } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
 import { UnistylesRuntime, createStyleSheet, useStyles } from 'react-native-unistyles';
@@ -29,7 +28,7 @@ const mock = [
 
 type Props = {
   images?: {
-    id: number;
+    id: string;
     uri: string;
   }[];
 };
@@ -53,8 +52,6 @@ export const CarouselGallery = (props: Props) => {
       animated: true,
     });
   };
-
-  console.log(images, 'images');
 
   return (
     <Bleed space={8} flex="fluid" backgroundColor="transparent">

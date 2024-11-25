@@ -6,7 +6,7 @@ import { Box, Inline, Stack } from '@grapp/stacks';
 import { useRouteParams } from 'src/core/hooks';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Badge, Button, Icon, PressableScale, Text } from 'src/shared';
+import { Icon, PressableScale, Text } from 'src/shared';
 import { CarouselGallery } from 'src/shared/components/CarouselGallery';
 import { TrainingSnacks } from 'src/shared/components/TrainingSnacks/TrainingSnacks';
 import { replaceApiHost } from 'src/shared/utils/replaceApiHost';
@@ -27,8 +27,6 @@ const Content = () => {
       }),
     [routeParams.images],
   );
-
-  console.log(routeParams.specializations, 'routeParams.specializations');
 
   return (
     <Screen.ScrollView backgroundColor="transparent">
@@ -85,18 +83,14 @@ const Content = () => {
           </Stack>
         </Stack>
       </Screen.Content>
-      <Screen.Footer>
-        <Button isLoading={false} onPress={() => null}>
-          Zobacz kalendarz
-        </Button>
-      </Screen.Footer>
     </Screen.ScrollView>
   );
 };
 
 export const SearchTrainersProfileDetails = () => {
   const goToCalendar = () =>
-    goTo(route.toSearchTrainersAvailabilitySlots, { trainerId: 'c1b8bbc5-5cc3-476c-962b-3b09505eb639' });
+    // TODO: Add trainerId
+    goTo(route.toSearchTrainersAvailability, { trainerId: 'c1b8bbc5-5cc3-476c-962b-3b09505eb639' });
   return (
     <Screen
       HeaderComponent={

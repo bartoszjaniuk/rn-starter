@@ -22,10 +22,11 @@ export const routeBottomTabsProfile = '/bottom-tabs/profile';
 export const routeSearchTrainersHome = '/search-trainers/home';
 export const routeSearchTrainersList = '/search-trainers/list';
 export const routeSearchTrainersProfileDetails = '/search-trainers/profile-details';
-export const routeSearchTrainersAvailabilitySlots = '/search-trainers/availability-slots';
-export const routeSearchTrainersAvailabilitySlotDetails = '/search-trainers/availability-slot-details';
+export const routeSearchTrainersAvailability = '/search-trainers/availability';
 export const routeSearchTrainersListList = '/search-trainers-list/list';
 export const routeSearchTrainersListFilters = '/search-trainers-list/filters';
+export const routeSearchTrainersAvailabilityMonthly = '/search-trainers-availability/monthly';
+export const routeSearchTrainersAvailabilityWeekly = '/search-trainers-availability/weekly';
 export const routeAccountSettings = '/account/settings';
 export const routeBottomTabsNavigator = '/bottom-tabs';
 export const routeAccountNavigator = '/account';
@@ -68,19 +69,21 @@ export const toSearchTrainersProfileDetails = [
   readonly averageBookingRating: string;
 }>;
 
-export const toSearchTrainersAvailabilitySlots = [
+export const toSearchTrainersAvailability = [
   routeSearchTrainersNavigator,
-  routeSearchTrainersAvailabilitySlots,
+  routeSearchTrainersAvailability,
 ] as unknown as Route<{
   readonly trainerId: string;
 }>;
 
-export const toSearchTrainersAvailabilitySlotDetails = [
-  routeSearchTrainersNavigator,
-  routeSearchTrainersAvailabilitySlotDetails,
-] as unknown as Route;
 export const toSearchTrainersListList = routeSearchTrainersListList as unknown as Route;
 export const toSearchTrainersListFilters = routeSearchTrainersListFilters as unknown as Route;
+export const toSearchTrainersAvailabilityMonthly = routeSearchTrainersAvailabilityMonthly as unknown as Route;
+
+export const toSearchTrainersAvailabilityWeekly = routeSearchTrainersAvailabilityWeekly as unknown as Route<{
+  readonly weekDate: string;
+}>;
+
 export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] as unknown as Route;
 export const toBottomTabsNavigator = routeBottomTabsNavigator as unknown as Route;
 export const toAccountNavigator = routeAccountNavigator as unknown as Route;

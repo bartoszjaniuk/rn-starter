@@ -3,11 +3,8 @@ import { Calendar } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { useStyles } from 'react-native-unistyles';
 
-import { CalendarSlots } from 'src/activatedUser/screens/SearchTrainers/AvailabilitySlots/hooks/useCalendarSlots';
-import { goTo } from 'src/navigation';
+import { CalendarSlots } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersAvailabilityNavigator/Monthly/hooks/useCalendarSlots';
 import { today } from 'src/shared/utils';
-
-import * as route from '../../../activatedUser/navigation/routes';
 
 LocaleConfig.locales['pl'] = {
   monthNames: [
@@ -32,11 +29,22 @@ LocaleConfig.locales['pl'] = {
 
 LocaleConfig.defaultLocale = 'pl';
 
-export const CalendarMonthly = ({ calendarSlots }: { calendarSlots: CalendarSlots }) => {
+export const CalendarMonthly = ({
+  calendarSlots,
+  onMonthChange,
+  onDayPress,
+}: {
+  calendarSlots: CalendarSlots;
+  onMonthChange: (dateString: string) => void;
+  onDayPress: (date: { dateString: string }) => void;
+}) => {
   const { theme } = useStyles();
 
   return (
     <Calendar
+      onMonthChange={(date: { dateString: string }) => {
+        onMonthChange(date.dateString);
+      }}
       hideArrows={true}
       disableAllTouchEventsForDisabledDays={true}
       disableArrowLeft={new Date().getMonth() === 0}
@@ -65,13 +73,7 @@ export const CalendarMonthly = ({ calendarSlots }: { calendarSlots: CalendarSlot
         textMonthFontSize: 26,
         // textDayHeaderFontSize: 16
       }}
-      onDayPress={(day) => {
-        console.log({ day });
-        // LOG  {"day": {"dateString": "2024-11-28", "day": 28, "month": 11, "timestamp": 1732752000000, "year": 2024}}
-        if (calendarSlots.availableSlots.includes(day.dateString)) {
-          goTo(route.toSearchTrainersAvailabilitySlotDetails);
-        }
-      }}
+      onDayPress={onDayPress}
       minDate={today}
       markedDates={calendarSlots.markedDates}
     />

@@ -31,6 +31,7 @@ const ActivateAccountTrainerNativeStack = createNativeStackNavigator();
 const BottomTabsBottomTab = createBottomTabNavigator();
 const SearchTrainersNativeStack = createNativeStackNavigator();
 const SearchTrainersListNativeStack = createNativeStackNavigator();
+const SearchTrainersAvailabilityNativeStack = createNativeStackNavigator();
 const AccountNativeStack = createNativeStackNavigator();
 const ActivatedUserNativeStack = createNativeStackNavigator();
 
@@ -250,24 +251,13 @@ const SearchTrainersNavigator = () => {
         getComponent={() => require('../screens/SearchTrainers/ProfileDetails').SearchTrainersProfileDetails}
       />
       <SearchTrainersNativeStack.Screen
-        name={route.routeSearchTrainersAvailabilitySlots}
+        name={route.routeSearchTrainersAvailability}
         initialParams={{
           meta: {
             presentation: 'card',
           },
         }}
-        getComponent={() => require('../screens/SearchTrainers/AvailabilitySlots').SearchTrainersAvailabilitySlots}
-      />
-      <SearchTrainersNativeStack.Screen
-        name={route.routeSearchTrainersAvailabilitySlotDetails}
-        initialParams={{
-          meta: {
-            presentation: 'card',
-          },
-        }}
-        getComponent={() =>
-          require('../screens/SearchTrainers/AvailabilitySlotDetails').SearchTrainersAvailabilitySlotDetails
-        }
+        getComponent={() => require('../screens/SearchTrainers/Availability').SearchTrainersAvailability}
       />
     </SearchTrainersNativeStack.Navigator>
   );
@@ -313,6 +303,45 @@ export const SearchTrainersListNavigator = (props: Params) => {
         }
       />
     </SearchTrainersListNativeStack.Navigator>
+  );
+};
+
+export const SearchTrainersAvailabilityNavigator = (props: Params) => {
+  const { params } = props;
+
+  return (
+    <SearchTrainersAvailabilityNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <SearchTrainersAvailabilityNativeStack.Screen
+        name={route.routeSearchTrainersAvailabilityMonthly}
+        initialParams={{
+          ...params,
+
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/SearchTrainers/SearchTrainersAvailabilityNavigator/Monthly')
+            .SearchTrainersAvailabilityMonthly
+        }
+      />
+      <SearchTrainersAvailabilityNativeStack.Screen
+        name={route.routeSearchTrainersAvailabilityWeekly}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/SearchTrainers/SearchTrainersAvailabilityNavigator/Weekly')
+            .SearchTrainersAvailabilityWeekly
+        }
+      />
+    </SearchTrainersAvailabilityNativeStack.Navigator>
   );
 };
 

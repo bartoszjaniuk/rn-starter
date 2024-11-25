@@ -71,12 +71,9 @@ navigators:
             specializations: string[]
             images: string[]
             averageBookingRating: string
-      - AvailabilitySlots:
+      - Availability:
           params:
             trainerId: string
-      - AvailabilitySlotDetails
-
-
   SearchTrainersListNavigator:
     path: ../screens/SearchTrainers/SearchTrainersListNavigator
     export: true
@@ -93,6 +90,17 @@ navigators:
             options:
               << : [*modal]
 
+  SearchTrainersAvailabilityNavigator:
+    path: ../screens/SearchTrainers/SearchTrainersAvailabilityNavigator
+    export: true
+    passParams: true
+    props:
+      screenOptions: *hideHeader
+    children:
+      - Monthly
+      - Weekly:
+          params:
+            weekDate: string
 
   Account:
     path: ../screens/Account

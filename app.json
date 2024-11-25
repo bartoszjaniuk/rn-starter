@@ -23,7 +23,7 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "buildNumber": "2"
+      "buildNumber": "1"
     },
     "android": {
       "usesCleartextTraffic": true,
@@ -31,7 +31,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.i3artosh.rnstarter"
+      "package": "com.i3artosh.rnstarter",
+      "versionCode": 1
     },
     "web": {
       "bundler": "metro",
