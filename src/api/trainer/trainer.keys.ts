@@ -6,4 +6,5 @@ export const trainerQueryKeys = {
   getTrainers: (params?: string) => `trainers${params}`,
   getTrainerAvailabilities: (params: TrainerAvailabilitiesGetV1Params) =>
     `${trainerQueryKeys.pathname()}/${params.trainerId}/availabilities?from=${params.date.from}&to=${params.date.to}`,
+  postTrainerBookTraining: (id: string) => `${trainerQueryKeys.pathname()}/${id}/book-training`,
 };

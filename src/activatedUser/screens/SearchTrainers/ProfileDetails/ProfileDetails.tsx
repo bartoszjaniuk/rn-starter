@@ -90,7 +90,7 @@ const Content = () => {
 export const SearchTrainersProfileDetails = () => {
   const goToCalendar = () =>
     // TODO: Add trainerId
-    goTo(route.toSearchTrainersAvailability, { trainerId: 'c1b8bbc5-5cc3-476c-962b-3b09505eb639' });
+    goTo(route.toSearchTrainersAvailability, { trainerId: 'c02b7f29-c21a-47c6-97aa-9036e495fc8d' });
   return (
     <Screen
       HeaderComponent={

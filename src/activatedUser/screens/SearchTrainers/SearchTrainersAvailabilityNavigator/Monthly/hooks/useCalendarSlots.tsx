@@ -23,9 +23,10 @@ export const useCalendarSlots = (data: TrainerAvailabilitiesGetV1Response | unde
     if (!data?.data) return {};
 
     const markedDates: MarkedDates = {};
+    const today = new Date().toISOString().slice(0, 10);
     availableSlots.forEach((date) => {
       const schedule = data.data[date];
-      if (schedule && schedule.length > 0) {
+      if (schedule && schedule.length > 0 && date >= today) {
         markedDates[date] = {
           marked: true,
           selectedDotColor: theme.colors.primary,

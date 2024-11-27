@@ -54,6 +54,7 @@ const ProfileAvatar = ({ src }: { src?: string }) => {
       <LocalImage
         style={{ borderRadius: 100 }}
         width={150}
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         source={require('../../../../../assets/vegeta/vegeta1.jpg')}
       />
     </Box>
@@ -64,7 +65,6 @@ const Content = () => {
   const { isLoading, onLogout } = useAuth();
 
   const data = settings({ onLogout });
-  console.log(data);
   return (
     <ScrollView>
       <Stack align="center" marginBottom={10}>

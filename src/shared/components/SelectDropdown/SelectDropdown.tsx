@@ -24,7 +24,6 @@ type Props = {
 export const SelectDropdown = (props: Props) => {
   const { label, options, placeholder, selectedValue, onValueChange, error } = props;
   const { styles, theme } = useStyles(stylesheet);
-  console.log({ error, selectedValue });
 
   return (
     <Dropdown

@@ -1863,6 +1863,320 @@ index 5efb8bd..aed2efa 100644
 +export const todayButtonTextColor = '#000000';
  export const todayButtonPosition = undefined; // right' / 'left'(default)
  export const weekVerticalMargin = 7;
+diff --git a/node_modules/react-native-calendars/src/timeline-list/index.js b/node_modules/react-native-calendars/src/timeline-list/index.js
+index 372370c..38940d8 100644
+--- a/node_modules/react-native-calendars/src/timeline-list/index.js
++++ b/node_modules/react-native-calendars/src/timeline-list/index.js
+@@ -1,93 +1,144 @@
+-import throttle from 'lodash/throttle';
+-import flatten from 'lodash/flatten';
+-import dropRight from 'lodash/dropRight';
+ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+-import { isToday, generateDay } from '../dateutils';
+-import InfiniteList from '../infinite-list';
++
++import dropRight from 'lodash/dropRight';
++import flatten from 'lodash/flatten';
++import throttle from 'lodash/throttle';
++
++import useTimelinePages, { INITIAL_PAGE, NEAR_EDGE_THRESHOLD, PAGES_COUNT } from './useTimelinePages';
++
++import constants from '../commons/constants';
++import { generateDay, isToday } from '../dateutils';
+ import Context from '../expandableCalendar/Context';
+ import { UpdateSources } from '../expandableCalendar/commons';
++import InfiniteList from '../infinite-list';
+ import Timeline from '../timeline/Timeline';
+-import useTimelinePages, { INITIAL_PAGE, NEAR_EDGE_THRESHOLD, PAGES_COUNT } from './useTimelinePages';
+-import constants from '../commons/constants';
++
+ const TimelineList = (props) => {
+-    const { timelineProps, events, renderItem, showNowIndicator, scrollToFirst, scrollToNow, initialTime } = props;
+-    const { date, updateSource, setDate, numberOfDays = 1, timelineLeftInset } = useContext(Context);
+-    const listRef = useRef();
+-    const prevDate = useRef(date);
+-    const [timelineOffset, setTimelineOffset] = useState();
+-    const { pages, pagesRef, resetPages, resetPagesDebounce, scrollToPageDebounce, shouldResetPages, isOutOfRange } = useTimelinePages({ date, listRef, numberOfDays });
+-    const scrollToCurrentDate = useCallback((date) => {
+-        const datePageIndex = pagesRef.current.indexOf(date);
+-        if (updateSource !== UpdateSources.LIST_DRAG) {
+-            if (isOutOfRange(datePageIndex)) {
+-                updateSource === UpdateSources.DAY_PRESS ? resetPages(date) : resetPagesDebounce(date);
+-            }
+-            else {
+-                scrollToPageDebounce(datePageIndex);
+-            }
+-        }
+-        prevDate.current = date;
+-    }, [updateSource]);
+-    const initialOffset = useMemo(() => constants.isAndroidRTL ? constants.screenWidth * (PAGES_COUNT - INITIAL_PAGE - 1) : constants.screenWidth * INITIAL_PAGE, []);
+-    useEffect(() => {
+-        if (date !== prevDate.current) {
+-            scrollToCurrentDate(date);
+-        }
+-    }, [date]);
+-    const onScroll = useCallback(() => {
+-        if (shouldResetPages.current) {
+-            resetPagesDebounce.cancel();
+-        }
+-    }, []);
+-    const onMomentumScrollEnd = useCallback(() => {
+-        if (shouldResetPages.current) {
+-            resetPagesDebounce(prevDate.current);
+-        }
+-    }, []);
+-    const onPageChange = useCallback(throttle((pageIndex) => {
+-        const newDate = pages[constants.isAndroidRTL ? pageIndex - 1 : pageIndex];
+-        if (newDate !== prevDate.current) {
+-            setDate(newDate, UpdateSources.LIST_DRAG);
+-        }
+-    }, 0), [pages]);
+-    const onReachNearEdge = useCallback(() => {
+-        shouldResetPages.current = true;
+-    }, []);
+-    const onTimelineOffsetChange = useCallback(offset => {
+-        setTimelineOffset(offset);
+-    }, []);
+-    const renderPage = useCallback((_type, item, index) => {
+-        const isCurrent = prevDate.current === item;
+-        const isInitialPage = index === INITIAL_PAGE;
+-        const _isToday = isToday(item);
+-        const weekEvents = [events[item] || [], events[generateDay(item, 1)] || [], events[generateDay(item, 2)] || [], events[generateDay(item, 3)] || [], events[generateDay(item, 4)] || [], events[generateDay(item, 5)] || [], events[generateDay(item, 6)] || []];
+-        const weekDates = [item, generateDay(item, 1), generateDay(item, 2), generateDay(item, 3), generateDay(item, 4), generateDay(item, 5), generateDay(item, 6)];
+-        const numberOfDaysToDrop = (7 - numberOfDays);
+-        const _timelineProps = {
+-            ...timelineProps,
+-            key: item,
+-            date: dropRight(weekDates, numberOfDaysToDrop),
+-            events: flatten(dropRight(weekEvents, numberOfDaysToDrop)),
+-            scrollToNow: _isToday && isInitialPage && scrollToNow,
+-            initialTime: !_isToday && isInitialPage ? initialTime : undefined,
+-            scrollToFirst: !_isToday && isInitialPage && scrollToFirst,
+-            scrollOffset: timelineOffset,
+-            onChangeOffset: onTimelineOffsetChange,
+-            showNowIndicator: _isToday && showNowIndicator,
+-            numberOfDays,
+-            timelineLeftInset
+-        };
+-        if (renderItem) {
+-            return renderItem(_timelineProps, { item, index, isCurrent, isInitialPage, isToday: _isToday });
++  const { timelineProps, events, renderItem, showNowIndicator, scrollToFirst, scrollToNow, initialTime } = props;
++  const { date, updateSource, setDate, numberOfDays = 1, timelineLeftInset } = useContext(Context);
++  const listRef = useRef();
++  const prevDate = useRef(date);
++  const [timelineOffset, setTimelineOffset] = useState();
++  const { pages, pagesRef, resetPages, resetPagesDebounce, scrollToPageDebounce, shouldResetPages, isOutOfRange } =
++    useTimelinePages({ date, listRef, numberOfDays });
++  const scrollToCurrentDate = useCallback(
++    (date) => {
++      const datePageIndex = pagesRef.current.indexOf(date);
++      if (updateSource !== UpdateSources.LIST_DRAG) {
++        if (isOutOfRange(datePageIndex)) {
++          updateSource === UpdateSources.DAY_PRESS ? resetPages(date) : resetPagesDebounce(date);
++        } else {
++          scrollToPageDebounce(datePageIndex);
+         }
+-        return (<>
+-          <Timeline {..._timelineProps}/>
++      }
++      prevDate.current = date;
++    },
++    [updateSource],
++  );
++  const initialOffset = useMemo(
++    () =>
++      constants.isAndroidRTL
++        ? constants.screenWidth * (PAGES_COUNT - INITIAL_PAGE - 1)
++        : constants.screenWidth * INITIAL_PAGE,
++    [],
++  );
++  useEffect(() => {
++    if (date !== prevDate.current) {
++      scrollToCurrentDate(date);
++    }
++  }, [date]);
++  const onScroll = useCallback(() => {
++    if (shouldResetPages.current) {
++      resetPagesDebounce.cancel();
++    }
++  }, []);
++  const onMomentumScrollEnd = useCallback(() => {
++    if (shouldResetPages.current) {
++      resetPagesDebounce(prevDate.current);
++    }
++  }, []);
++  const onPageChange = useCallback(
++    throttle((pageIndex) => {
++      const newDate = pages[constants.isAndroidRTL ? pageIndex - 1 : pageIndex];
++      if (newDate !== prevDate.current) {
++        setDate(newDate, UpdateSources.LIST_DRAG);
++      }
++    }, 0),
++    [pages],
++  );
++  const onReachNearEdge = useCallback(() => {
++    shouldResetPages.current = true;
++  }, []);
++  const onTimelineOffsetChange = useCallback((offset) => {
++    setTimelineOffset(offset);
++  }, []);
++  const renderPage = useCallback(
++    (_type, item, index) => {
++      const isCurrent = prevDate.current === item;
++      const isInitialPage = index === INITIAL_PAGE;
++      const _isToday = isToday(item);
++      const weekEvents = [
++        events[item] || [],
++        events[generateDay(item, 1)] || [],
++        events[generateDay(item, 2)] || [],
++        events[generateDay(item, 3)] || [],
++        events[generateDay(item, 4)] || [],
++        events[generateDay(item, 5)] || [],
++        events[generateDay(item, 6)] || [],
++      ];
++      const weekDates = [
++        item,
++        generateDay(item, 1),
++        generateDay(item, 2),
++        generateDay(item, 3),
++        generateDay(item, 4),
++        generateDay(item, 5),
++        generateDay(item, 6),
++      ];
++      const numberOfDaysToDrop = 7 - numberOfDays;
++      const _timelineProps = {
++        ...timelineProps,
++        key: item,
++        date: dropRight(weekDates, numberOfDaysToDrop),
++        events: flatten(dropRight(weekEvents, numberOfDaysToDrop)),
++        scrollToNow: _isToday && isInitialPage && scrollToNow,
++        initialTime: !_isToday && isInitialPage ? initialTime : undefined,
++        scrollToFirst: !_isToday && isInitialPage && scrollToFirst,
++        scrollOffset: timelineOffset,
++        onChangeOffset: onTimelineOffsetChange,
++        showNowIndicator: _isToday && showNowIndicator,
++        numberOfDays,
++        timelineLeftInset,
++      };
++      if (renderItem) {
++        return renderItem(_timelineProps, { item, index, isCurrent, isInitialPage, isToday: _isToday });
++      }
++      return (
++        <>
++          <Timeline {..._timelineProps} />
+           {/* NOTE: Keeping this for easy debugging */}
+           {/* <Text style={{position: 'absolute'}}>{item}</Text>*/}
+-        </>);
+-    }, [events, timelineOffset, showNowIndicator, numberOfDays]);
+-    return (<InfiniteList isHorizontal ref={listRef} data={pages} renderItem={renderPage} onPageChange={onPageChange} onReachNearEdge={onReachNearEdge} onReachNearEdgeThreshold={NEAR_EDGE_THRESHOLD} onScroll={onScroll} extendedState={{ todayEvents: events[date], pages }} initialOffset={initialOffset} scrollViewProps={{
+-            onMomentumScrollEnd
+-        }}/>);
++        </>
++      );
++    },
++    [events, timelineOffset, showNowIndicator, numberOfDays],
++  );
++  return (
++    <InfiniteList
++      isHorizontal
++      ref={listRef}
++      data={pages}
++      renderItem={renderPage}
++      onPageChange={onPageChange}
++      onReachNearEdge={onReachNearEdge}
++      onReachNearEdgeThreshold={NEAR_EDGE_THRESHOLD}
++      onScroll={onScroll}
++      extendedState={{ todayEvents: events[date], pages }}
++      initialOffset={initialOffset}
++      scrollViewProps={{
++        onMomentumScrollEnd,
++      }}
++    />
++  );
+ };
+ export default TimelineList;
+diff --git a/node_modules/react-native-calendars/src/timeline/EventBlock.js b/node_modules/react-native-calendars/src/timeline/EventBlock.js
+index fbe5f19..0f6cc37 100644
+--- a/node_modules/react-native-calendars/src/timeline/EventBlock.js
++++ b/node_modules/react-native-calendars/src/timeline/EventBlock.js
+@@ -1,38 +1,50 @@
+-import XDate from 'xdate';
+ import React, { useCallback, useMemo } from 'react';
+-import { View, Text, TouchableOpacity } from 'react-native';
++import { Text, TouchableOpacity, View } from 'react-native';
++
++import XDate from 'xdate';
++
+ const TEXT_LINE_HEIGHT = 17;
+ const EVENT_DEFAULT_COLOR = '#add8e6';
+ const EventBlock = (props) => {
+-    const { index, event, renderEvent, onPress, format24h, styles } = props;
+-    // Fixing the number of lines for the event title makes this calculation easier.
+-    // However it would make sense to overflow the title to a new line if needed
+-    const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT);
+-    const formatTime = format24h ? 'HH:mm' : 'hh:mm A';
+-    const eventStyle = useMemo(() => {
+-        return {
+-            left: event.left,
+-            height: event.height,
+-            width: event.width,
+-            top: event.top,
+-            backgroundColor: event.color ? event.color : EVENT_DEFAULT_COLOR
+-        };
+-    }, [event]);
+-    const _onPress = useCallback(() => {
+-        onPress(index);
+-    }, [index, onPress]);
+-    return (<TouchableOpacity testID={props.testID} activeOpacity={0.9} onPress={_onPress} style={[styles.event, eventStyle]}>
+-      {renderEvent ? (renderEvent(event)) : (<View>
++  const { index, event, renderEvent, onPress, format24h, styles } = props;
++  // Fixing the number of lines for the event title makes this calculation easier.
++  // However it would make sense to overflow the title to a new line if needed
++  const numberOfLines = Math.floor(event.height / TEXT_LINE_HEIGHT);
++  const formatTime = format24h ? 'HH:mm' : 'hh:mm A';
++  const eventStyle = useMemo(() => {
++    return {
++      left: event.left,
++      height: event.height,
++      width: event.width,
++      top: event.top,
++      backgroundColor: event.color ? event.color : EVENT_DEFAULT_COLOR,
++    };
++  }, [event]);
++  const _onPress = useCallback(() => {
++    onPress(index);
++  }, [index, onPress]);
++  return (
++    <TouchableOpacity testID={props.testID} activeOpacity={0.9} onPress={_onPress} style={[styles.event, eventStyle]}>
++      {renderEvent ? (
++        renderEvent(event)
++      ) : (
++        <View>
+           <Text numberOfLines={1} style={styles.eventTitle}>
+             {event.title || 'Event'}
+           </Text>
+-          {numberOfLines > 1 ? (<Text numberOfLines={numberOfLines - 1} style={[styles.eventSummary]}>
++          {numberOfLines > 1 ? (
++            <Text numberOfLines={numberOfLines - 1} style={[styles.eventSummary]}>
+               {event.summary || ' '}
+-            </Text>) : null}
+-          {numberOfLines > 2 ? (<Text style={styles.eventTimes} numberOfLines={1}>
++            </Text>
++          ) : null}
++          {numberOfLines > 2 ? (
++            <Text style={styles.eventTimes} numberOfLines={1}>
+               {new XDate(event.start).toString(formatTime)} - {new XDate(event.end).toString(formatTime)}
+-            </Text>) : null}
+-        </View>)}
+-    </TouchableOpacity>);
++            </Text>
++          ) : null}
++        </View>
++      )}
++    </TouchableOpacity>
++  );
+ };
+ export default EventBlock;
 diff --git a/node_modules/react-native-calendars/src/timeline/NowIndicator.js b/node_modules/react-native-calendars/src/timeline/NowIndicator.js
 index 9d82188..9ad40d4 100644
 --- a/node_modules/react-native-calendars/src/timeline/NowIndicator.js
@@ -1947,10 +2261,10 @@ index 6a50437..6aefa9e 100644
 +  return (h + m / 60) * hourBlockHeight - 600; // 600 mean that range is from 6:00
  }
 diff --git a/node_modules/react-native-calendars/src/timeline/style.js b/node_modules/react-native-calendars/src/timeline/style.js
-index 18593af..19fdc9b 100644
+index 18593af..119230d 100644
 --- a/node_modules/react-native-calendars/src/timeline/style.js
 +++ b/node_modules/react-native-calendars/src/timeline/style.js
-@@ -1,112 +1,116 @@
+@@ -1,112 +1,121 @@
  import { StyleSheet } from 'react-native';
 -import * as defaultStyle from '../style';
 +
@@ -2149,16 +2463,21 @@ index 18593af..19fdc9b 100644
 +      alignItems: 'flex-start',
 +      overflow: 'hidden',
 +      minHeight: 25,
++      borderLeftWidth: 3,
++      borderLeftColor: '#BFFF41',
++      borderRadius: 5,
 +    },
 +    eventTitle: {
 +      color: EVENT_TEXT_COLOR,
-+      fontWeight: '600',
-+      ...appStyle.eventTitle,
++      fontWeight: '400',
 +      minHeight: 15,
++      fontSize: 13,
++      ...appStyle.eventTitle,
 +    },
 +    eventSummary: {
 +      color: EVENT_TEXT_COLOR,
-+      fontSize: 12,
++      fontWeight: '600',
++      fontSize: 13,
 +      ...appStyle.eventSummary,
 +      flexWrap: 'wrap',
 +    },

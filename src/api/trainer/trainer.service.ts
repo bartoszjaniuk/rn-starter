@@ -3,6 +3,7 @@ import { API_URL } from 'src/shared/constants/apiUrl';
 import {
   TrainerAvailabilitiesGetV1Params,
   TrainerAvailabilitiesGetV1Response,
+  TrainerBookTrainingPostV1Payload,
   TrainerSpecializations,
   TrainersGetV1Response,
 } from './models/trainer.models';
@@ -32,6 +33,12 @@ export class TrainerService extends ApiService {
       await this.httpClient.get<Promise<TrainerAvailabilitiesGetV1Response>>(
         queryKeys.getTrainerAvailabilities(params),
       ),
+    );
+  };
+
+  postTrainerBookTraining = async (trainerId: string, payload: TrainerBookTrainingPostV1Payload) => {
+    return this.responseHandler(
+      await this.httpClient.post<Promise<void>>(queryKeys.postTrainerBookTraining(trainerId), payload),
     );
   };
 }

@@ -46,3 +46,8 @@ export type TrainerAvailabilitiesGetV1Response = {
   data: DateSchedule;
   meta: Meta;
 };
+
+export type TrainerBookTrainingPostV1Payload = {
+  availabilitySlotsIds: string[];
+  traineeId: string;
+};

@@ -30,11 +30,10 @@ export const useNavigator = <T extends AnyObject>() => {
 
 export const NavigatorProvider = <T extends AnyObject>(props: Props<T>) => {
   const { children, data } = props;
-  console.log('data from props', data);
+  // console.log('data from props', data);
   const [navigationData, setNavigationData] = React.useState(data);
 
   const updateNavigationData = React.useCallback((partialData: Partial<T>) => {
-    // setNavigationData(D.merge(data.navigationData, partialData));
     setNavigationData((prevData) => D.merge(prevData, partialData));
   }, []);
 

@@ -69,7 +69,6 @@ export const useImagePicker = () => {
         const tempImage = selectedImages[i];
         if (!tempImage) return;
         const data = await uploadImagesMutation.mutateAsync(makeFormData(tempImage));
-        console.log('data', data);
 
         if (data.fileId) {
           updatedImages[index + i] = {

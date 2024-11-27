@@ -29,7 +29,14 @@ const Content = () => {
     updateNavigationData({ weekly: { from: past, to: future } });
   };
 
-  return <TimelineWeekly date={navigationData.weekDate} onDateChanged={onDateChanged} weeklyPlanner={weeklyPlanner} />;
+  return (
+    <TimelineWeekly
+      date={navigationData.weekDate}
+      onDateChanged={onDateChanged}
+      weeklyPlanner={weeklyPlanner}
+      trainerId={navigationData.trainerId}
+    />
+  );
 };
 
 export const SearchTrainersAvailabilityWeekly = () => {
