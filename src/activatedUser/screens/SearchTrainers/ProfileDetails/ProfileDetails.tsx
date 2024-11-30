@@ -88,9 +88,9 @@ const Content = () => {
 };
 
 export const SearchTrainersProfileDetails = () => {
-  const goToCalendar = () =>
-    // TODO: Add trainerId
-    goTo(route.toSearchTrainersAvailability, { trainerId: 'c02b7f29-c21a-47c6-97aa-9036e495fc8d' });
+  const routeParams = useRouteParams(route.toSearchTrainersProfileDetails);
+
+  const goToCalendar = () => goTo(route.toSearchTrainersAvailability, { trainerId: routeParams.trainerId });
   return (
     <Screen
       HeaderComponent={

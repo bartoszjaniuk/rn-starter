@@ -60,6 +60,7 @@ export const toSearchTrainersProfileDetails = [
   routeSearchTrainersProfileDetails,
 ] as unknown as Route<{
   readonly id: string;
+  readonly trainerId: string;
   readonly name: string;
   readonly city: string;
   readonly email: string;

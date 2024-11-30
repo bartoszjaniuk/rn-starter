@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Calendar } from 'react-native-calendars';
+import { Calendar, CalendarProps } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { useStyles } from 'react-native-unistyles';
 
@@ -30,13 +30,15 @@ LocaleConfig.locales['pl'] = {
 LocaleConfig.defaultLocale = 'pl';
 
 export const CalendarMonthly = ({
-  calendarSlots,
   onMonthChange,
   onDayPress,
+  calendarProps,
+  calendarSlots,
 }: {
   calendarSlots: CalendarSlots;
   onMonthChange: (dateString: string) => void;
   onDayPress: (date: { dateString: string }) => void;
+  calendarProps?: CalendarProps;
 }) => {
   const { theme } = useStyles();
 
@@ -76,6 +78,7 @@ export const CalendarMonthly = ({
       onDayPress={onDayPress}
       minDate={today}
       markedDates={calendarSlots.markedDates}
+      {...calendarProps}
     />
   );
 };

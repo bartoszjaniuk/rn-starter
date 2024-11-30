@@ -22,7 +22,7 @@ export type AvailabilityParams = {
 };
 
 export const SearchTrainersAvailability = () => {
-  const { firstDay, lastDay } = getFirstAndLastDaysOfMonth();
+  const { lastDay, today } = getFirstAndLastDaysOfMonth();
   const { trainerId } = useRouteParams(route.toSearchTrainersAvailability);
 
   const { past, future } = getPastPresentFutureDates(7);
@@ -31,7 +31,7 @@ export const SearchTrainersAvailability = () => {
     () => ({
       trainerId: trainerId,
       monthly: {
-        from: firstDay,
+        from: today,
         to: lastDay,
       },
       weekly: {
@@ -40,7 +40,7 @@ export const SearchTrainersAvailability = () => {
       },
       weekDate: new Date().toISOString().slice(0, 10),
     }),
-    [firstDay, future, lastDay, past, trainerId],
+    [future, lastDay, past, today, trainerId],
   );
 
   return (

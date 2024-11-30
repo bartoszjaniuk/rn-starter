@@ -3,7 +3,11 @@ import { TimelineEventProps, TimelineListProps } from 'react-native-calendars';
 
 import { TrainerAvailabilitiesGetV1Response } from 'src/api/trainer';
 
-export const useWeeklyPlanner = (data: TrainerAvailabilitiesGetV1Response | undefined): TimelineListProps['events'] => {
+export const useWeeklyPlanner = (
+  data: TrainerAvailabilitiesGetV1Response | undefined,
+): TimelineListProps['events'] & {
+  range: string;
+} => {
   const events = React.useMemo(() => {
     if (!data?.data) return {};
     const today = new Date().toISOString().slice(0, 10);
@@ -18,6 +22,7 @@ export const useWeeklyPlanner = (data: TrainerAvailabilitiesGetV1Response | unde
           title: 'Wolny termin - zarezerwuj',
           summary: 'Opis',
           color: '#F0FFF1',
+          range: `${entry.start}-${entry.end}`,
         }));
         return acc;
       },

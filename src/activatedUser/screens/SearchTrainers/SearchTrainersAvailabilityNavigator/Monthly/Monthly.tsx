@@ -30,8 +30,7 @@ const Content = () => {
     }
   };
   const trainerAvailabilitiesQuery = useTrainerAvailabilitiesQuery({
-    // trainerId: navigationData.trainerId,
-    trainerId: 'c02b7f29-c21a-47c6-97aa-9036e495fc8d',
+    trainerId: navigationData.trainerId,
     date: {
       from: navigationData.monthly.from,
       to: navigationData.monthly.to,
@@ -46,7 +45,12 @@ const Content = () => {
         <Text fontWeight="400" size="sm" color="veryGray">
           Zielona kropka oznacza wolny termin, wybierz go i zarezerwuj trening!
         </Text>
-        <CalendarMonthly calendarSlots={calendarSlots} onMonthChange={onMonthChange} onDayPress={onDayPress} />
+        <CalendarMonthly
+          calendarProps={{ displayLoadingIndicator: trainerAvailabilitiesQuery.isLoading }}
+          calendarSlots={calendarSlots}
+          onMonthChange={onMonthChange}
+          onDayPress={onDayPress}
+        />
       </Stack>
     </Screen.Content>
   );

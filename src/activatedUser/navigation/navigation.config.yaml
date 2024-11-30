@@ -64,6 +64,7 @@ navigators:
       - ProfileDetails:
           params:
             id: string
+            trainerId: string
             name: string
             city: string
             email: string

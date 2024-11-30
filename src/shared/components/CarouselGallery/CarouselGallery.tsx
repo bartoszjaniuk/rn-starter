@@ -61,7 +61,7 @@ export const CarouselGallery = (props: Props) => {
         width={width}
         height={height / 2.5}
         pagingEnabled={true}
-        // mode="parallax"
+        mode="parallax"
         data={images.length > 0 ? images : mock}
         scrollAnimationDuration={1000}
         snapEnabled={true}

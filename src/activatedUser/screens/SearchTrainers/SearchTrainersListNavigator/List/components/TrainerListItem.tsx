@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useStyles } from 'react-native-unistyles';
 
 import { Image } from 'expo-image';
@@ -44,6 +44,7 @@ export const TrainerListItem = ({ trainer }: Props) => {
   const handleNavigateProfileDetails = () => {
     goTo(route.toSearchTrainersProfileDetails, {
       id: trainer.id,
+      trainerId: trainer.id,
       name: trainer.name,
       city: trainer.city,
       phoneNumber: trainer.phoneNumber,
@@ -59,10 +60,14 @@ export const TrainerListItem = ({ trainer }: Props) => {
       <Inline alignX="between" alignY="center">
         <Inline space={5} alignY="center">
           <Box>
-            <Image
-              source={{ uri: replaceApiHost(trainer.images[0]) ?? placeholderImage, headers: { Authorization: JWT } }}
-              style={{ borderRadius: 62, width: 72, height: 72 }}
-            />
+            {trainer.images[0] ? (
+              <Image
+                source={{ uri: replaceApiHost(trainer.images[0]), headers: { Authorization: JWT } }}
+                style={{ borderRadius: 62, width: 72, height: 72 }}
+              />
+            ) : (
+              <Image source={{ uri: placeholderImage }} style={{ borderRadius: 62, width: 72, height: 72 }} />
+            )}
             <FloatBox offset={0} alignY="bottom">
               <Box
                 width={38}
