@@ -32,6 +32,7 @@ const BottomTabsBottomTab = createBottomTabNavigator();
 const SearchTrainersNativeStack = createNativeStackNavigator();
 const SearchTrainersListNativeStack = createNativeStackNavigator();
 const SearchTrainersAvailabilityNativeStack = createNativeStackNavigator();
+const CalendarTrainerNativeStack = createNativeStackNavigator();
 const AccountNativeStack = createNativeStackNavigator();
 const ActivatedUserNativeStack = createNativeStackNavigator();
 
@@ -342,6 +343,58 @@ export const SearchTrainersAvailabilityNavigator = (props: Params) => {
         }
       />
     </SearchTrainersAvailabilityNativeStack.Navigator>
+  );
+};
+
+export const CalendarTrainerNavigator = (props: Params) => {
+  const { params } = props;
+
+  return (
+    <CalendarTrainerNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <CalendarTrainerNativeStack.Screen
+        name={route.routeCalendarTrainerMonthly}
+        initialParams={{
+          ...params,
+
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/BottomTabs/Calendar/CalendarTrainerNavigator/Monthly').CalendarTrainerMonthly
+        }
+      />
+      <CalendarTrainerNativeStack.Screen
+        name={route.routeCalendarTrainerWeekly}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/BottomTabs/Calendar/CalendarTrainerNavigator/Weekly').CalendarTrainerWeekly
+        }
+      />
+      <CalendarTrainerNativeStack.Screen
+        options={{
+          presentation: 'modal',
+        }}
+        name={route.routeCalendarTrainerAddAvailability}
+        initialParams={{
+          meta: {
+            presentation: 'modal',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/BottomTabs/Calendar/CalendarTrainerNavigator/AddAvailability')
+            .CalendarTrainerAddAvailability
+        }
+      />
+    </CalendarTrainerNativeStack.Navigator>
   );
 };
 

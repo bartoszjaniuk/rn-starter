@@ -90,7 +90,6 @@ navigators:
           props:
             options:
               << : [*modal]
-
   SearchTrainersAvailabilityNavigator:
     path: ../screens/SearchTrainers/SearchTrainersAvailabilityNavigator
     export: true
@@ -102,7 +101,21 @@ navigators:
       - Weekly:
           params:
             weekDate: string
-
+  CalendarTrainerNavigator:
+    path: '../screens/BottomTabs/Calendar/CalendarTrainerNavigator'
+    export: true
+    passParams: true
+    props:
+      screenOptions: *hideHeader
+    children:
+      - Monthly
+      - Weekly:
+          params:
+            weekDate: string
+      - AddAvailability:
+          props:
+            options:
+              << : [*modal]
   Account:
     path: ../screens/Account
     props:

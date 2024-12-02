@@ -5,7 +5,9 @@ import { Box, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Icon, PressableScale, Text, TimelineWeekly } from 'src/shared';
+import { Icon, PressableScale, Text } from 'src/shared';
+
+import { NoSchedules } from './components/NoSchedules';
 
 import * as route from '../../../navigation/routes';
 
@@ -13,8 +15,8 @@ const Content = () => {
   const { theme } = useStyles();
   const handleNavigateToSearchTrainers = () => goTo(route.toSearchTrainersList);
   return (
-    <Screen.Content>
-      <Stack space={2} align="center">
+    <NoSchedules>
+      <Stack space={2} align="right">
         <PressableScale style={{ width: 48, height: 48 }} onPress={handleNavigateToSearchTrainers}>
           <Box
             width={48}
@@ -36,8 +38,7 @@ const Content = () => {
           </Text>
         </Stack>
       </Stack>
-    </Screen.Content>
-    // <TimelineWeekly />
+    </NoSchedules>
   );
 };
 

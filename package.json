@@ -17,6 +17,10 @@
     "type-check": "tsc --pretty --noEmit",
     "build": "npx eas-cli@latest build --local --output devClient/ios.tar.gz --profile development-simulator --platform ios",
     "build:prod:ios": "npx eas-cli@12.5.4 build --local --output prod/ios.ipa --profile production --platform ios --clear-cache",
+    "build:prod:android": "npx eas-cli@12.5.4 build --local --output prod/android.aab --profile production --platform android --clear-cache",
+    "build:dev:android": "npx eas-cli@12.5.4 build --local --output devClient/android.apk --profile development-simulator --platform android",
+
+
     "generate-navigation": "ts-node -T scripts/generate-navigation.ts",
     "postinstall": "patch-package"
   },

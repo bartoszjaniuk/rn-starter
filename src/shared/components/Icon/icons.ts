@@ -14,6 +14,7 @@ import MusculeSvg from '../../../../assets/icons/muscule.svg';
 import PhoneSvg from '../../../../assets/icons/phone.svg';
 import PhotoSvg from '../../../../assets/icons/photo.svg';
 import PlusSvg from '../../../../assets/icons/plus.svg';
+import PlusThinSvg from '../../../../assets/icons/plusThin.svg';
 import ProfileSvg from '../../../../assets/icons/profile.svg';
 import SortDescSvg from '../../../../assets/icons/sortDesc.svg';
 import StarSvg from '../../../../assets/icons/star.svg';
@@ -40,6 +41,7 @@ export const icons = {
   star: StarSvg,
   mail: MailSvg,
   phone: PhoneSvg,
+  plusThin: PlusThinSvg,
 };
 
 export type IconName = keyof typeof icons;

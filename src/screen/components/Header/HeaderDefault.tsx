@@ -16,13 +16,15 @@ export const HeaderDefault = (props: LayoutProps) => {
 
   const height = headerProps.height ?? DEFAULT_HEADER_HEIGHT;
 
+  console.log(content, 'content');
+
   return (
     <HeaderContainer height={height}>
       <Columns defaultFlex="content" alignX="between" alignY="center" flex="fluid">
         <Column flex="fluid">{left}</Column>
         <Column paddingStart={4}>{right}</Column>
       </Columns>
-      <FloatBox offset={0} top={insets.top} height={height} alignX="center" alignY="center" pointerEvents="box-none">
+      <FloatBox offset={0} top={0} height={height} alignX="center" alignY="center" pointerEvents="box-none">
         {content}
       </FloatBox>
     </HeaderContainer>

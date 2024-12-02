@@ -27,6 +27,9 @@ export const routeSearchTrainersListList = '/search-trainers-list/list';
 export const routeSearchTrainersListFilters = '/search-trainers-list/filters';
 export const routeSearchTrainersAvailabilityMonthly = '/search-trainers-availability/monthly';
 export const routeSearchTrainersAvailabilityWeekly = '/search-trainers-availability/weekly';
+export const routeCalendarTrainerMonthly = '/calendar-trainer/monthly';
+export const routeCalendarTrainerWeekly = '/calendar-trainer/weekly';
+export const routeCalendarTrainerAddAvailability = '/calendar-trainer/add-availability';
 export const routeAccountSettings = '/account/settings';
 export const routeBottomTabsNavigator = '/bottom-tabs';
 export const routeAccountNavigator = '/account';
@@ -85,6 +88,13 @@ export const toSearchTrainersAvailabilityWeekly = routeSearchTrainersAvailabilit
   readonly weekDate: string;
 }>;
 
+export const toCalendarTrainerMonthly = routeCalendarTrainerMonthly as unknown as Route;
+
+export const toCalendarTrainerWeekly = routeCalendarTrainerWeekly as unknown as Route<{
+  readonly weekDate: string;
+}>;
+
+export const toCalendarTrainerAddAvailability = routeCalendarTrainerAddAvailability as unknown as Route;
 export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] as unknown as Route;
 export const toBottomTabsNavigator = routeBottomTabsNavigator as unknown as Route;
 export const toAccountNavigator = routeAccountNavigator as unknown as Route;
