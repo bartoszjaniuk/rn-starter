@@ -2,8 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { Inline } from '@grapp/stacks';
-
 import { Text } from 'src/shared';
 
 type Props = {

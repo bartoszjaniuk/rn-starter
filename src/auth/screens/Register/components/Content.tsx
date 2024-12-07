@@ -37,8 +37,8 @@ export const Content = () => {
             </Box>
             <Stack space={8}>
               <Form onSubmit={handleSendEmail} />
-              <Divider />
-              <SocialIcons />
+              {/* <Divider />
+              <SocialIcons /> */}
             </Stack>
           </Stack>
         </Screen.Content>

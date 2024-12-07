@@ -17,7 +17,7 @@ const Content = () => {
     <>
       <Screen.ScrollView backgroundColor="transparent">
         <Screen.Content alignX="center" alignY="center" paddingTop={35}>
-          <Image source={require('../../../assets/fitAppkaLogo.png')} width={10} height={10} />
+          <Image source={require('../../../assets/logo-transparent.png')} width={10} height={10} />
         </Screen.Content>
       </Screen.ScrollView>
       <Screen.Footer>

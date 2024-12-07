@@ -21,6 +21,7 @@ export type AvailabilityParams = {
     to: string;
   };
   weekDate: string;
+  selectedDay: string;
 };
 
 export const BottomTabsCalendar = () => {
@@ -43,6 +44,7 @@ export const BottomTabsCalendar = () => {
         to: future,
       },
       weekDate: new Date().toISOString().slice(0, 10),
+      selectedDay: today,
     }),
     [future, lastDay, past, today, userInfoQuery.data?.trainerId],
   );

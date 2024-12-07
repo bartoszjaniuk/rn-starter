@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useStyles } from 'react-native-unistyles';
 
-import { Box, Stack } from '@grapp/stacks';
+import { Box, Inline, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Icon, PressableScale, Text } from 'src/shared';
+import { Icon, PressableScale, SelectDropdownRN, Text } from 'src/shared';
 
 import { NoSchedules } from './components/NoSchedules';
 
@@ -13,9 +13,22 @@ import * as route from '../../../navigation/routes';
 
 const Content = () => {
   const { theme } = useStyles();
+
   const handleNavigateToSearchTrainers = () => goTo(route.toSearchTrainersList);
   return (
     <NoSchedules>
+      <Inline space={4}>
+        {/* <SelectDropdownRN
+          onValueChange={() => null}
+          label="Płeć"
+          placeholder="Wybierz płeć"
+          options={[
+            { label: 'Męzczyzna', value: 'man' },
+            { label: 'Kobieta', value: 'woman' },
+          ]}
+        /> */}
+        {/* <SelectDropdownRN /> */}
+      </Inline>
       <Stack space={2} align="right">
         <PressableScale style={{ width: 48, height: 48 }} onPress={handleNavigateToSearchTrainers}>
           <Box

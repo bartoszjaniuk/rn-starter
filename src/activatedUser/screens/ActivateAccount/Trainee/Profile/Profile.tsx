@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 import { goTo } from 'src/navigation';
 import { Screen, useNavigator } from 'src/screen';
-import { SelectDropdown, TextInput } from 'src/shared';
+import { SelectDropdownRN, TextInput } from 'src/shared';
 
 import * as route from '../../../../navigation/routes';
 import { StepLayout } from '../../_internals/components/StepLayout';
@@ -66,7 +66,8 @@ const Form = (props: Props) => {
       <Controller
         control={control}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <SelectDropdown
+          <SelectDropdownRN
+            isRequired={true}
             error={error}
             selectedValue={value}
             onValueChange={(v: string | null) => {
@@ -76,7 +77,7 @@ const Form = (props: Props) => {
             label="Płeć"
             placeholder="Wybierz płeć"
             options={[
-              { label: 'Męzczyzna', value: 'man' },
+              { label: 'Mężczyzna', value: 'man' },
               { label: 'Kobieta', value: 'woman' },
             ]}
           />

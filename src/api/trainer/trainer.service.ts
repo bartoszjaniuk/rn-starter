@@ -4,6 +4,7 @@ import {
   TrainerAvailabilitiesGetV1Params,
   TrainerAvailabilitiesGetV1Response,
   TrainerBookTrainingPostV1Payload,
+  TrainerSetAvailabilityPostV1Payload,
   TrainerSpecializations,
   TrainersGetV1Response,
 } from './models/trainer.models';
@@ -39,6 +40,12 @@ export class TrainerService extends ApiService {
   postTrainerBookTraining = async (trainerId: string, payload: TrainerBookTrainingPostV1Payload) => {
     return this.responseHandler(
       await this.httpClient.post<Promise<void>>(queryKeys.postTrainerBookTraining(trainerId), payload),
+    );
+  };
+
+  postTrainerSetAvailability = async (trainerId: string, payload: TrainerSetAvailabilityPostV1Payload) => {
+    return this.responseHandler(
+      await this.httpClient.post<Promise<void>>(queryKeys.postTrainerSetAvailability(trainerId), payload),
     );
   };
 }

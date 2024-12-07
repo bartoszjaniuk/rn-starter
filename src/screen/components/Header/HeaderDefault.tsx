@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import { Column, Columns, FloatBox } from '@grapp/stacks';
 
-import { useLayout } from 'src/screen/hooks';
 import { useHeader } from 'src/screen/providers';
 import { DEFAULT_HEADER_HEIGHT, LayoutProps } from 'src/screen/utils';
 
@@ -10,13 +9,10 @@ import { HeaderContainer } from './HeaderContainer';
 
 export const HeaderDefault = (props: LayoutProps) => {
   const { left, right, content } = props;
-  const { insets } = useLayout();
 
   const { headerProps } = useHeader();
 
   const height = headerProps.height ?? DEFAULT_HEADER_HEIGHT;
-
-  console.log(content, 'content');
 
   return (
     <HeaderContainer height={height}>

@@ -94,7 +94,10 @@ export const toCalendarTrainerWeekly = routeCalendarTrainerWeekly as unknown as 
   readonly weekDate: string;
 }>;
 
-export const toCalendarTrainerAddAvailability = routeCalendarTrainerAddAvailability as unknown as Route;
+export const toCalendarTrainerAddAvailability = routeCalendarTrainerAddAvailability as unknown as Route<{
+  readonly dayDate: string;
+}>;
+
 export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] as unknown as Route;
 export const toBottomTabsNavigator = routeBottomTabsNavigator as unknown as Route;
 export const toAccountNavigator = routeAccountNavigator as unknown as Route;

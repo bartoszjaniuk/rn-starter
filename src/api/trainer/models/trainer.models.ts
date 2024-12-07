@@ -34,7 +34,7 @@ type ScheduleEntry = {
   end: string; // End time in "HH:mm" format
 };
 
-type DateSchedule = {
+export type DateSchedule = {
   [date: string]: ScheduleEntry[]; // Keys are dates in "YYYY-MM-DD" format
 };
 
@@ -51,3 +51,15 @@ export type TrainerBookTrainingPostV1Payload = {
   availabilitySlotsIds: string[];
   traineeId: string;
 };
+
+export type TrainerSetAvailabilityPostV1Payload = {
+  start: string;
+  end: string;
+  recurrence: string;
+};
+
+// {
+//   "start": "2024-12-01T14:00",
+//   "end": "2024-12-01T15:00",
+//   "recurrence": "daily"
+// }

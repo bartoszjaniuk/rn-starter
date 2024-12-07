@@ -4,7 +4,7 @@ import { Inline, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Divider, Icon, IconWrapper, Text } from 'src/shared';
+import { Text } from 'src/shared';
 
 import { Form } from './Form';
 
@@ -28,7 +28,7 @@ export const Content = () => {
             </Stack>
             <Stack space={8}>
               <Form />
-              <Divider />
+              {/* <Divider />
               <Inline space={15} alignX="center">
                 <IconWrapper>
                   <Icon name="facebook" />
@@ -39,7 +39,7 @@ export const Content = () => {
                 <IconWrapper>
                   <Icon name="apple" color="white" />
                 </IconWrapper>
-              </Inline>
+              </Inline> */}
             </Stack>
           </Stack>
         </Screen.Content>
