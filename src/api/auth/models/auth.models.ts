@@ -18,3 +18,8 @@ export type LoginResponse = {
 };
 
 export type LoginError = AxiosError<{ message: string; code: number }>;
+
+export type ActivateAccountPayload = {
+  token: string;
+  password: string;
+};

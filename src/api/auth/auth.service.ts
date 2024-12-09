@@ -1,4 +1,4 @@
-import { LoginResponse, UserCredentials } from './models';
+import { ActivateAccountPayload, LoginResponse, UserCredentials } from './models';
 
 import { API_URL } from '../../shared/constants/apiUrl';
 import { ApiService } from '../baseApi';
@@ -19,6 +19,10 @@ export class AuthService extends ApiService {
 
   logout = async () => {
     return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.logout(), {}));
+  };
+
+  activateAccount = async (payload: ActivateAccountPayload) => {
+    return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.activateAccount(), payload));
   };
 }
 

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import * as React from 'react';
 
+import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,7 +10,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
 import { useAuth } from 'src/providers/AuthContext';
+import { Text } from 'src/shared';
 
+import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
@@ -57,6 +60,8 @@ const App = () => {
   );
 };
 
+const prefix = Linking.createURL('/');
+
 export const MainNavigator = () => {
   const routeNameRef = React.useRef('');
 
@@ -66,9 +71,15 @@ export const MainNavigator = () => {
     routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name ?? '';
   }, []);
 
+  const linking = {
+    prefixes: [prefix, 'http://localhost:8081'],
+  };
+
   return (
     <NavigationContainer
+      linking={linking}
       ref={navigationRef}
+      fallback={<Text>This is fallback</Text>}
       onReady={handleReady}
       onStateChange={() => {
         const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;

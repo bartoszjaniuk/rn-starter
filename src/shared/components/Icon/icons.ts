@@ -1,6 +1,7 @@
 import AppleSvg from '../../../../assets/icons/apple.svg';
 import ArrowLeftSvg from '../../../../assets/icons/arrowLeft.svg';
 import BinSvg from '../../../../assets/icons/bin.svg';
+import CalendarLinearSvg from '../../../../assets/icons/calendar-linear.svg';
 import CalendarSvg from '../../../../assets/icons/calendar.svg';
 import CheckmarkSvg from '../../../../assets/icons/checkmark.svg';
 import ChevronSvg from '../../../../assets/icons/chevron.svg';
@@ -42,6 +43,7 @@ export const icons = {
   mail: MailSvg,
   phone: PhoneSvg,
   plusThin: PlusThinSvg,
+  calendarLinear: CalendarLinearSvg,
 };
 
 export type IconName = keyof typeof icons;

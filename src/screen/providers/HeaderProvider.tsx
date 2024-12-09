@@ -6,6 +6,7 @@ import { F } from '@mobily/ts-belt';
 import { makeRandomString } from '../utils';
 
 export type HeaderProps = {
+  isModal?: boolean;
   title?: string;
   renderRight?: () => Nullable<JSX.Element>;
   renderLeft?: () => Nullable<JSX.Element>;

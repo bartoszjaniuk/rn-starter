@@ -6,6 +6,9 @@ aliases:
     lazy: true
   - &modal
     presentation: "'modal'"
+  - &header
+    header: props => <Screen.Header {...props} />
+    headerShown: true
 
 navigatorsImports:
   BottomTabBar: ../components
@@ -54,6 +57,20 @@ navigators:
       - MyPlans
       - TrainerTrainees
       - Profile
+  HomeNavigator:
+    path: '../screens/BottomTabs/Home/HomeNavigator'
+    export: true
+    passParams: true
+    props:
+      screenOptions: *hideHeader
+    children:
+      - TrainingList
+      - TrainingDetails
+      - UpdateParameters:
+          props:
+            options:
+              << : [*modal]
+  
   SearchTrainers:
     path: ../screens/SearchTrainers
     props:

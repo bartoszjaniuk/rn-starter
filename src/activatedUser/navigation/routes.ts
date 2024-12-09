@@ -19,6 +19,9 @@ export const routeBottomTabsCalendar = '/bottom-tabs/calendar';
 export const routeBottomTabsMyPlans = '/bottom-tabs/my-plans';
 export const routeBottomTabsTrainerTrainees = '/bottom-tabs/trainer-trainees';
 export const routeBottomTabsProfile = '/bottom-tabs/profile';
+export const routeHomeTrainingList = '/home/training-list';
+export const routeHomeTrainingDetails = '/home/training-details';
+export const routeHomeUpdateParameters = '/home/update-parameters';
 export const routeSearchTrainersHome = '/search-trainers/home';
 export const routeSearchTrainersList = '/search-trainers/list';
 export const routeSearchTrainersProfileDetails = '/search-trainers/profile-details';
@@ -55,6 +58,9 @@ export const toBottomTabsTrainerTrainees = [
   routeBottomTabsTrainerTrainees,
 ] as unknown as Route;
 export const toBottomTabsProfile = [routeBottomTabsNavigator, routeBottomTabsProfile] as unknown as Route;
+export const toHomeTrainingList = routeHomeTrainingList as unknown as Route;
+export const toHomeTrainingDetails = routeHomeTrainingDetails as unknown as Route;
+export const toHomeUpdateParameters = routeHomeUpdateParameters as unknown as Route;
 export const toSearchTrainersHome = [routeSearchTrainersNavigator, routeSearchTrainersHome] as unknown as Route;
 export const toSearchTrainersList = [routeSearchTrainersNavigator, routeSearchTrainersList] as unknown as Route;
 
@@ -94,10 +100,7 @@ export const toCalendarTrainerWeekly = routeCalendarTrainerWeekly as unknown as 
   readonly weekDate: string;
 }>;
 
-export const toCalendarTrainerAddAvailability = routeCalendarTrainerAddAvailability as unknown as Route<{
-  readonly dayDate: string;
-}>;
-
+export const toCalendarTrainerAddAvailability = routeCalendarTrainerAddAvailability as unknown as Route;
 export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] as unknown as Route;
 export const toBottomTabsNavigator = routeBottomTabsNavigator as unknown as Route;
 export const toAccountNavigator = routeAccountNavigator as unknown as Route;

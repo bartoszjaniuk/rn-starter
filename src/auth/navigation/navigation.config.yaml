@@ -15,5 +15,9 @@ navigators:
       - Welcome
       - Login
       - Register
-      - SentEmail
-      - ActivateAccount
+      - SentEmail:
+         params:
+          email: string
+      - ActivateAccount:
+          params:
+           token: string

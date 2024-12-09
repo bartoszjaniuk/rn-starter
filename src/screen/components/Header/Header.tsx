@@ -68,8 +68,6 @@ export const Header = (props: Props) => {
     </HeaderLeftElement>
   ) : null;
 
-  console.log(title, 'title');
-
   const headerTitle = title ? <HeaderTitle>{title}</HeaderTitle> : null;
   const headerRightElement = renderRight?.() ?? rightElement ?? headerCloseButton;
   const headerLeftElement = renderLeft?.() ?? leftElement ?? headerBackButton;

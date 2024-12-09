@@ -1,6 +1,8 @@
 import React from 'react';
 import { Image } from 'react-native';
 
+import * as Linking from 'expo-linking';
+
 import { Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
@@ -9,9 +11,19 @@ import { Button } from 'src/shared/components/Button';
 
 import * as route from '../navigation/routes';
 
+const navigateToActivateAccount = (event: { url: string }) => {
+  const { queryParams } = Linking.parse(event.url);
+  const token = queryParams?.token as string | undefined;
+  if (!token) return;
+
+  goTo(route.toAuthActivateAccount, { token });
+};
+
 const Content = () => {
   const navigateToLoginScreen = () => goTo(route.toAuthLogin);
   const navigateToRegisterScreen = () => goTo(route.toAuthRegister);
+
+  Linking.addEventListener('url', navigateToActivateAccount);
 
   return (
     <>

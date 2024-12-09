@@ -199,6 +199,7 @@ const Content = () => {
   });
 
   Screen.useHeader({
+    isModal: true,
     renderLeft: () => (
       <Screen.Header.Left>
         <PressableScale onPress={goBack}>

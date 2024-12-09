@@ -1,64 +1,67 @@
 import * as React from 'react';
-import { useStyles } from 'react-native-unistyles';
 
-import { Box, Inline, Stack } from '@grapp/stacks';
-
+import { HomeNavigator } from 'src/activatedUser/navigation';
+import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Icon, PressableScale, SelectDropdownRN, Text } from 'src/shared';
-
-import { NoSchedules } from './components/NoSchedules';
+import { Icon, PressableScale, Text } from 'src/shared';
 
 import * as route from '../../../navigation/routes';
 
-const Content = () => {
-  const { theme } = useStyles();
+export type HomeParams = {
+  trainingId: string;
+};
 
-  const handleNavigateToSearchTrainers = () => goTo(route.toSearchTrainersList);
+const TraineeHeader = () => {
   return (
-    <NoSchedules>
-      <Inline space={4}>
-        {/* <SelectDropdownRN
-          onValueChange={() => null}
-          label="Płeć"
-          placeholder="Wybierz płeć"
-          options={[
-            { label: 'Męzczyzna', value: 'man' },
-            { label: 'Kobieta', value: 'woman' },
-          ]}
-        /> */}
-        {/* <SelectDropdownRN /> */}
-      </Inline>
-      <Stack space={2} align="right">
-        <PressableScale style={{ width: 48, height: 48 }} onPress={handleNavigateToSearchTrainers}>
-          <Box
-            width={48}
-            height={48}
-            alignX="center"
-            alignY="center"
-            borderRadius={24}
-            backgroundColor={theme.colors.primary}
-          >
-            <Icon name="plus" svgProps={{ width: 24, height: 24 }} color="typography" />
-          </Box>
+    <Screen.Header variant="primary">
+      <Screen.Header.Left>
+        <Text color="primary" fontWeight="700" size="xs">
+          Zaktualizuj swoje wymiary
+        </Text>
+      </Screen.Header.Left>
+      <Screen.Header.Right>
+        <PressableScale onPress={() => goTo(route.toHomeUpdateParameters)}>
+          <Icon name="plusThin" color="primary" />
         </PressableScale>
-        <Stack>
-          <Text align="center" fontWeight="500" size="xs">
-            Szukaj
-          </Text>
-          <Text align="center" fontWeight="500" size="xs">
-            treningu
-          </Text>
-        </Stack>
-      </Stack>
-    </NoSchedules>
+      </Screen.Header.Right>
+    </Screen.Header>
+  );
+};
+
+const TrainerHeader = () => {
+  return (
+    <Screen.Header variant="primary">
+      <Screen.Header.Left>
+        <Text color="white" fontWeight="700" size="xs">
+          Dodaj pierwszy wolny termin na trening
+        </Text>
+      </Screen.Header.Left>
+      <Screen.Header.Right>
+        <PressableScale onPress={() => null}>
+          <Icon name="calendarLinear" color="transparent" />
+        </PressableScale>
+      </Screen.Header.Right>
+    </Screen.Header>
   );
 };
 
 export const BottomTabsHome = () => {
+  const userInfoQuery = useGetUserInfoQuery();
+
+  const data = React.useMemo(
+    () => ({
+      trainingId: '1',
+    }),
+    [],
+  );
+
   return (
-    <Screen HeaderComponent={<Screen.Header variant="transparent" />} statusBarStyle="light">
-      <Content />
+    <Screen
+      HeaderComponent={userInfoQuery.data?.role === 'trainee' ? <TraineeHeader /> : <TrainerHeader />}
+      statusBarStyle="light"
+    >
+      <Screen.Navigator as={HomeNavigator} data={data} />
     </Screen>
   );
 };

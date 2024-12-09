@@ -1,4 +1,5 @@
 import { authQueryKeys } from '../auth/auth.keys';
+import { traineeQueryKeys } from '../trainee/trainee.keys';
 import { trainerQueryKeys } from '../trainer/trainer.keys';
 import { uploadQueryKeys } from '../upload/upload.keys';
 import { userQueryKeys } from '../user/user.keys';
@@ -9,4 +10,5 @@ export const queryKeys = {
   ...uploadQueryKeys,
   ...userQueryKeys,
   ...uploadQueryKeys,
+  ...traineeQueryKeys,
 };

@@ -29,6 +29,7 @@ const FirstLoginNativeStack = createNativeStackNavigator();
 const ActivateAccountTraineeNativeStack = createNativeStackNavigator();
 const ActivateAccountTrainerNativeStack = createNativeStackNavigator();
 const BottomTabsBottomTab = createBottomTabNavigator();
+const HomeNativeStack = createNativeStackNavigator();
 const SearchTrainersNativeStack = createNativeStackNavigator();
 const SearchTrainersListNativeStack = createNativeStackNavigator();
 const SearchTrainersAvailabilityNativeStack = createNativeStackNavigator();
@@ -214,6 +215,51 @@ const BottomTabsNavigator = () => {
         component={BottomTabsProfile}
       />
     </BottomTabsBottomTab.Navigator>
+  );
+};
+
+export const HomeNavigator = (props: Params) => {
+  const { params } = props;
+
+  return (
+    <HomeNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <HomeNativeStack.Screen
+        name={route.routeHomeTrainingList}
+        initialParams={{
+          ...params,
+
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/BottomTabs/Home/HomeNavigator/TrainingList').HomeTrainingList}
+      />
+      <HomeNativeStack.Screen
+        name={route.routeHomeTrainingDetails}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/BottomTabs/Home/HomeNavigator/TrainingDetails').HomeTrainingDetails}
+      />
+      <HomeNativeStack.Screen
+        options={{
+          presentation: 'modal',
+        }}
+        name={route.routeHomeUpdateParameters}
+        initialParams={{
+          meta: {
+            presentation: 'modal',
+          },
+        }}
+        getComponent={() => require('../screens/BottomTabs/Home/HomeNavigator/UpdateParameters').HomeUpdateParameters}
+      />
+    </HomeNativeStack.Navigator>
   );
 };
 

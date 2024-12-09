@@ -15,3 +15,4 @@ export * from './TryAgainError';
 export * from './CalendarMonthly';
 export * from './TimelineWeekly';
 export * from './SelectDropdownRN';
+export * from './CanAccess';

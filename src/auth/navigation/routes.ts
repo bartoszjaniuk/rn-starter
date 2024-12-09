@@ -12,5 +12,11 @@ export const routeAuthActivateAccount = '/auth/activate-account';
 export const toAuthWelcome = routeAuthWelcome as unknown as Route;
 export const toAuthLogin = routeAuthLogin as unknown as Route;
 export const toAuthRegister = routeAuthRegister as unknown as Route;
-export const toAuthSentEmail = routeAuthSentEmail as unknown as Route;
-export const toAuthActivateAccount = routeAuthActivateAccount as unknown as Route;
+
+export const toAuthSentEmail = routeAuthSentEmail as unknown as Route<{
+  readonly email: string;
+}>;
+
+export const toAuthActivateAccount = routeAuthActivateAccount as unknown as Route<{
+  readonly token: string;
+}>;

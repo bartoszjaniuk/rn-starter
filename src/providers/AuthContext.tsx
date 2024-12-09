@@ -6,7 +6,6 @@ import { UseMutateFunction } from '@tanstack/react-query';
 
 import { useLoginMutation } from '../api/auth/hooks/useLoginMutation';
 import { useLogoutMutation } from '../api/auth/hooks/useLogoutMutation';
-import { useRegisterMutation } from '../api/auth/hooks/useRegisterMutation';
 import { AuthState, LoginError, LoginResponse, UserCredentials } from '../api/auth/models/auth.models';
 import { useGetUserInfoQuery } from '../api/user/hooks/useGetUserInfoQuery';
 import { ACCESS_TOKEN } from '../shared/constants/accessToken';
@@ -15,7 +14,6 @@ type AuthProps = {
   authState?: AuthState;
   isLoading?: boolean;
   onLogin?: UseMutateFunction<LoginResponse, Error, UserCredentials, unknown>;
-  onRegister?: UseMutateFunction<void, Error, string, unknown>;
   onLogout?: UseMutateFunction<void, Error, void, unknown>;
   loginError?: LoginError | null;
 };
@@ -50,8 +48,6 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     await SecureStore.deleteItemAsync(ACCESS_TOKEN);
   }, [logout, setAuthState]);
 
-  const { mutate: onRegister } = useRegisterMutation();
-
   React.useEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(ACCESS_TOKEN);
@@ -71,12 +67,11 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     () => ({
       onLogin: loginMutation.mutate,
       onLogout,
-      onRegister,
       authState,
       isLoading: loginMutation.isPending,
       loginError: loginMutation.error,
     }),
-    [authState, loginMutation.error, loginMutation.isPending, loginMutation.mutate, onLogout, onRegister],
+    [authState, loginMutation.error, loginMutation.isPending, loginMutation.mutate, onLogout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

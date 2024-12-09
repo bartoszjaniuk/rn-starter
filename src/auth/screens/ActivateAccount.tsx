@@ -1,18 +1,59 @@
-import React from 'react';
+import * as React from 'react';
 
 import { Box, Inline, Stack } from '@grapp/stacks';
+import { zodResolver } from '@hookform/resolvers/zod';
 
+import { Controller, useForm } from 'react-hook-form';
+import * as z from 'zod';
+
+import { useActivateAccountMutation } from 'src/api/auth/hooks';
+import { useRouteParams } from 'src/core/hooks';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Checkbox, Divider, IconWrapper, Text, TextInput } from 'src/shared';
+import { Checkbox, Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
 
-import AppleIcon from '../../../assets/icons/apple.svg';
-import FacebookIcon from '../../../assets/icons/facebook.svg';
-import GoogleIcon from '../../../assets/icons/google.svg';
 import * as route from '../navigation/routes';
 
+const activateAccountFormSchema = z
+  .object({
+    password: z.string().min(3, 'Hasło musi posiadać conajmniej 3 znaków'),
+    confirmPassword: z.string().min(3, 'Hasło musi posiadać conajmniej 3 znaków'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Hasła muszą być identyczne',
+    path: ['confirmPassword'],
+  });
+
+type ActivateAccountFormFieldValues = z.infer<typeof activateAccountFormSchema>;
+
 const Content = () => {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isValid },
+  } = useForm<ActivateAccountFormFieldValues>({
+    resolver: zodResolver(activateAccountFormSchema),
+    defaultValues: {
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const activateAccountMutation = useActivateAccountMutation();
+
+  const handleNavigateToLogin = () => goTo(route.toAuthRegister);
+
+  const { token } = useRouteParams(route.toAuthActivateAccount);
+  console.log('Token z url:', token);
+
+  const onSubmit = handleSubmit((data) => {
+    if (!isValid) return;
+    activateAccountMutation.mutate({ password: data.password, token });
+    reset();
+  });
+
   Screen.useHeader({
     renderLeft: () => {
       return (
@@ -22,8 +63,6 @@ const Content = () => {
       );
     },
   });
-
-  const handleNavigateToLogin = () => goTo(route.toAuthRegister);
 
   return (
     <>
@@ -37,9 +76,41 @@ const Content = () => {
             </Box>
 
             <Stack space={8}>
+              <Text>{activateAccountMutation.error ? <Text color="error">Coś poszlo nie tak...</Text> : null}</Text>
+
               <Stack space={6}>
-                <TextInput label="Hasło" placeholder="*********" />
-                <TextInput label="Powtórz hasło" placeholder="*********" />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                    <TextInput
+                      onBlur={onBlur}
+                      onChangeText={(value) => onChange(value)}
+                      value={value}
+                      label="Hasło"
+                      placeholder="*********"
+                      isError={!!error}
+                      errorMessage={error?.message}
+                    />
+                  )}
+                  name="password"
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                    <TextInput
+                      onBlur={onBlur}
+                      onChangeText={(value) => onChange(value)}
+                      value={value}
+                      label="Powtórz hasło"
+                      placeholder="*********"
+                      isError={!!error}
+                      errorMessage={error?.message}
+                      secureTextEntry={true}
+                      multiline={false}
+                    />
+                  )}
+                  name="confirmPassword"
+                />
                 <Inline>
                   <Checkbox value={true} onValueChange={() => null}>
                     <Inline space={1}>
@@ -53,19 +124,9 @@ const Content = () => {
                   </Checkbox>
                 </Inline>
               </Stack>
-              <Button>Zarejestruj</Button>
-              <Divider />
-              <Inline space={15} alignX="center">
-                <IconWrapper>
-                  <FacebookIcon />
-                </IconWrapper>
-                <IconWrapper>
-                  <GoogleIcon />
-                </IconWrapper>
-                <IconWrapper>
-                  <AppleIcon />
-                </IconWrapper>
-              </Inline>
+              <Button isLoading={activateAccountMutation.isPending} onPress={onSubmit}>
+                Aktywuj
+              </Button>
             </Stack>
           </Stack>
         </Screen.Content>

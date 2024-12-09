@@ -98,7 +98,7 @@ export const AccountSettings = () => {
           title="Edycja profilu"
           hasBackButton={true}
           // hasCloseButton={true}
-          //   as={Screen.Header.Animated}
+          // as={Screen.Header.Animated}
         />
       }
     >

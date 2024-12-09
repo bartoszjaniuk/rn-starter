@@ -6,8 +6,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useRegisterMutation } from 'src/api/auth/hooks';
+import { goTo } from 'src/navigation';
 import { Checkbox, Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
+
+import * as route from '../../../navigation/routes';
 
 const string = z.string();
 
@@ -18,17 +22,12 @@ const registerFormSchema = z.object({
 
 type RegisterFormFieldValues = z.infer<typeof registerFormSchema>;
 
-type Props = {
-  onSubmit?: VoidFunction;
-};
-
-export const Form = (props: Props) => {
-  const { onSubmit: onSubmitEffect } = props;
+export const Form = () => {
   const {
     control,
     handleSubmit,
     reset,
-
+    getValues,
     formState: { isValid },
   } = useForm<RegisterFormFieldValues>({
     resolver: zodResolver(registerFormSchema),
@@ -37,10 +36,16 @@ export const Form = (props: Props) => {
       areTermsAccepted: false,
     },
   });
+
+  const registerMutation = useRegisterMutation({
+    onSuccess: () => {
+      goTo(route.toAuthSentEmail, { email: getValues('email') });
+    },
+  });
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
     console.log(data);
-    onSubmitEffect?.();
+    registerMutation.mutate({ email: data.email });
     reset();
   });
 
@@ -80,7 +85,9 @@ export const Form = (props: Props) => {
           )}
         />
       </Stack>
-      <Button onPress={onSubmit}>Wyślij maila aktywacyjnego</Button>
+      <Button isDisabled={!isValid} onPress={onSubmit} isLoading={registerMutation.isPending}>
+        Wyślij maila aktywacyjnego
+      </Button>
     </Stack>
   );
 };

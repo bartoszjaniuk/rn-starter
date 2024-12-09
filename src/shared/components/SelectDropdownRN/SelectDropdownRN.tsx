@@ -44,8 +44,7 @@ export const SelectDropdownRN = (props: Props) => {
       <SelectDropdown
         defaultValue={selectedValue}
         data={options}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index);
+        onSelect={(selectedItem, _index) => {
           onValueChange(selectedItem.value);
         }}
         renderButton={(selectedItem, isOpened) => {
@@ -60,15 +59,9 @@ export const SelectDropdownRN = (props: Props) => {
                 svgProps={{ width: 28 }}
               />
             </View>
-            // <Box
-            //   flex="fluid"
-            //   style={{ borderWidth: 1, flexGrow: 1, borderColor: theme.colors.gray, backgroundColor: 'red' }}
-            // >
-            //   <Text color="white">Test</Text>
-            // </Box>
           );
         }}
-        renderItem={(item, index, isSelected) => {
+        renderItem={(item, _index, isSelected) => {
           return (
             <View style={{ ...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: theme.colors.primary }) }}>
               <Text style={{ ...styles.dropdownItemTxtStyle, ...(isSelected && { color: theme.colors.typography }) }}>

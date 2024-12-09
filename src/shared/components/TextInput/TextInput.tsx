@@ -12,6 +12,7 @@ type Props = {
   isError?: boolean;
   isRequired?: boolean;
   errorMessage?: React.ReactNode;
+  isFullWidth?: boolean;
 } & TextInputProps;
 
 const getInputState = ({
@@ -31,7 +32,17 @@ const getInputState = ({
 
 export const TextInput = (props: Props) => {
   const [isFocused, setIsFocused] = React.useState(false);
-  const { label, isError, isDisabled, errorMessage, isRequired, onFocus, multiline = false, ...rest } = props;
+  const {
+    label,
+    isError,
+    isDisabled,
+    errorMessage,
+    isRequired,
+    onFocus,
+    isFullWidth,
+    multiline = false,
+    ...rest
+  } = props;
   const state = getInputState({ isDisabled, isError, isFocused });
   const { styles, theme } = useStyles(stylesheet, { state, multiline });
 
@@ -42,7 +53,7 @@ export const TextInput = (props: Props) => {
   };
 
   return (
-    <Stack space={2}>
+    <Stack space={2} flex={isFullWidth ? 'fluid' : 'content'}>
       <Inline>
         <Text fontWeight="500" size="xs">
           {label}
@@ -76,6 +87,7 @@ export const TextInput = (props: Props) => {
 
 const stylesheet = createStyleSheet((theme) => ({
   input: {
+    width: '100%',
     paddingLeft: 14,
     paddingTop: 12,
     fontFamily: theme.fontFamily.satoshiRegular,

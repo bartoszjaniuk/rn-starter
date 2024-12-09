@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Box, Inline, Stack } from '@grapp/stacks';
 
+import { useRouteParams } from 'src/core/hooks';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
 import { Badge, Text } from 'src/shared';
@@ -21,6 +22,8 @@ const Content = () => {
 
   const handleNavigateToActivateAccount = () => goTo(route.toAuthActivateAccount);
 
+  const { email } = useRouteParams(route.toAuthSentEmail);
+
   return (
     <>
       <Screen.ScrollView backgroundColor="transparent">
@@ -38,7 +41,7 @@ const Content = () => {
               </Text>
               <Badge>
                 <Text fontWeight="700" size="lg" color="primary">
-                  janiukbartosz@gmail.com
+                  {email ?? 'twojemail@mail.pl'}
                 </Text>
               </Badge>
             </Stack>

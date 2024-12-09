@@ -1,11 +1,12 @@
+import * as React from 'react';
+
 import { Box, Inline, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Divider, Text } from 'src/shared';
+import { Text } from 'src/shared';
 
 import { Form } from './Form';
-import { SocialIcons } from './SocialIcons';
 
 import * as route from '../../../navigation/routes';
 
@@ -21,9 +22,6 @@ export const Content = () => {
   });
 
   const handleNavigateToLogin = () => goTo(route.toAuthRegister);
-  const handleSendEmail = () => {
-    goTo(route.toAuthSentEmail);
-  };
 
   return (
     <>
@@ -36,7 +34,7 @@ export const Content = () => {
               </Text>
             </Box>
             <Stack space={8}>
-              <Form onSubmit={handleSendEmail} />
+              <Form />
               {/* <Divider />
               <SocialIcons /> */}
             </Stack>
