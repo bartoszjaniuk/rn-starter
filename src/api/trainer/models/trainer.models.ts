@@ -56,7 +56,7 @@ export type TrainerSetAvailabilityPostV1Payload = {
   start: string;
   end: string;
   recurrence: string;
-};
+}[];
 
 // {
 //   "start": "2024-12-01T14:00",

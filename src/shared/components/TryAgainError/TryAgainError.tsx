@@ -1,35 +1,54 @@
 import { Stack } from '@grapp/stacks';
 
 import { Button } from '../Button';
+import { Icon } from '../Icon';
 import { IconWrapper } from '../IconWrapper';
 import { Text } from '../Text';
 
 type Props = {
-  message?: string;
-  onRefetch: VoidFunction;
-  isLoading: boolean;
+  queryName: string;
+  errorTitle?: string;
+  errorMessage?: string;
+  retryText?: string;
+  isLoading?: boolean;
+  onRetry?: VoidFunction;
 };
 
 export const TryAgainError = (props: Props) => {
-  const { isLoading, onRefetch, message = ' Nie udało się pobrać danych z serwera.' } = props;
+  const ERROR_TITLE = 'Coś poszło nie tak';
+  const ERROR_MESSAGE = 'Nie udało się pobrać danych z serwera';
+  const RETRY_MESSAGE = 'Spróbuj ponownie';
+
+  const {
+    errorTitle = ERROR_TITLE,
+    errorMessage = ERROR_MESSAGE,
+    retryText = RETRY_MESSAGE,
+    onRetry,
+    queryName,
+    isLoading,
+  } = props;
   return (
-    <Stack space={6} align="center">
+    <Stack space={4} align="center" paddingTop={4}>
       <IconWrapper>
-        <Text>❌</Text>
+        <Icon name="closeX" />
       </IconWrapper>
 
       <Stack space={2}>
         <Text fontWeight="700" size="xl" align="center">
-          Coś poszło nie tak
+          {errorTitle}
         </Text>
 
         <Text fontWeight="400" size="md" align="center">
-          {message}
+          {errorMessage}
         </Text>
       </Stack>
-      <Button isLoading={isLoading} onPress={onRefetch} variant="danger">
-        Spróbuj ponownie
+      <Button isLoading={isLoading} onPress={onRetry} variant="danger">
+        {retryText}
       </Button>
+
+      <Text fontWeight="300" size="xs" align="right">
+        {`endpoint: ${queryName}`}
+      </Text>
     </Stack>
   );
 };

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "FitAppka",
+    "name": "FitApka",
     "slug": "rn-starter",
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
-    "scheme": "fitappka",
+    "scheme": "fitapka",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",

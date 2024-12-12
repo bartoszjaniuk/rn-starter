@@ -22,7 +22,7 @@ const Content = () => {
 
   const handleNavigateToActivateAccount = () => goTo(route.toAuthActivateAccount);
 
-  const { email } = useRouteParams(route.toAuthSentEmail);
+  const params = useRouteParams(route.toAuthSentEmail);
 
   return (
     <>
@@ -41,7 +41,7 @@ const Content = () => {
               </Text>
               <Badge>
                 <Text fontWeight="700" size="lg" color="primary">
-                  {email ?? 'twojemail@mail.pl'}
+                  {params.email || 'twojemail@mail.pl'}
                 </Text>
               </Badge>
             </Stack>

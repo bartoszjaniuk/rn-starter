@@ -1,8 +1,15 @@
-import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 import { queryKeys } from '../../utils/queryKeys';
 import { authService } from '../auth.service';
+import { ActivateAccountPayload } from '../models';
 
-export const useActivateAccountMutation = () => {
-  return useMutation({ mutationKey: [queryKeys.activateAccount()], mutationFn: authService.activateAccount });
+export const useActivateAccountMutation = (
+  options?: UseMutationOptions<void, Error, ActivateAccountPayload, unknown>,
+) => {
+  return useMutation({
+    ...options,
+    mutationKey: [queryKeys.activateAccount()],
+    mutationFn: authService.activateAccount,
+  });
 };

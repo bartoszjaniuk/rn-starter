@@ -4,7 +4,7 @@ import { CommonDropdownProps } from 'react-native-input-select/lib/typescript/sr
 import SelectDropdown from 'react-native-select-dropdown';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import { Box, Inline, Stack } from '@grapp/stacks';
+import { Inline, Stack } from '@grapp/stacks';
 
 import { FieldError } from 'react-hook-form';
 

@@ -14,7 +14,7 @@ export class AuthService extends ApiService {
   };
 
   register = async (payload: string) => {
-    return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.register(), payload));
+    return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.register(), { email: payload }));
   };
 
   logout = async () => {

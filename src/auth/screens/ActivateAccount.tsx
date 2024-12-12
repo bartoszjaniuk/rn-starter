@@ -40,10 +40,9 @@ const Content = () => {
       confirmPassword: '',
     },
   });
+  const handleNavigateToLogin = () => goTo(route.toAuthLogin);
 
-  const activateAccountMutation = useActivateAccountMutation();
-
-  const handleNavigateToLogin = () => goTo(route.toAuthRegister);
+  const activateAccountMutation = useActivateAccountMutation({ onSuccess: handleNavigateToLogin });
 
   const { token } = useRouteParams(route.toAuthActivateAccount);
   console.log('Token z url:', token);

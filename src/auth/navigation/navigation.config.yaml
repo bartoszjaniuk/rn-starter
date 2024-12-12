@@ -21,3 +21,4 @@ navigators:
       - ActivateAccount:
           params:
            token: string
+           email: string

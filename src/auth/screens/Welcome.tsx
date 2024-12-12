@@ -5,7 +5,9 @@ import * as Linking from 'expo-linking';
 
 import { Stack } from '@grapp/stacks';
 
+import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Button } from 'src/shared/components/Button';
 
@@ -14,16 +16,21 @@ import * as route from '../navigation/routes';
 const navigateToActivateAccount = (event: { url: string }) => {
   const { queryParams } = Linking.parse(event.url);
   const token = queryParams?.token as string | undefined;
-  if (!token) return;
+  const email = queryParams?.token as string | undefined;
+  if (!token || !email) return;
 
-  goTo(route.toAuthActivateAccount, { token });
+  goTo(route.toAuthActivateAccount, { token, email });
 };
 
 const Content = () => {
+  const { authState } = useAuth();
+
   const navigateToLoginScreen = () => goTo(route.toAuthLogin);
   const navigateToRegisterScreen = () => goTo(route.toAuthRegister);
 
   Linking.addEventListener('url', navigateToActivateAccount);
+
+  if (authState?.isLoading) return <LoadingScreen />;
 
   return (
     <>

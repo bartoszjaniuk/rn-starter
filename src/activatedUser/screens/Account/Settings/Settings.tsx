@@ -41,7 +41,7 @@ const settings = ({ onLogout }: { onLogout?: VoidFunction }): SettingsOption[] =
       icon: 'bin',
       color: 'error',
       onPress: () => {
-        console.log('jebut');
+        console.log('Logout');
         onLogout?.();
       },
     },

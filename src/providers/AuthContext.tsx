@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     authenticated: null,
     token: null,
     role: 'role_not_set',
+    isLoading: true,
   });
 
   const loginMutation = useLoginMutation({
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   React.useEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(ACCESS_TOKEN);
-      if (!token) return;
+      if (!token) return setAuthState((prev) => ({ ...prev, isLoading: false }));
       setAuthState((prev) => ({ ...prev, token: token }));
     };
     loadToken();
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
   React.useEffect(() => {
     if (userData?.role) {
-      setAuthState((prev) => ({ ...prev, authenticated: true, role: userData?.role }));
+      setAuthState((prev) => ({ ...prev, authenticated: true, role: userData?.role, isLoading: false }));
     }
   }, [userData?.role]);
 

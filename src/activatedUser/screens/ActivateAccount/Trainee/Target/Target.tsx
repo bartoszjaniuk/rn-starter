@@ -46,7 +46,11 @@ const Content = () => {
   if (trainerSpecializations.error)
     return (
       <Screen.Content>
-        <TryAgainError onRefetch={trainerSpecializations.refetch} isLoading={trainerSpecializations.isPending} />
+        <TryAgainError
+          queryName="trainerSpecializations"
+          onRetry={trainerSpecializations.refetch}
+          isLoading={trainerSpecializations.isLoading}
+        />
       </Screen.Content>
     );
 

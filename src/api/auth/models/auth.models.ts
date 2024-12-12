@@ -6,6 +6,7 @@ export type AuthState = {
   token: string | null;
   authenticated: boolean | null;
   role?: Role;
+  isLoading?: boolean;
 };
 
 export type UserCredentials = {
@@ -18,6 +19,7 @@ export type LoginResponse = {
 };
 
 export type LoginError = AxiosError<{ message: string; code: number }>;
+export type RegisterError = AxiosError<{ error: string }>;
 
 export type ActivateAccountPayload = {
   token: string;

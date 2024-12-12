@@ -1,167 +1,33 @@
 import * as React from 'react';
 
-import { Inline, Stack } from '@grapp/stacks';
+import { Box } from '@grapp/stacks';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Control, Controller, useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { useForm } from 'react-hook-form';
 
 import { getPastPresentFutureDates } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getPastPresentFutureDates';
-import { DateSchedule, useTrainerAvailabilitiesQuery, useTrainerSetAvailabilityMutation } from 'src/api/trainer';
+import { useTrainerAvailabilitiesQuery, useTrainerSetAvailabilityMutation } from 'src/api/trainer';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
+import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goBack } from 'src/navigation';
 import { Screen, useNavigator } from 'src/screen';
-import { PressableScale, SelectDropdownRN, Text, TextInput } from 'src/shared';
+import { Button, PressableScale, Text, TryAgainError } from 'src/shared';
+
+import { AvailabilityFormFieldValues, Form, availabilityFormSchema } from './components/Form';
 
 import { AvailabilityParams } from '../../Calendar';
 
-const availabilityFormSchema = z.object({
-  title: z.string().min(1, 'Pole jest wymagane'),
-  date: z.string().min(1, 'Pole jest wymagane'),
-  start: z.string().min(1, 'Pole jest wymagane'),
-  end: z.string().min(1, 'Pole jest wymagane'),
-  duration: z.string().min(1, 'Pole jest wymagane'),
-  repetition: z.string().min(1, 'Pole jest wymagane').trim(),
-});
+function transformData(data: { title: string; date: string; start: string; end: string; recurrence: string }) {
+  const { date, start, end, recurrence } = data;
 
-type AvailabilityFormFieldValues = z.infer<typeof availabilityFormSchema>;
-
-type Props = {
-  control: Control<AvailabilityFormFieldValues>;
-  availableSlots: string[];
-  data: DateSchedule | undefined;
-  weekDate: string;
-};
-
-const Form = (props: Props) => {
-  const { control, availableSlots, data, weekDate } = props;
-  const { updateNavigationData } = useNavigator<AvailabilityParams>();
-
-  const startHours = React.useMemo(() => {
-    if (!data) return [];
-    return data[weekDate].map((slot) => ({
-      label: slot.start,
-      value: slot.start,
-    }));
-  }, [data, weekDate]);
-
-  const endHours = React.useMemo(() => {
-    if (!data) return [];
-    return data[weekDate].map((slot) => ({
-      label: slot.end,
-      value: slot.end,
-    }));
-  }, [data, weekDate]);
-
-  return (
-    <Stack space={2} paddingTop={6}>
-      <Controller
-        control={control}
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-          <TextInput
-            isRequired={true}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-            value={value}
-            label="Nazwa obiektu"
-            placeholder="Podaj nazwę obiektu"
-            isError={!!error}
-            errorMessage={error?.message}
-          />
-        )}
-        name="title"
-      />
-      <Controller
-        control={control}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <SelectDropdownRN
-            isRequired={true}
-            error={error}
-            selectedValue={value}
-            onValueChange={(v: string | null) => {
-              if (v === null) onChange('');
-              else {
-                updateNavigationData({ weekDate: v });
-
-                onChange(v);
-              }
-            }}
-            label="Data"
-            placeholder={value}
-            options={availableSlots.map((date) => ({
-              label: date,
-              value: date,
-            }))}
-          />
-        )}
-        name="date"
-      />
-
-      <Inline space={3}>
-        <Controller
-          control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <SelectDropdownRN
-              isRequired={true}
-              error={error}
-              selectedValue={value}
-              onValueChange={(v: string | null) => {
-                if (v === null) onChange('');
-                else onChange(v);
-              }}
-              label="Godzina od"
-              placeholder="Podaj godzine"
-              options={startHours}
-            />
-          )}
-          name="repetition"
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <SelectDropdownRN
-              isRequired={true}
-              error={error}
-              selectedValue={value}
-              onValueChange={(v: string | null) => {
-                if (v === null) onChange('');
-                else onChange(v);
-              }}
-              label="Godzina do"
-              placeholder="Podaj godzine"
-              options={endHours}
-            />
-          )}
-          name="repetition"
-        />
-      </Inline>
-      <Controller
-        control={control}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <SelectDropdownRN
-            isRequired={true}
-            error={error}
-            selectedValue={value}
-            onValueChange={(v: string | null) => {
-              if (v === null) onChange('');
-              else onChange(v);
-            }}
-            label="Powtarzaj"
-            placeholder="Nigdy"
-            options={[
-              { label: 'Nigdy', value: 'never' },
-              { label: 'Codziennie', value: 'daily' },
-              { label: 'Co tydzień', value: 'weekly' },
-              { label: 'Co 2 tygodnie', value: 'biweekly' },
-              { label: 'Co 1 miesiąc', value: 'monthly' },
-            ]}
-          />
-        )}
-        name="repetition"
-      />
-    </Stack>
-  );
-};
+  return [
+    {
+      start: `${date}T${start}`,
+      end: `${date}T${end}`,
+      recurrence: recurrence === 'never' ? null : recurrence,
+    },
+  ];
+}
 
 const Content = () => {
   const { navigationData } = useNavigator<AvailabilityParams>();
@@ -180,7 +46,9 @@ const Content = () => {
   const {
     control,
     handleSubmit,
-    formState: { isValid },
+    reset,
+    formState: { isValid, isDirty },
+    watch,
   } = useForm<AvailabilityFormFieldValues>({
     resolver: zodResolver(availabilityFormSchema),
     defaultValues: {
@@ -188,46 +56,55 @@ const Content = () => {
       date: navigationData.weekDate,
       start: '',
       end: '',
-      duration: '',
-      repetition: 'never',
+      recurrence: 'never',
     },
   });
 
+  const startHour = watch('start');
+  const endHour = watch('end');
+  const resetForm = React.useCallback(() => reset({ start: undefined, end: undefined, title: '' }), [reset]);
+
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
-    trainerSetAvailabilityMutation.mutate({ start: data.start, end: data.end, recurrence: data.repetition });
+    const transformedData = transformData(data);
+    trainerSetAvailabilityMutation.mutate(transformedData);
   });
 
-  Screen.useHeader({
-    isModal: true,
-    renderLeft: () => (
-      <Screen.Header.Left>
-        <PressableScale onPress={goBack}>
-          <Text fontWeight="700" size="xs" color="error">
-            Anuluj
-          </Text>
-        </PressableScale>
-      </Screen.Header.Left>
-    ),
-    renderRight: () => (
-      <Screen.Header.Right>
-        <PressableScale isDisabled={!isValid} onPress={onSubmit}>
-          <Text fontWeight="700" size="xs" color="primary">
-            Dodaj
-          </Text>
-        </PressableScale>
-      </Screen.Header.Right>
-    ),
-  });
+  Screen.useHeader(
+    {
+      isModal: true,
+      renderLeft: () => (
+        <Screen.Header.Left>
+          <PressableScale onPress={goBack}>
+            <Text fontWeight="700" size="xs" color="error">
+              Anuluj
+            </Text>
+          </PressableScale>
+        </Screen.Header.Left>
+      ),
+      renderRight: () => (
+        <Screen.Header.Right>
+          <PressableScale isDisabled={!isDirty} onPress={resetForm}>
+            <Text fontWeight="700" size="xs" color={!isDirty ? 'disabled' : 'primary'}>
+              Wyczyść
+            </Text>
+          </PressableScale>
+        </Screen.Header.Right>
+      ),
+    },
+    [isValid, handleSubmit, trainerSetAvailabilityMutation.mutate, resetForm, isDirty],
+  );
+
+  if (trainerSetAvailabilityMutation.isPending) return <LoadingScreen />;
+
+  if (trainerSetAvailabilityMutation.isError) return <TryAgainError queryName="trainerSetAvailability" />;
 
   return (
     <Screen.Content>
-      <Form
-        availableSlots={availableSlots}
-        data={trainerAvailabilitiesQuery.data?.data}
-        control={control}
-        weekDate={navigationData.weekDate}
-      />
+      <Form startHour={startHour} endHour={endHour} availableSlots={availableSlots} control={control} />
+      <Box paddingTop={4}>
+        <Button onPress={onSubmit}>Dodaj</Button>
+      </Box>
     </Screen.Content>
   );
 };

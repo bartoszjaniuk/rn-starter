@@ -19,4 +19,5 @@ export const toAuthSentEmail = routeAuthSentEmail as unknown as Route<{
 
 export const toAuthActivateAccount = routeAuthActivateAccount as unknown as Route<{
   readonly token: string;
+  readonly email: string;
 }>;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Inline, Stack } from '@grapp/stacks';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -40,18 +38,20 @@ export const Form = () => {
   const registerMutation = useRegisterMutation({
     onSuccess: () => {
       goTo(route.toAuthSentEmail, { email: getValues('email') });
+      reset();
     },
   });
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
-    console.log(data);
-    registerMutation.mutate({ email: data.email });
-    reset();
+    registerMutation.mutate(data.email);
   });
 
   return (
     <Stack space={8}>
       <Stack space={6}>
+        <Text>
+          {registerMutation.isError ? <Text color="error">{registerMutation.error.response?.data.error}</Text> : null}
+        </Text>
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (

@@ -36,7 +36,5 @@ export const useCalendarSlots = (data: TrainerAvailabilitiesGetV1Response | unde
     return markedDates;
   }, [availableSlots, data?.data, theme.colors.primary]);
 
-  console.log(availableSlots, 'availableSlots');
-
   return { markedDates, availableSlots };
 };
