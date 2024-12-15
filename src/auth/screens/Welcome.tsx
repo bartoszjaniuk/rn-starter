@@ -14,6 +14,7 @@ import { Button } from 'src/shared/components/Button';
 import * as route from '../navigation/routes';
 
 const navigateToActivateAccount = (event: { url: string }) => {
+  console.log('navigateToActivateAccount', event);
   const { queryParams } = Linking.parse(event.url);
   const token = queryParams?.token as string | undefined;
   const email = queryParams?.token as string | undefined;
@@ -24,6 +25,8 @@ const navigateToActivateAccount = (event: { url: string }) => {
 
 const Content = () => {
   const { authState } = useAuth();
+  const url = Linking.useURL();
+  console.log('url', url);
 
   const navigateToLoginScreen = () => goTo(route.toAuthLogin);
   const navigateToRegisterScreen = () => goTo(route.toAuthRegister);

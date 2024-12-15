@@ -61,6 +61,8 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   React.useEffect(() => {
     if (userData?.role) {
       setAuthState((prev) => ({ ...prev, authenticated: true, role: userData?.role, isLoading: false }));
+    } else {
+      setAuthState((prev) => ({ ...prev, isLoading: false }));
     }
   }, [userData?.role]);
 

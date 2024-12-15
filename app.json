@@ -6,6 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
     "scheme": "fitapka",
+    "platforms": [
+      "ios",
+      "android"],
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -13,6 +16,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "associatedDomains": ["applinks:fitapka.netlify.app"],
       "supportsTablet": true,
       "bundleIdentifier": "com.i3artosh.rnstarter",
       "infoPlist": {

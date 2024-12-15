@@ -72,7 +72,7 @@ export const MainNavigator = () => {
   }, []);
 
   const linking = {
-    prefixes: [prefix, 'http://localhost:8081'],
+    prefixes: [prefix, 'https://fitapka.netlify.app'],
   };
 
   return (
@@ -90,3 +90,5 @@ export const MainNavigator = () => {
     </NavigationContainer>
   );
 };
+// REMOVE IT LATER
+// https://www.google.pl?token=123&email=123
