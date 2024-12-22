@@ -66,7 +66,7 @@ export const Tile = (props: Props) => {
           </Box>
         )}
 
-        <PressableScale>
+        <PressableScale onPress={onPress}>
           <Icon name="chevron" svgProps={{ width: 16, height: 16 }} style={{ transform: [{ rotate: '270deg' }] }} />
         </PressableScale>
       </Inline>

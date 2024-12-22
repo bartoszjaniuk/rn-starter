@@ -10,7 +10,7 @@ export const ShowPrevious = (props: React.PropsWithChildren) => {
   return (
     <Stack>
       <PressableScale onPress={() => setIsShown((prev) => !prev)}>
-        <Inline space={2} alignX="center" paddingY={3} alignY="center">
+        <Inline space={2} alignX="center" paddingY={4} alignY="center">
           <Text fontWeight="500" size="xs">
             Pokaż wcześniejsze
           </Text>

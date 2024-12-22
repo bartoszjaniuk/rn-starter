@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
-import { FlatList, ScrollView } from 'react-native';
+import { ScrollView, SectionList } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 
-import { Box, Stack } from '@grapp/stacks';
+import { Box, Inline, Stack } from '@grapp/stacks';
 
 import { useBookingsQuery } from 'src/api/booking/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
@@ -10,13 +10,12 @@ import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
 import { Icon, PressableScale, Text, TryAgainError } from 'src/shared';
 
-import { BookingItem } from './BookingItem';
 import { ShowPrevious } from './ShowPrevious';
 import { Tile } from './Tile';
 
 import * as route from '../../../../../../navigation/routes';
-import { mockData } from '../mock/booking.mock';
 import { splitBookingsIntoPastAndFuture } from '../utils/splitBookingsIntoPastAndFuture';
+import { transformDataIntoBookingArrays } from '../utils/transformDataIntoBookingArrays';
 
 type Props = PropsWithChildren<{
   type: 'trainee' | 'trainer';
@@ -37,17 +36,10 @@ export const Layout = (props: Props) => {
 
   const data = bookingsQuery.data?.data;
 
-  const transformedBookings = data
-    ? Object.entries(data).flatMap(([date, bookings]) =>
-        Object.entries(bookings).map(([id, content]) => ({
-          date,
-          id,
-          ...content,
-        })),
-      )
-    : [];
+  const transformedData = splitBookingsIntoPastAndFuture(transformDataIntoBookingArrays(data));
 
   const handleNavigateToSearchTrainers = () => goTo(route.toSearchTrainersList);
+  const handleNavigateToTrainingDetails = () => goTo(route.toHomeTrainingDetails);
   return (
     <Screen.Content alignY="between">
       {/*  FIXME: This ScrollView should be replaced with FlatList to improve performance */}
@@ -55,10 +47,14 @@ export const Layout = (props: Props) => {
         <Stack>
           <ShowPrevious
             children={
-              <FlatList
+              <SectionList
                 scrollEnabled={false}
-                contentContainerStyle={{ gap: 12 }}
-                data={splitBookingsIntoPastAndFuture(mockData).pastBookings}
+                ItemSeparatorComponent={() => <Box height={12} />}
+                sections={transformedData.pastBookings.map(({ date, trainings }) => ({
+                  title: date,
+                  data: trainings,
+                }))}
+                keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                   <Tile
                     key={item.id}
@@ -67,19 +63,48 @@ export const Layout = (props: Props) => {
                     specialization="TBD"
                     timeStart={item.availabilitySlots[0]?.start}
                     timeEnd={item.availabilitySlots[item.availabilitySlots.length - 1]?.end}
-                    onPress={() => null}
+                    onPress={handleNavigateToTrainingDetails}
                     isPast={true}
                   />
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                  <Inline alignX="center" paddingY={4}>
+                    <Text fontWeight="500" size="xs">
+                      {title}
+                    </Text>
+                  </Inline>
                 )}
               />
             }
           />
           <Box>
-            <FlatList
+            <SectionList
               scrollEnabled={false}
-              data={transformedBookings}
-              renderItem={({ item }) => <BookingItem key={item.id} {...item} />}
+              ItemSeparatorComponent={() => <Box height={12} />}
+              sections={transformedData.futureBookings.map(({ date, trainings }) => ({
+                title: date,
+                data: trainings,
+              }))}
               keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <Tile
+                  key={item.id}
+                  date={item.date}
+                  name={item.trainer.name}
+                  specialization="TBD"
+                  timeStart={item.availabilitySlots[0]?.start}
+                  timeEnd={item.availabilitySlots[item.availabilitySlots.length - 1]?.end}
+                  onPress={handleNavigateToTrainingDetails}
+                  isPast={false}
+                />
+              )}
+              renderSectionHeader={({ section: { title } }) => (
+                <Inline alignX="center" paddingY={4}>
+                  <Text fontWeight="500" size="xs">
+                    {title}
+                  </Text>
+                </Inline>
+              )}
             />
           </Box>
         </Stack>

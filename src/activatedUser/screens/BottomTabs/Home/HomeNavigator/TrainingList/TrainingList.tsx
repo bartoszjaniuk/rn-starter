@@ -5,12 +5,25 @@ import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { Screen } from 'src/screen';
 
 import { Layout } from './components/Layout';
-import { TraineeContent } from './components/TraineeContent';
 
 import { NoSchedules } from '../../components/NoSchedules';
 
 const TrainerContent = () => {
   return <Layout noSchedulesComponent={<NoSchedules />} type="trainer" />;
+};
+
+const TraineeContent = () => {
+  return (
+    <Layout
+      noSchedulesComponent={
+        <NoSchedules
+          paragraph1="Wyszukaj trenera i umów się na trening"
+          paragraph2="umówiony termin pojawi się na tym ekranie"
+        />
+      }
+      type="trainee"
+    />
+  );
 };
 
 const Content = () => {
