@@ -388,6 +388,21 @@ export const SearchTrainersAvailabilityNavigator = (props: Params) => {
             .SearchTrainersAvailabilityWeekly
         }
       />
+      <SearchTrainersAvailabilityNativeStack.Screen
+        options={{
+          presentation: 'modal',
+        }}
+        name={route.routeSearchTrainersAvailabilityReservation}
+        initialParams={{
+          meta: {
+            presentation: 'modal',
+          },
+        }}
+        getComponent={() =>
+          require('../screens/SearchTrainers/SearchTrainersAvailabilityNavigator/Reservation')
+            .SearchTrainersAvailabilityReservation
+        }
+      />
     </SearchTrainersAvailabilityNativeStack.Navigator>
   );
 };

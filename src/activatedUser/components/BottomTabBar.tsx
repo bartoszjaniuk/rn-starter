@@ -11,7 +11,9 @@ export const BottomTabBar = (_props: BottomTabBarProps) => {
   return (
     <Screen.BottomTabBar defaultRoute={route.toBottomTabsHome}>
       <Screen.BottomTabBar.Item icon="home" title="Ekran główny" to={route.toBottomTabsHome} />
-      <Screen.BottomTabBar.Item icon="calendar" title="Kalendarz" to={route.toBottomTabsCalendar} />
+      {data?.role === 'trainer' ? (
+        <Screen.BottomTabBar.Item icon="calendar" title="Kalendarz" to={route.toBottomTabsCalendar} />
+      ) : null}
       {/* {data?.role === 'trainee' ? (
         <Screen.BottomTabBar.Item icon="document" title="Moje plany" to={route.toBottomTabsMyPlans} />
       ) : (

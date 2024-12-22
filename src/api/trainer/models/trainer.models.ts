@@ -28,7 +28,7 @@ export type TrainerAvailabilitiesGetV1Params = {
   };
 };
 
-type ScheduleEntry = {
+export type ScheduleEntry = {
   id: string; // Unique identifier for each time slot
   start: string; // Start time in "HH:mm" format
   end: string; // End time in "HH:mm" format

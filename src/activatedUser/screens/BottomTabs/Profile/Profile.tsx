@@ -8,7 +8,7 @@ import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { PressableScale, Text } from 'src/shared';
+import { PressableScale, Text, replaceApiHost } from 'src/shared';
 import { CarouselGallery } from 'src/shared/components/CarouselGallery';
 import { TrainingSnacks } from 'src/shared/components/TrainingSnacks/TrainingSnacks';
 
@@ -73,13 +73,24 @@ const Content = () => {
           <LoadingScreen />
         ) : (
           <Stack space={4}>
-            <CarouselGallery />
+            <CarouselGallery
+              images={
+                userInfoQuery.data?.profileImage
+                  ? [{ id: '123', uri: replaceApiHost(userInfoQuery.data?.profileImage) }]
+                  : [
+                      {
+                        id: '1',
+                        uri: 'https://avatar.iran.liara.run/public/1',
+                      },
+                    ]
+              }
+            />
             <Stack paddingTop={6}>
               <Text fontWeight="700" size="xxl">
                 {userInfoQuery.data?.name}
               </Text>
               <Text fontWeight="400" size="sm">
-                Miast | brak pola
+                {userInfoQuery.data?.city}
               </Text>
               <Text fontWeight="400" size="sm">
                 Rola: {userInfoQuery.data?.role}

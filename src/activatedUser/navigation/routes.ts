@@ -30,6 +30,7 @@ export const routeSearchTrainersListList = '/search-trainers-list/list';
 export const routeSearchTrainersListFilters = '/search-trainers-list/filters';
 export const routeSearchTrainersAvailabilityMonthly = '/search-trainers-availability/monthly';
 export const routeSearchTrainersAvailabilityWeekly = '/search-trainers-availability/weekly';
+export const routeSearchTrainersAvailabilityReservation = '/search-trainers-availability/reservation';
 export const routeCalendarTrainerMonthly = '/calendar-trainer/monthly';
 export const routeCalendarTrainerWeekly = '/calendar-trainer/weekly';
 export const routeCalendarTrainerAddAvailability = '/calendar-trainer/add-availability';
@@ -92,6 +93,11 @@ export const toSearchTrainersAvailabilityMonthly = routeSearchTrainersAvailabili
 
 export const toSearchTrainersAvailabilityWeekly = routeSearchTrainersAvailabilityWeekly as unknown as Route<{
   readonly weekDate: string;
+}>;
+
+export const toSearchTrainersAvailabilityReservation = routeSearchTrainersAvailabilityReservation as unknown as Route<{
+  readonly dateTime: string;
+  readonly traineeId: string;
 }>;
 
 export const toCalendarTrainerMonthly = routeCalendarTrainerMonthly as unknown as Route;

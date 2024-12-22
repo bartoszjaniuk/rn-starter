@@ -118,6 +118,14 @@ navigators:
       - Weekly:
           params:
             weekDate: string
+      - Reservation:
+          params:
+            dateTime: string
+            traineeId: string
+          props:
+            options:
+              << : [*modal]
+          
   CalendarTrainerNavigator:
     path: '../screens/BottomTabs/Calendar/CalendarTrainerNavigator'
     export: true

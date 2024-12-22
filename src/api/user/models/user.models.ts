@@ -8,6 +8,8 @@ export type UserInfoResponse = {
   name: string | null;
   role: Role;
   gender: string | null;
+  city: string;
+  profileImage: string;
 };
 
 export type ProfileCompletion = {

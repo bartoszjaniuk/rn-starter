@@ -26,7 +26,7 @@ const Content = () => {
 
   const onDateChanged = (date: string) => {
     const { past, future } = getPastPresentFutureDates(7, date);
-    updateNavigationData({ weekly: { from: past, to: future } });
+    updateNavigationData({ weekly: { from: past, to: future }, weekDate: new Date(date).toISOString().slice(0, 10) });
   };
 
   return (

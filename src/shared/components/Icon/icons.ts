@@ -5,6 +5,7 @@ import CalendarLinearSvg from '../../../../assets/icons/calendar-linear.svg';
 import CalendarSvg from '../../../../assets/icons/calendar.svg';
 import CheckmarkSvg from '../../../../assets/icons/checkmark.svg';
 import ChevronSvg from '../../../../assets/icons/chevron.svg';
+import ClockSvg from '../../../../assets/icons/clock.svg';
 import CloseXSvg from '../../../../assets/icons/closeX.svg';
 import DocumentSvg from '../../../../assets/icons/document.svg';
 import DotsSvg from '../../../../assets/icons/dots.svg';
@@ -46,6 +47,7 @@ export const icons = {
   plusThin: PlusThinSvg,
   calendarLinear: CalendarLinearSvg,
   closeX: CloseXSvg,
+  clock: ClockSvg,
 };
 
 export type IconName = keyof typeof icons;

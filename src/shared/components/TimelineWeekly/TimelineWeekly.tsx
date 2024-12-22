@@ -12,6 +12,9 @@ import { useAlert } from 'src/activatedUser/screens/SearchTrainers/SearchTrainer
 import { TrainerBookTrainingPostV1Payload, useTrainerBookTrainingMutation } from 'src/api/trainer';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
+import { goTo } from 'src/navigation';
+
+import * as route from '../../../activatedUser/navigation/routes';
 
 const today = new Date();
 export const getDate = (offset = 0) =>
@@ -40,7 +43,9 @@ export const TimelineWeekly = ({ onDateChanged, date, weeklyPlanner, trainerId, 
   });
 
   const handleReservation = (eventDate: string, payload: TrainerBookTrainingPostV1Payload) => {
-    alert(eventDate, () => trainerBookTrainingMutation.mutate(payload));
+    // alert(eventDate, () => trainerBookTrainingMutation.mutate(payload));
+
+    goTo(route.toSearchTrainersAvailabilityReservation, { traineeId: payload.traineeId, dateTime: eventDate });
   };
 
   return (

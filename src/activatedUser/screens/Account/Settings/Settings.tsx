@@ -1,12 +1,14 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
 import { Box, Stack } from '@grapp/stacks';
 
+import { useGetUserInfoQuery } from 'src/api/user/hooks';
+import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useAuth } from 'src/providers/AuthContext';
 import { Screen, ScrollView } from 'src/screen';
-import { Text } from 'src/shared';
-import { LocalImage } from 'src/shared/components/LocalImage/LocalImage';
+import { Text, replaceApiHost } from 'src/shared';
 
 import { SettingsOption } from './components/SettingsOption';
 
@@ -48,31 +50,40 @@ const settings = ({ onLogout }: { onLogout?: VoidFunction }): SettingsOption[] =
   ];
 };
 
-const ProfileAvatar = ({ src }: { src?: string }) => {
+const ProfileAvatar = ({ src, token }: { src?: string; token?: string | null | undefined }) => {
   return (
-    <Box>
-      <LocalImage
-        style={{ borderRadius: 100 }}
+    <Box width={150} height={150}>
+      <Image
         width={150}
+        height={150}
+        style={{ borderRadius: 100 }}
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        source={require('../../../../../assets/vegeta/vegeta1.jpg')}
+        source={
+          src && token
+            ? { uri: src, headers: { Authorization: `Bearer ${token}` } }
+            : require('../../../../../assets/vegeta/vegeta1.jpg')
+        }
       />
     </Box>
   );
 };
 
 const Content = () => {
-  const { isLoading, onLogout } = useAuth();
+  const { onLogout, authState } = useAuth();
+  const userInfoQuery = useGetUserInfoQuery();
 
   const data = settings({ onLogout });
+
+  if (userInfoQuery.isLoading) return <LoadingScreen />;
+
   return (
     <ScrollView>
       <Stack align="center" marginBottom={10}>
         <Box alignX="center" marginBottom={4}>
-          <ProfileAvatar />
+          <ProfileAvatar token={authState?.token} src={replaceApiHost(userInfoQuery.data?.profileImage)} />
         </Box>
         <Text size="sm" fontWeight="700">
-          Vegeta
+          {userInfoQuery.data?.name}
         </Text>
       </Stack>
       <FlatList
@@ -92,15 +103,7 @@ export const AccountSettings = () => {
   return (
     <Screen
       backgroundColor="black"
-      HeaderComponent={
-        <Screen.Header
-          variant="transparent"
-          title="Edycja profilu"
-          hasBackButton={true}
-          // hasCloseButton={true}
-          // as={Screen.Header.Animated}
-        />
-      }
+      HeaderComponent={<Screen.Header variant="transparent" title="Edycja profilu" hasBackButton={true} />}
     >
       <Content />
     </Screen>

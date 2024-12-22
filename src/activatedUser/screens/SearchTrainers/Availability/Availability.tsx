@@ -19,6 +19,8 @@ export type AvailabilityParams = {
     to: string;
   };
   weekDate: string;
+  traineeId: string;
+  availabilitySlotsIds: string[];
 };
 
 export const SearchTrainersAvailability = () => {
@@ -39,6 +41,8 @@ export const SearchTrainersAvailability = () => {
         to: future,
       },
       weekDate: new Date().toISOString().slice(0, 10),
+      traineeId: '',
+      availabilitySlotsIds: [],
     }),
     [future, lastDay, past, today, trainerId],
   );

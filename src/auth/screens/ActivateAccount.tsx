@@ -45,7 +45,6 @@ const Content = () => {
   const activateAccountMutation = useActivateAccountMutation({ onSuccess: handleNavigateToLogin });
 
   const { token } = useRouteParams(route.toAuthActivateAccount);
-  console.log('Token z url:', token);
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;

@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { useLoginMutation } from '../api/auth/hooks/useLoginMutation';
-import { useLogoutMutation } from '../api/auth/hooks/useLogoutMutation';
+import { onTemporaryLogout, useLogoutMutation } from '../api/auth/hooks/useLogoutMutation';
 import { AuthState, LoginError, LoginResponse, UserCredentials } from '../api/auth/models/auth.models';
 import { useGetUserInfoQuery } from '../api/user/hooks/useGetUserInfoQuery';
 import { ACCESS_TOKEN } from '../shared/constants/accessToken';
@@ -28,14 +28,16 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     isLoading: true,
   });
 
+  console.log(authState, 'authState');
+
   const loginMutation = useLoginMutation({
     onSuccess: async (data) => {
       setAuthState({ token: data.token, authenticated: true });
       await SecureStore.setItemAsync(ACCESS_TOKEN, data.token);
     },
   });
-
-  const { data: userData } = useGetUserInfoQuery(!!authState.token);
+  console.log(authState.token, 'authState.token');
+  const { data: userData, error } = useGetUserInfoQuery(!!authState.token);
 
   const { mutate: logout } = useLogoutMutation({
     onSuccess: async () => {
@@ -65,6 +67,15 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
       setAuthState((prev) => ({ ...prev, isLoading: false }));
     }
   }, [userData?.role]);
+
+  React.useEffect(() => {
+    const clearToken = async () => await SecureStore.deleteItemAsync(ACCESS_TOKEN);
+
+    if (error?.status === 409) {
+      setAuthState({ authenticated: null, token: null, role: 'role_not_set', isLoading: false });
+      clearToken();
+    }
+  }, [error, setAuthState]);
 
   const value = React.useMemo(
     () => ({

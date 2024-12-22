@@ -60,7 +60,7 @@ const App = () => {
   );
 };
 
-const prefix = Linking.createURL('/');
+// const prefix = Linking.createURL('/');
 
 export const MainNavigator = () => {
   const routeNameRef = React.useRef('');
@@ -71,8 +71,23 @@ export const MainNavigator = () => {
     routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name ?? '';
   }, []);
 
+  // const linking = {
+  //   prefixes: [prefix, 'https://fitapka.netlify.app'],
+  // };
+
   const linking = {
-    prefixes: [prefix, 'https://fitapka.netlify.app'],
+    prefixes: ['https://fitapka.netlify.app', 'fitapka://'], // Add your domain and scheme
+    config: {
+      screens: {
+        ActivateAccount: {
+          path: 'activate-account', // Matches the path in the URL
+          parse: {
+            token: (token: string) => `${token}`,
+            email: (email: string) => `${email}`,
+          },
+        },
+      },
+    },
   };
 
   return (
