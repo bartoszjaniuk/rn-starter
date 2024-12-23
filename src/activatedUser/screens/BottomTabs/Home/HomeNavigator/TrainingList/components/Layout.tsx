@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { ScrollView, SectionList } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 
-import { Box, Inline, Stack } from '@grapp/stacks';
+import { Box, FloatBox, Inline, Stack } from '@grapp/stacks';
 
 import { useBookingsQuery } from 'src/api/booking/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
@@ -32,7 +32,39 @@ export const Layout = (props: Props) => {
 
   if (bookingsQuery.isError) return <TryAgainError queryName="bookings" onRetry={bookingsQuery.refetch} />;
 
-  if (bookingsQuery.data?.meta.total === 0) return noSchedulesComponent;
+  if (bookingsQuery.data?.meta.total === 0)
+    return (
+      <Stack flex="fluid">
+        <FloatBox offset={0}>{noSchedulesComponent}</FloatBox>
+
+        {type === 'trainee' ? (
+          <FloatBox right={0} bottom={0}>
+            <Stack space={2} align="right" padding={4}>
+              <PressableScale style={{ width: 48, height: 48 }} onPress={() => goTo(route.toSearchTrainersList)}>
+                <Box
+                  width={48}
+                  height={48}
+                  alignX="center"
+                  alignY="center"
+                  borderRadius={24}
+                  backgroundColor={theme.colors.primary}
+                >
+                  <Icon name="plus" svgProps={{ width: 24, height: 24 }} color="typography" />
+                </Box>
+              </PressableScale>
+              <Stack>
+                <Text align="center" fontWeight="500" size="xs">
+                  Szukaj
+                </Text>
+                <Text align="center" fontWeight="500" size="xs">
+                  treningu
+                </Text>
+              </Stack>
+            </Stack>
+          </FloatBox>
+        ) : null}
+      </Stack>
+    );
 
   const data = bookingsQuery.data?.data;
 

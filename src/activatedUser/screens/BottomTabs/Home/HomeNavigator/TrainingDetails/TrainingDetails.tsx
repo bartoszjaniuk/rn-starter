@@ -4,13 +4,17 @@ import { Screen } from 'src/screen';
 import { Text } from 'src/shared';
 
 const Content = () => {
-  return <Text>HomeTrainingDetails</Text>;
+  return (
+    <Screen.Content>
+      <Text>HomeTrainingDetails</Text>
+    </Screen.Content>
+  );
 };
 
 export const HomeTrainingDetails = () => {
   return (
-    <Screen.Navigator.Item>
+    <Screen HeaderComponent={<Screen.Header variant="transparent" />}>
       <Content />
-    </Screen.Navigator.Item>
+    </Screen>
   );
 };

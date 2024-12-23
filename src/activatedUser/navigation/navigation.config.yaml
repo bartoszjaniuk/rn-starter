@@ -57,7 +57,7 @@ navigators:
       - MyPlans
       - TrainerTrainees
       - Profile
-  HomeNavigator:
+  Home:
     path: '../screens/BottomTabs/Home/HomeNavigator'
     export: true
     passParams: true
@@ -70,7 +70,8 @@ navigators:
           props:
             options:
               << : [*modal]
-  
+
+  # TrainingDetails:
   SearchTrainers:
     path: ../screens/SearchTrainers
     props:
@@ -159,6 +160,7 @@ navigators:
       - navigator: BottomTabs
       - navigator: Account
       - navigator: SearchTrainers
+      - navigator: Home
       - navigator: ActivateAccountTrainee
       - navigator: ActivateAccountTrainer
       - navigator: FirstLogin
