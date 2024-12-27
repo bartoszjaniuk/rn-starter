@@ -30,6 +30,7 @@ const ActivateAccountTraineeNativeStack = createNativeStackNavigator();
 const ActivateAccountTrainerNativeStack = createNativeStackNavigator();
 const BottomTabsBottomTab = createBottomTabNavigator();
 const HomeNativeStack = createNativeStackNavigator();
+const BookingNativeStack = createNativeStackNavigator();
 const SearchTrainersNativeStack = createNativeStackNavigator();
 const SearchTrainersListNativeStack = createNativeStackNavigator();
 const SearchTrainersAvailabilityNativeStack = createNativeStackNavigator();
@@ -218,9 +219,7 @@ const BottomTabsNavigator = () => {
   );
 };
 
-export const HomeNavigator = (props: Params) => {
-  const { params } = props;
-
+export const HomeNavigator = () => {
   return (
     <HomeNativeStack.Navigator
       screenOptions={{
@@ -230,8 +229,6 @@ export const HomeNavigator = (props: Params) => {
       <HomeNativeStack.Screen
         name={route.routeHomeTrainingList}
         initialParams={{
-          ...params,
-
           meta: {
             presentation: 'card',
           },
@@ -260,6 +257,26 @@ export const HomeNavigator = (props: Params) => {
         getComponent={() => require('../screens/BottomTabs/Home/HomeNavigator/UpdateParameters').HomeUpdateParameters}
       />
     </HomeNativeStack.Navigator>
+  );
+};
+
+const BookingNavigator = () => {
+  return (
+    <BookingNativeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <BookingNativeStack.Screen
+        name={route.routeBookingDetails}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/Booking/Details').BookingDetails}
+      />
+    </BookingNativeStack.Navigator>
   );
 };
 
@@ -512,6 +529,24 @@ export const ActivatedUserNavigator = () => {
           },
         }}
         component={SearchTrainersNavigator}
+      />
+      <ActivatedUserNativeStack.Screen
+        name={route.routeHomeNavigator}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={HomeNavigator}
+      />
+      <ActivatedUserNativeStack.Screen
+        name={route.routeBookingNavigator}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        component={BookingNavigator}
       />
       <ActivatedUserNativeStack.Screen
         name={route.routeActivateAccountTraineeNavigator}

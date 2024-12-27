@@ -58,9 +58,8 @@ navigators:
       - TrainerTrainees
       - Profile
   Home:
-    path: '../screens/BottomTabs/Home/HomeNavigator'
+    path: ../screens/BottomTabs/Home/HomeNavigator
     export: true
-    passParams: true
     props:
       screenOptions: *hideHeader
     children:
@@ -70,8 +69,25 @@ navigators:
           props:
             options:
               << : [*modal]
+  Booking:
+    path: ../screens/Booking
+    props:
+      screenOptions: *hideHeader
+    children:
+      - Details:
+          params:
+            bookingName: string
+            bookingDescription: string
+            trainerName: string
+            timeStart: string
+            timeEnd: string
+            city: string
+            date: string
+            isPastTraining?: boolean
+            trainerNote?: string
+            specializations?: string[]
 
-  # TrainingDetails:
+    
   SearchTrainers:
     path: ../screens/SearchTrainers
     props:
@@ -161,6 +177,7 @@ navigators:
       - navigator: Account
       - navigator: SearchTrainers
       - navigator: Home
+      - navigator: Booking
       - navigator: ActivateAccountTrainee
       - navigator: ActivateAccountTrainer
       - navigator: FirstLogin

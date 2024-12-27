@@ -8,12 +8,13 @@ import { useBookingsQuery } from 'src/api/booking/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Icon, PressableScale, Text, TryAgainError } from 'src/shared';
+import { Button, Icon, PressableScale, Text, TryAgainError } from 'src/shared';
 
 import { ShowPrevious } from './ShowPrevious';
 import { Tile } from './Tile';
 
 import * as route from '../../../../../../navigation/routes';
+import { Booking } from '../models/booking.model';
 import { splitBookingsIntoPastAndFuture } from '../utils/splitBookingsIntoPastAndFuture';
 import { transformDataIntoBookingArrays } from '../utils/transformDataIntoBookingArrays';
 
@@ -36,6 +37,7 @@ export const Layout = (props: Props) => {
     return (
       <Stack flex="fluid">
         <FloatBox offset={0}>{noSchedulesComponent}</FloatBox>
+        <Button onPress={() => goTo(route.toBookingDetails)}>Zobacz trening</Button>
 
         {type === 'trainee' ? (
           <FloatBox right={0} bottom={0}>
@@ -70,45 +72,59 @@ export const Layout = (props: Props) => {
 
   const transformedData = splitBookingsIntoPastAndFuture(transformDataIntoBookingArrays(data));
 
-  const handleNavigateToSearchTrainers = () => goTo(route.toSearchTrainersList);
-  const handleNavigateToTrainingDetails = () => goTo(route.toHomeTrainingDetails);
+  const navigateToTrainingDetails = (booking: Booking, isPast: boolean) =>
+    goTo(route.toBookingDetails, {
+      bookingName: 'missing field bookingName',
+      bookingDescription: 'missing field bookingDescription',
+      city: 'missing field city',
+      date: booking.date,
+      timeStart: booking.availabilitySlots[0]?.start ?? '',
+      timeEnd: booking.availabilitySlots[booking.availabilitySlots.length - 1]?.end ?? '',
+      trainerName: booking.trainer.name,
+      specializations: ['missing field specializations'],
+      trainerNote: booking.note ?? '',
+      isPastTraining: isPast,
+    });
   return (
-    <Screen.Content alignY="between">
+    <Screen.Content alignY="between" flex="fluid">
       {/*  FIXME: This ScrollView should be replaced with FlatList to improve performance */}
       <ScrollView>
         <Stack>
-          <ShowPrevious
-            children={
-              <SectionList
-                scrollEnabled={false}
-                ItemSeparatorComponent={() => <Box height={12} />}
-                sections={transformedData.pastBookings.map(({ date, trainings }) => ({
-                  title: date,
-                  data: trainings,
-                }))}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <Tile
-                    key={item.id}
-                    date={item.date}
-                    name={item.trainer.name}
-                    specialization="TBD"
-                    timeStart={item.availabilitySlots[0]?.start}
-                    timeEnd={item.availabilitySlots[item.availabilitySlots.length - 1]?.end}
-                    onPress={handleNavigateToTrainingDetails}
-                    isPast={true}
-                  />
-                )}
-                renderSectionHeader={({ section: { title } }) => (
-                  <Inline alignX="center" paddingY={4}>
-                    <Text fontWeight="500" size="xs">
-                      {title}
-                    </Text>
-                  </Inline>
-                )}
-              />
-            }
-          />
+          {transformedData.pastBookings.length > 0 ? (
+            <ShowPrevious
+              children={
+                <SectionList
+                  scrollEnabled={false}
+                  ItemSeparatorComponent={() => <Box height={12} />}
+                  sections={transformedData.pastBookings.map(({ date, trainings }) => ({
+                    title: date,
+                    data: trainings,
+                  }))}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                    <Tile
+                      key={item.id}
+                      date={item.date}
+                      name={item.trainer.name}
+                      specialization="TBD"
+                      timeStart={item.availabilitySlots[0]?.start}
+                      timeEnd={item.availabilitySlots[item.availabilitySlots.length - 1]?.end}
+                      onPress={() => navigateToTrainingDetails(item, true)}
+                      isPast={true}
+                    />
+                  )}
+                  renderSectionHeader={({ section: { title } }) => (
+                    <Inline alignX="center" paddingY={4}>
+                      <Text fontWeight="500" size="xs">
+                        {title}
+                      </Text>
+                    </Inline>
+                  )}
+                />
+              }
+            />
+          ) : null}
+
           <Box>
             <SectionList
               scrollEnabled={false}
@@ -126,7 +142,7 @@ export const Layout = (props: Props) => {
                   specialization="TBD"
                   timeStart={item.availabilitySlots[0]?.start}
                   timeEnd={item.availabilitySlots[item.availabilitySlots.length - 1]?.end}
-                  onPress={handleNavigateToTrainingDetails}
+                  onPress={() => navigateToTrainingDetails(item, false)}
                   isPast={false}
                 />
               )}
@@ -140,9 +156,11 @@ export const Layout = (props: Props) => {
             />
           </Box>
         </Stack>
-        {type === 'trainee' ? (
+      </ScrollView>
+      {type === 'trainee' ? (
+        <FloatBox right={0} bottom={0}>
           <Stack space={2} align="right" padding={4}>
-            <PressableScale style={{ width: 48, height: 48 }} onPress={handleNavigateToSearchTrainers}>
+            <PressableScale style={{ width: 48, height: 48 }} onPress={() => goTo(route.toSearchTrainersList)}>
               <Box
                 width={48}
                 height={48}
@@ -163,8 +181,8 @@ export const Layout = (props: Props) => {
               </Text>
             </Stack>
           </Stack>
-        ) : null}
-      </ScrollView>
+        </FloatBox>
+      ) : null}
     </Screen.Content>
   );
 };

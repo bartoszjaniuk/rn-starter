@@ -66,55 +66,53 @@ const Content = () => {
 
   const bodyMetrics = useBodyMetrics(traineeBodyMetricsQuery.data?.data);
 
+  if (userInfoQuery.isLoading || traineeBodyMetricsQuery.isLoading) return <LoadingScreen />;
+
   return (
     <Screen.ScrollView backgroundColor="transparent">
       <Screen.Content>
-        {userInfoQuery.isLoading ? (
-          <LoadingScreen />
-        ) : (
-          <Stack space={4}>
-            <CarouselGallery
-              images={
-                userInfoQuery.data?.profileImage
-                  ? [{ id: '123', uri: replaceApiHost(userInfoQuery.data?.profileImage) }]
-                  : [
-                      {
-                        id: '1',
-                        uri: 'https://avatar.iran.liara.run/public/1',
-                      },
-                    ]
-              }
-            />
-            <Stack paddingTop={6}>
-              <Text fontWeight="700" size="xxl">
-                {userInfoQuery.data?.name}
-              </Text>
-              <Text fontWeight="400" size="sm">
-                {userInfoQuery.data?.city}
-              </Text>
-              <Text fontWeight="400" size="sm">
-                Rola: {userInfoQuery.data?.role}
-              </Text>
-            </Stack>
-            {bodyMetrics ? (
-              <FlatList
-                scrollEnabled={false}
-                numColumns={3}
-                contentContainerStyle={{ gap: 8 }}
-                columnWrapperStyle={{ gap: 8 }}
-                data={bodyMetrics}
-                keyExtractor={(item) => item.title}
-                renderItem={({ item }) => <Snack value={{ title: item.title, value: item.value }} />}
-              />
-            ) : null}
-            <Stack space={4}>
-              <Text fontWeight="700" size="sm">
-                Interesuje mnie trening:
-              </Text>
-              <TrainingSnacks data={['Joga', 'Sylwetkowy', 'Kalistenika']} />
-            </Stack>
+        <Stack space={4}>
+          <CarouselGallery
+            images={
+              userInfoQuery.data?.profileImage
+                ? [{ id: '123', uri: replaceApiHost(userInfoQuery.data?.profileImage) }]
+                : [
+                    {
+                      id: '1',
+                      uri: 'https://avatar.iran.liara.run/public/1',
+                    },
+                  ]
+            }
+          />
+          <Stack paddingTop={6}>
+            <Text fontWeight="700" size="xxl">
+              {userInfoQuery.data?.name}
+            </Text>
+            <Text fontWeight="400" size="sm">
+              {userInfoQuery.data?.city}
+            </Text>
+            <Text fontWeight="400" size="sm">
+              Rola: {userInfoQuery.data?.role}
+            </Text>
           </Stack>
-        )}
+          {bodyMetrics ? (
+            <FlatList
+              scrollEnabled={false}
+              numColumns={3}
+              contentContainerStyle={{ gap: 8 }}
+              columnWrapperStyle={{ gap: 8 }}
+              data={bodyMetrics}
+              keyExtractor={(item) => item.title}
+              renderItem={({ item }) => <Snack value={{ title: item.title, value: item.value }} />}
+            />
+          ) : null}
+          <Stack space={4}>
+            <Text fontWeight="700" size="sm">
+              Interesuje mnie trening:
+            </Text>
+            <TrainingSnacks data={['Joga', 'Sylwetkowy', 'Kalistenika']} />
+          </Stack>
+        </Stack>
       </Screen.Content>
     </Screen.ScrollView>
   );

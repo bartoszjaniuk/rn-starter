@@ -14,6 +14,7 @@ import GoogleSvg from '../../../../assets/icons/google.svg';
 import HomeSvg from '../../../../assets/icons/home.svg';
 import MailSvg from '../../../../assets/icons/mail.svg';
 import MusculeSvg from '../../../../assets/icons/muscule.svg';
+import PencilSvg from '../../../../assets/icons/pencil.svg';
 import PhoneSvg from '../../../../assets/icons/phone.svg';
 import PhotoSvg from '../../../../assets/icons/photo.svg';
 import PlusSvg from '../../../../assets/icons/plus.svg';
@@ -48,6 +49,7 @@ export const icons = {
   calendarLinear: CalendarLinearSvg,
   closeX: CloseXSvg,
   clock: ClockSvg,
+  pencil: PencilSvg,
 };
 
 export type IconName = keyof typeof icons;

@@ -52,6 +52,7 @@ export const CarouselGallery = (props: Props) => {
       animated: true,
     });
   };
+  const data = images.length > 0 ? images : mock;
 
   return (
     <Bleed space={8} flex="fluid" backgroundColor="transparent">
@@ -61,8 +62,7 @@ export const CarouselGallery = (props: Props) => {
         width={width}
         height={height / 2.5}
         pagingEnabled={true}
-        mode="parallax"
-        data={images.length > 0 ? images : mock}
+        data={data}
         scrollAnimationDuration={1000}
         snapEnabled={true}
         onProgressChange={(_offsetProgress, absoluteProgress) => {

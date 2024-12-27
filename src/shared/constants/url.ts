@@ -1,1 +1,1 @@
-export const URL = 'http://fitapka.pl';
+export const URL = 'https://fitapka.pl';

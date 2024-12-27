@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { queryKeys } from 'src/api/utils';
+
 import { TrainerBookTrainingPostV1Payload } from '../models';
 import { trainerService } from '../trainer.service';
 
@@ -13,6 +15,7 @@ export const useTrainerBookTrainingMutation = (trainerId: string, onSuccessEffec
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey[0].includes('availabilities'),
       });
+      queryClient.invalidateQueries({ queryKey: [queryKeys.getBookings()] });
       onSuccessEffect?.();
     },
   });

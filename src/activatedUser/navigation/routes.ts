@@ -22,6 +22,7 @@ export const routeBottomTabsProfile = '/bottom-tabs/profile';
 export const routeHomeTrainingList = '/home/training-list';
 export const routeHomeTrainingDetails = '/home/training-details';
 export const routeHomeUpdateParameters = '/home/update-parameters';
+export const routeBookingDetails = '/booking/details';
 export const routeSearchTrainersHome = '/search-trainers/home';
 export const routeSearchTrainersList = '/search-trainers/list';
 export const routeSearchTrainersProfileDetails = '/search-trainers/profile-details';
@@ -38,6 +39,8 @@ export const routeAccountSettings = '/account/settings';
 export const routeBottomTabsNavigator = '/bottom-tabs';
 export const routeAccountNavigator = '/account';
 export const routeSearchTrainersNavigator = '/search-trainers';
+export const routeHomeNavigator = '/home';
+export const routeBookingNavigator = '/booking';
 export const routeActivateAccountTraineeNavigator = '/activate-account-trainee';
 export const routeActivateAccountTrainerNavigator = '/activate-account-trainer';
 export const routeFirstLoginNavigator = '/first-login';
@@ -62,6 +65,20 @@ export const toBottomTabsProfile = [routeBottomTabsNavigator, routeBottomTabsPro
 export const toHomeTrainingList = routeHomeTrainingList as unknown as Route;
 export const toHomeTrainingDetails = routeHomeTrainingDetails as unknown as Route;
 export const toHomeUpdateParameters = routeHomeUpdateParameters as unknown as Route;
+
+export const toBookingDetails = [routeBookingNavigator, routeBookingDetails] as unknown as Route<{
+  readonly bookingName: string;
+  readonly bookingDescription: string;
+  readonly trainerName: string;
+  readonly timeStart: string;
+  readonly timeEnd: string;
+  readonly city: string;
+  readonly date: string;
+  readonly isPastTraining?: boolean;
+  readonly trainerNote?: string;
+  readonly specializations?: string[];
+}>;
+
 export const toSearchTrainersHome = [routeSearchTrainersNavigator, routeSearchTrainersHome] as unknown as Route;
 export const toSearchTrainersList = [routeSearchTrainersNavigator, routeSearchTrainersList] as unknown as Route;
 
@@ -111,6 +128,8 @@ export const toAccountSettings = [routeAccountNavigator, routeAccountSettings] a
 export const toBottomTabsNavigator = routeBottomTabsNavigator as unknown as Route;
 export const toAccountNavigator = routeAccountNavigator as unknown as Route;
 export const toSearchTrainersNavigator = routeSearchTrainersNavigator as unknown as Route;
+export const toHomeNavigator = routeHomeNavigator as unknown as Route;
+export const toBookingNavigator = routeBookingNavigator as unknown as Route;
 export const toActivateAccountTraineeNavigator = routeActivateAccountTraineeNavigator as unknown as Route;
 export const toActivateAccountTrainerNavigator = routeActivateAccountTrainerNavigator as unknown as Route;
 export const toFirstLoginNavigator = routeFirstLoginNavigator as unknown as Route;
