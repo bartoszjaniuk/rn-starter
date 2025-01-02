@@ -1,1 +1,3 @@
-export const API_URL = 'https://fitapka.pl/api';
+import { env } from 'src/core';
+
+export const API_URL = env.EXPO_PUBLIC_API_URL;

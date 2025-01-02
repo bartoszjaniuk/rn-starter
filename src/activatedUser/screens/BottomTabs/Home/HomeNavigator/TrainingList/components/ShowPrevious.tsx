@@ -6,7 +6,7 @@ import { Icon, PressableScale, Text } from 'src/shared';
 
 export const ShowPrevious = (props: React.PropsWithChildren) => {
   const { children } = props;
-  const [isShown, setIsShown] = React.useState(false);
+  const [isShown, setIsShown] = React.useState(true);
   return (
     <Stack>
       <PressableScale onPress={() => setIsShown((prev) => !prev)}>

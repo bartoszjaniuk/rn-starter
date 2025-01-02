@@ -1,1 +1,3 @@
-export const URL = 'https://fitapka.pl';
+import { env } from 'src/core';
+
+export const URL = env.EXPO_PUBLIC_URL;

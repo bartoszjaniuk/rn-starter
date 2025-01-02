@@ -67,6 +67,7 @@ export const toHomeTrainingDetails = routeHomeTrainingDetails as unknown as Rout
 export const toHomeUpdateParameters = routeHomeUpdateParameters as unknown as Route;
 
 export const toBookingDetails = [routeBookingNavigator, routeBookingDetails] as unknown as Route<{
+  readonly bookingId: string;
   readonly bookingName: string;
   readonly bookingDescription: string;
   readonly trainerName: string;

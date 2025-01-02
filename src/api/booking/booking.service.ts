@@ -13,6 +13,12 @@ export class BookingService extends ApiService {
   getBookings = async () => {
     return this.responseHandler(await this.httpClient.get<Promise<BookingsGetV1Response>>(queryKeys.getBookings()));
   };
+
+  cancelBooking = async (bookingId: string) => {
+    return this.responseHandler(
+      await this.httpClient.post<Promise<BookingsGetV1Response>>(queryKeys.postCancelBooking(bookingId)),
+    );
+  };
 }
 
 export const bookingService = new BookingService();

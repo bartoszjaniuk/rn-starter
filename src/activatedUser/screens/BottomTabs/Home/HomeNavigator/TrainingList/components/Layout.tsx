@@ -74,9 +74,10 @@ export const Layout = (props: Props) => {
 
   const navigateToTrainingDetails = (booking: Booking, isPast: boolean) =>
     goTo(route.toBookingDetails, {
+      bookingId: booking.id,
       bookingName: 'missing field bookingName',
       bookingDescription: 'missing field bookingDescription',
-      city: 'missing field city',
+      city: booking.trainer.city,
       date: booking.date,
       timeStart: booking.availabilitySlots[0]?.start ?? '',
       timeEnd: booking.availabilitySlots[booking.availabilitySlots.length - 1]?.end ?? '',

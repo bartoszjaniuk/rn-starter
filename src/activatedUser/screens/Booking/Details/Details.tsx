@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { Inline, Stack } from '@grapp/stacks';
 
+import { useCancelBookingMutation } from 'src/api/booking/hooks';
+import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useRouteParams } from 'src/core/hooks';
 import { Screen } from 'src/screen';
 import { Icon, PressableScale, Text } from 'src/shared';
@@ -24,7 +26,12 @@ const Content = () => {
     isPastTraining,
     specializations,
     trainerNote,
+    bookingId,
   } = useRouteParams(route.toBookingDetails);
+  const cancelBookingMutation = useCancelBookingMutation();
+  const handleCancelTraining = () => cancelBookingMutation.mutate(bookingId);
+
+  if (cancelBookingMutation.isPending) return <LoadingScreen />;
 
   return (
     <Screen.Content>
@@ -83,7 +90,7 @@ const Content = () => {
               </Inline>
             </PressableScale>
 
-            <PressableScale>
+            <PressableScale onPress={handleCancelTraining}>
               <Inline alignY="center" space={4}>
                 <Icon name="closeX" svgProps={{ width: 20, height: 20 }} />
                 <Text fontWeight="400" size="xs">

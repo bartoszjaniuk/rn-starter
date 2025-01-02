@@ -28,15 +28,12 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     isLoading: true,
   });
 
-  console.log(authState, 'authState');
-
   const loginMutation = useLoginMutation({
     onSuccess: async (data) => {
       setAuthState({ token: data.token, authenticated: true });
       await SecureStore.setItemAsync(ACCESS_TOKEN, data.token);
     },
   });
-  console.log(authState.token, 'authState.token');
   const { data: userData, error } = useGetUserInfoQuery(!!authState.token);
 
   const { mutate: logout } = useLogoutMutation({

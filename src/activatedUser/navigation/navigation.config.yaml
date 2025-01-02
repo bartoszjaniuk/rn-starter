@@ -76,6 +76,7 @@ navigators:
     children:
       - Details:
           params:
+            bookingId: string
             bookingName: string
             bookingDescription: string
             trainerName: string
