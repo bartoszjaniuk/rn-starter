@@ -8,10 +8,10 @@ import { Tile } from './Tile';
 
 type Props = {
   variant?: 'primary' | 'secondary';
-  onPress: (activityId: number) => void;
+  onPress: (activityId: string | number) => void;
   activities: {
     label: string;
-    value: number;
+    value: string;
     isSelected: boolean;
   }[];
   error?: string;

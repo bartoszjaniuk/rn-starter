@@ -1,34 +1,34 @@
 import * as React from 'react';
 
 import { Specialization } from 'src/activatedUser/screens/ActivateAccount/_internals/models/specialization';
-import { useTrainerSpecializationsQuery } from 'src/api/trainer';
+import { useSpecializationsQuery } from 'src/api/dictionaries/hooks';
 
-const makeSpecializations = (dataFromBackend: string[]): Specialization[] =>
-  dataFromBackend.map((spec, i) => ({
-    label: spec,
-    value: i + 1,
+const shapeSpecializations = (object: { [s: string]: unknown }) => {
+  return Object.entries(object).map(([key, value]) => ({
+    label: value as string,
+    value: key,
     isSelected: false,
   }));
+};
 
 export const useTrainerSpecializationsFilters = (defaultValue: string[] = []) => {
   const [specializations, setSpecializations] = React.useState<Specialization[]>([]);
 
-  const { data, isLoading } = useTrainerSpecializationsQuery();
+  const specializationsQuery = useSpecializationsQuery();
 
   React.useEffect(() => {
-    if (data?.data && data.data.length > 0) {
+    if (specializationsQuery.data?.data) {
       if (defaultValue.length > 0) {
-        const initialSpecializations = makeSpecializations(data.data);
+        const initialSpecializations = shapeSpecializations(specializationsQuery.data.data);
         const selectedSpecializations = initialSpecializations.map((spec) => ({
           ...spec,
-          isSelected: defaultValue.includes(spec.label),
+          isSelected: defaultValue.includes(spec.value),
         }));
         setSpecializations(selectedSpecializations);
       } else {
-        setSpecializations(makeSpecializations(data.data));
+        setSpecializations(shapeSpecializations(specializationsQuery.data.data));
       }
     }
-  }, [data?.data, defaultValue]);
-
-  return { isLoading, specializations, setSpecializations };
+  }, [defaultValue, specializationsQuery.data?.data]);
+  return { isLoading: specializationsQuery.isLoading, specializations, setSpecializations };
 };

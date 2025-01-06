@@ -45,8 +45,6 @@ const Content = () => {
 
   const availableSlots = getAllDatesForCurrentMonth(navigationData.month);
 
-  console.log(availableSlots, 'availableSlots');
-
   const {
     control,
     handleSubmit,

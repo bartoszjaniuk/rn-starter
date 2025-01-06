@@ -71,8 +71,6 @@ export const Layout = (props: Props) => {
 
   const transformedData = splitBookingsIntoPastAndFuture(transformDataIntoBookingArrays(data));
 
-  console.log(transformedData, 'transformedData');
-
   const navigateToTrainingDetails = (booking: Booking, isPast: boolean) => {
     if (type === 'trainee') {
       goTo(route.toBookingDetails, {

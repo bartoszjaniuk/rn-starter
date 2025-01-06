@@ -13,16 +13,18 @@ type Props = {
   onSelectSpecialization: (specialization: string) => void;
 };
 
-const filterSelected = (arr: Specialization[]) => arr.filter((a) => a.isSelected).map((a) => a.label);
+const filterSelected = (arr: Specialization[]) => arr.filter((a) => a.isSelected).map((a) => a.value);
 
 export const SpecializationFilters = (props: Props) => {
   const { defaultValue, onSelectSpecialization } = props;
+  console.log(defaultValue, 'defaultValue');
   const { specializations, isLoading, setSpecializations } = useTrainerSpecializationsFilters(
     React.useMemo(() => defaultValue?.split(','), [defaultValue]),
   );
+
   const [error, setError] = React.useState('');
   const onActivityPress = React.useCallback(
-    (activityId: number) => {
+    (activityId: string | number) => {
       const updatedActivities = specializations.map((specialization) => {
         if (specialization.value === activityId) {
           return { ...specialization, isSelected: !specialization.isSelected };

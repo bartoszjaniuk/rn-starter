@@ -52,7 +52,6 @@ const settings = ({ onLogout }: { onLogout?: VoidFunction }): SettingsOption[] =
 };
 
 const ProfileAvatar = ({ src, token }: { src?: string; token?: string | null | undefined }) => {
-  console.log(src, 'src');
   return (
     <Box width={150} height={150}>
       {src && token ? (

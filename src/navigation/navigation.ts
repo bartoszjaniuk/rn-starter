@@ -5,28 +5,18 @@ import { CommonActions, NavigationAction, NavigationContainerRef, StackActions }
 export const navigationRef = React.createRef<NavigationContainerRef<Record<string, unknown>>>();
 
 export const dispatch = (action: NavigationAction) => {
-  const payload = action.payload as Record<string, Record<string, unknown>>;
   navigationRef.current?.dispatch(action);
-
-  console.log('🗿 action.type: ', action.type);
-  console.log('🗿 payload: ', payload);
 };
 
 export const goTo = <T extends Route>(route: T, params?: RouteParams<T>) => {
   const coercedRoute = route as string | string[];
   const coercedParams = params as Record<string, unknown>;
 
-  console.log({ coercedRoute, coercedParams }, 'navigation');
-
   if (typeof coercedRoute === 'string') {
     return dispatch(StackActions.push(coercedRoute, coercedParams));
   }
 
-  console.log(coercedRoute, 'coercedRoute');
-
   const [routeName, screenName] = coercedRoute;
-
-  console.log(routeName, screenName, 'routeName, screenName');
 
   if (routeName) {
     return dispatch(

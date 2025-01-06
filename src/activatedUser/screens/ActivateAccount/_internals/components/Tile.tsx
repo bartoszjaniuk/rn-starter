@@ -6,9 +6,9 @@ import { PressableScale, Text } from 'src/shared';
 type Props = {
   variant?: 'primary' | 'secondary';
   label: string;
-  value: number;
+  value: number | string;
   isSelected: boolean;
-  onPress: (activityId: number) => void;
+  onPress: (activityId: number | string) => void;
 };
 
 export const Tile = ({ label, isSelected, onPress, value }: Props) => {

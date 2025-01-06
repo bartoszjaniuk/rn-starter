@@ -45,8 +45,6 @@ const TrainerContent = () => {
 
   const data = trainersQuery.data?.data[0];
 
-  console.log({ data });
-
   return (
     <Screen.ScrollView backgroundColor="transparent">
       <Screen.Content>

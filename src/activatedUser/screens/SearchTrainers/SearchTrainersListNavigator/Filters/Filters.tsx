@@ -11,14 +11,16 @@ import { GenderFilters } from './components/GenderFilters';
 import { SpecializationFilters } from './components/SpecializationFilters';
 import { WorkWithFilters } from './components/WorkWithFilters';
 
-import { QueryParamsList } from '../../List';
+import { QueryParamsList, initialQueryParamsList } from '../../List';
 
 const Content = ({
   onUpdateFilters,
+  onClearFilters,
   filters,
 }: {
   filters: QueryParamsList | undefined;
   onUpdateFilters: (key: keyof QueryParamsList, value: string) => void;
+  onClearFilters: VoidFunction;
 }) => {
   const onSelectFrom = (from: string) => onUpdateFilters('from', from);
   // TODO:
@@ -30,11 +32,19 @@ const Content = ({
     (specialization: string) => onUpdateFilters('specialization', specialization),
     [onUpdateFilters],
   );
+
   return (
     <Screen.Content>
       <Stack space={6} paddingTop={6}>
+        <PressableScale st={true} onPress={onClearFilters}>
+          {Object.entries(filters).some(([key, value]) => !!value) ? (
+            <Text fontWeight="700" size="xs" color="white">
+              Wyczyść filtry X
+            </Text>
+          ) : null}
+        </PressableScale>
         <FromFilters onSelectFrom={onSelectFrom} defaultValue={filters?.from} />
-        <WorkWithFilters onSelectFrom={onSelectWorkWith} defaultValue={filters?.from} />
+        <WorkWithFilters onSelectFrom={onSelectWorkWith} defaultValue={undefined} />
         <GenderFilters onSelectGender={onSelectGender} defaultValue={filters?.gender} />
         <SpecializationFilters
           onSelectSpecialization={onSelectSpecialization}
@@ -54,12 +64,20 @@ export const SearchTrainersListFilters = () => {
     goBack();
   };
 
+  const onClearFilters = () => {
+    if (filtersLocalState) updateNavigationData(initialQueryParamsList);
+    goBack();
+  };
+
   const onUpdateFilters = React.useCallback(
     (key: keyof QueryParamsList, value: string) => {
-      setFiltersLocalState((prev) => ({
-        ...prev,
-        [key]: value,
-      }));
+      setFiltersLocalState((prev) => {
+        const newValue = prev?.[key] === value ? undefined : value;
+        return {
+          ...prev,
+          [key]: newValue,
+        };
+      });
     },
     [setFiltersLocalState],
   );
@@ -78,7 +96,7 @@ export const SearchTrainersListFilters = () => {
       }
       statusBarStyle="light"
     >
-      <Content filters={filtersLocalState} onUpdateFilters={onUpdateFilters} />
+      <Content filters={filtersLocalState} onUpdateFilters={onUpdateFilters} onClearFilters={onClearFilters} />
     </Screen>
   );
 };

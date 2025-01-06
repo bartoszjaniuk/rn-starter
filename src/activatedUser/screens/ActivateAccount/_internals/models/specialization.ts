@@ -1,5 +1,5 @@
 export type Specialization = {
   label: string;
-  value: number;
+  value: string;
   isSelected: boolean;
 };

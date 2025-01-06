@@ -14,7 +14,7 @@ export type QueryParamsList = {
   gender?: string;
 };
 
-const data: QueryParamsList = {
+export const initialQueryParamsList: QueryParamsList = {
   from: '',
   to: '',
   specialization: '',
@@ -38,7 +38,7 @@ export const SearchTrainersList = () => {
         </Screen.Header>
       }
     >
-      <Screen.Navigator as={SearchTrainersListNavigator} data={data} />
+      <Screen.Navigator as={SearchTrainersListNavigator} data={initialQueryParamsList} />
     </Screen>
   );
 };

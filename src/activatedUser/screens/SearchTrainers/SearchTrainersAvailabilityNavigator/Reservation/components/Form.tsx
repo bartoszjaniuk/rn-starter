@@ -25,7 +25,6 @@ export const Form = (props: Props) => {
   const { navigationData, updateNavigationData } = useNavigator<AvailabilityParams>();
   const { control, availableSlots, slots, duration } = props;
   const { traineeId } = useRouteParams(route.toSearchTrainersAvailabilityReservation);
-  console.log(navigationData.specializations, 'navigationData.specializations');
 
   const meetingIntervals = mapToSelect(
     getMeetingSlots(
@@ -120,7 +119,6 @@ export const Form = (props: Props) => {
             onValueChange={(v: string | null) => {
               if (v === null) onChange('');
               else {
-                console.log(v);
                 updateNavigationData({ type: v });
 
                 onChange(v);
@@ -142,7 +140,7 @@ export const Form = (props: Props) => {
   );
 };
 
-const SPECIALIZATIONS = {
+export const SPECIALIZATIONS = {
   YOGA: 'joga',
   STRENGTH_TRAINING: 'trening siłowy',
   CALISTHENICS: 'kalistenika',
