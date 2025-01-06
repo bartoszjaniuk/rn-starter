@@ -18,3 +18,21 @@ export type TraineeBodyMetricsGetV1Response = {
 };
 
 export type TraineeBodyMetricsPostV1Payload = BodyMetrics;
+
+export type Trainee = {
+  id: string;
+  email: string;
+  name: string;
+  phoneNumber: string;
+  city: string;
+  specializations: string[];
+  rating?: number;
+  images: string[];
+};
+
+export type TraineesGetV1Response = {
+  data: Trainee[];
+  meta: {
+    total: number;
+  };
+};

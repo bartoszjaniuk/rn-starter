@@ -27,6 +27,7 @@ const stylesheet = createStyleSheet((theme) => ({
     height: 24,
     // minWidth: 115,
     // maxWidth: 115,
+    flex: 1,
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',

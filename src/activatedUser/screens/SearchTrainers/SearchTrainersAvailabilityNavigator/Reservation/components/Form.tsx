@@ -22,9 +22,10 @@ type Props = {
 };
 
 export const Form = (props: Props) => {
-  const { updateNavigationData } = useNavigator<AvailabilityParams>();
+  const { navigationData, updateNavigationData } = useNavigator<AvailabilityParams>();
   const { control, availableSlots, slots, duration } = props;
   const { traineeId } = useRouteParams(route.toSearchTrainersAvailabilityReservation);
+  console.log(navigationData.specializations, 'navigationData.specializations');
 
   const meetingIntervals = mapToSelect(
     getMeetingSlots(
@@ -108,6 +109,44 @@ export const Form = (props: Props) => {
         )}
         name="bookingDate"
       />
+
+      <Controller
+        control={control}
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <SelectDropdownRN
+            isRequired={true}
+            error={error}
+            selectedValue={value}
+            onValueChange={(v: string | null) => {
+              if (v === null) onChange('');
+              else {
+                console.log(v);
+                updateNavigationData({ type: v });
+
+                onChange(v);
+              }
+            }}
+            label="Rodzaj treningu"
+            placeholder={value}
+            options={navigationData.specializations.map((spec) => {
+              const key = Object.keys(SPECIALIZATIONS).find(
+                (key) => SPECIALIZATIONS[key as keyof typeof SPECIALIZATIONS] === spec,
+              );
+              return key ? { label: spec, value: key } : { label: spec, value: spec };
+            })}
+          />
+        )}
+        name="specialization"
+      />
     </Stack>
   );
 };
+
+const SPECIALIZATIONS = {
+  YOGA: 'joga',
+  STRENGTH_TRAINING: 'trening siłowy',
+  CALISTHENICS: 'kalistenika',
+  CARDIO: 'kardio',
+  PILATES: 'pilates',
+  RUNNING: 'biegowy',
+} as const;

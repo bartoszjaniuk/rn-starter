@@ -1,35 +1,77 @@
 import * as React from 'react';
+import { Alert, AlertOptions } from 'react-native';
 
 import { Inline, Stack } from '@grapp/stacks';
 
 import { useCancelBookingMutation } from 'src/api/booking/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useRouteParams } from 'src/core/hooks';
+import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
 import { Icon, PressableScale, Text } from 'src/shared';
 import { TrainingSnacks } from 'src/shared/components/TrainingSnacks/TrainingSnacks';
+import { capitalizeFirstLetter } from 'src/shared/utils/capitalizeFirstLetter';
 
 import { DateTile } from './components/DateTile';
 import { Tile } from './components/Tile';
 
 import * as route from '../../../navigation/routes';
 
+type AlertProps = {
+  message?: string;
+  options?: AlertOptions;
+};
+
+export const useAlert = (props: AlertProps = {}) => {
+  const { message, options } = props;
+  const openAlert = React.useMemo(
+    () => (onConfirm?: VoidFunction) => {
+      Alert.alert(
+        `Czy na pewno chcesz anulować trening?`,
+        message,
+        [
+          { text: 'Zamknij', style: 'cancel' },
+          { text: 'Potwierdź', style: 'default', onPress: onConfirm },
+        ],
+        options,
+      );
+    },
+    [message, options],
+  );
+  return openAlert;
+};
+
 const Content = () => {
   const {
-    bookingDescription,
+    place,
     bookingName,
-    city,
     date,
     timeStart,
     timeEnd,
-    trainerName,
     isPastTraining,
-    specializations,
+    type,
+    city,
+    name,
     trainerNote,
     bookingId,
+    role,
+    id,
   } = useRouteParams(route.toBookingDetails);
   const cancelBookingMutation = useCancelBookingMutation();
-  const handleCancelTraining = () => cancelBookingMutation.mutate(bookingId);
+
+  const alert = useAlert();
+
+  const handleCancelTraining = () => {
+    alert(() => cancelBookingMutation.mutate(bookingId));
+  };
+
+  const handleNavigateToTrainerProfile = () => {
+    goTo(route.toBookingProfile, {
+      id,
+      role,
+      specializations: [], // IT IS NOT USED HERE
+    });
+  };
 
   if (cancelBookingMutation.isPending) return <LoadingScreen />;
 
@@ -37,9 +79,9 @@ const Content = () => {
     <Screen.Content>
       <Stack space={4}>
         <Text fontWeight="400" size="xxl">
-          Masz ukończony trening z
+          {isPastTraining ? 'Masz ukończony trening z' : 'Masz zaplanowany trening z'}
         </Text>
-        <Tile name={trainerName} city={city} />
+        <Tile name={name} city={city} onPress={handleNavigateToTrainerProfile} />
         <Inline space={6} alignY="center">
           <Inline space={2}>
             <Icon name="calendar" color="gray" svgProps={{ width: 16, height: 16 }} />
@@ -64,13 +106,13 @@ const Content = () => {
             ) : null}
           </Inline>
         </Inline>
-        <DateTile dateStart={timeStart} dateEnd={timeEnd} description={bookingDescription} name={bookingName} />
+        <DateTile dateStart={timeStart} dateEnd={timeEnd} description={place} name={bookingName} />
         <Stack>
           <Text fontWeight="500" size="sm">
             Rodzaj treningu:
           </Text>
         </Stack>
-        {specializations && specializations?.length > 0 ? <TrainingSnacks data={specializations} /> : null}
+        {type ? <TrainingSnacks data={[capitalizeFirstLetter(type)]} /> : null}
         {trainerNote ? (
           <Stack space={2}>
             <Text fontWeight="500" size="sm">

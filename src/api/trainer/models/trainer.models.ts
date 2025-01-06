@@ -32,6 +32,7 @@ export type ScheduleEntry = {
   id: string; // Unique identifier for each time slot
   start: string; // Start time in "HH:mm" format
   end: string; // End time in "HH:mm" format
+  place: string | null;
 };
 
 export type DateSchedule = {
@@ -56,6 +57,7 @@ export type TrainerSetAvailabilityPostV1Payload = {
   start: string;
   end: string;
   recurrence: string;
+  place: string;
 }[];
 
 // {

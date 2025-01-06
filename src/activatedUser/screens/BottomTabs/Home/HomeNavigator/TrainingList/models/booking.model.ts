@@ -2,6 +2,7 @@ export type Booking = {
   date: string;
   id: string;
   status: string;
+  type: string;
   trainee: {
     id: string;
     name: string;
@@ -14,6 +15,7 @@ export type Booking = {
   };
   note: string | null;
   rating: number | null;
+  place: string;
   availabilitySlots: {
     id: string;
     start: string;

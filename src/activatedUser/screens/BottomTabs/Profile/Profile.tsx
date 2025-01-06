@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FlatList } from 'react-native';
 
-import { Stack } from '@grapp/stacks';
+import { Inline, Stack } from '@grapp/stacks';
 
 import { BodyMetrics, useTraineeBodyMetricsQuery } from 'src/api/trainee';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
@@ -91,9 +91,14 @@ const Content = () => {
             <Text fontWeight="400" size="sm">
               {userInfoQuery.data?.city}
             </Text>
-            <Text fontWeight="400" size="sm">
-              Rola: {userInfoQuery.data?.role}
-            </Text>
+            <Inline space={1}>
+              <Text fontWeight="400" size="sm">
+                Rola:
+              </Text>
+              <Text fontWeight="500" size="sm" color="primary">
+                {userInfoQuery.data?.role === 'trainee' ? 'Trenujący' : 'Trener'}
+              </Text>
+            </Inline>
           </Stack>
           {bodyMetrics ? (
             <FlatList

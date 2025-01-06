@@ -20,6 +20,7 @@ export const reservationFormSchema = z.object({
   date: z.string().min(1, 'Pole jest wymagane'),
   duration: z.string(),
   bookingDate: z.string().min(1, 'Pole jest wymagane'),
+  specialization: z.string().min(1, 'Pole jest wymagane'),
 });
 
 export type ReservationFormFieldValues = z.infer<typeof reservationFormSchema>;
@@ -47,6 +48,7 @@ const Content = () => {
       date: navigationData.weekDate,
       duration: '15',
       bookingDate: '',
+      specialization: '',
     },
   });
 
@@ -61,6 +63,7 @@ const Content = () => {
     trainerBookTrainingMutation.mutate({
       traineeId: navigationData.traineeId,
       availabilitySlotsIds: navigationData.availabilitySlotsIds,
+      type: navigationData.type,
     });
     reset();
   };

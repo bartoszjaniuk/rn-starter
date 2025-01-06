@@ -6,7 +6,7 @@ import { Tile } from './Tile';
 
 import { Booking } from '../models/booking.model';
 
-export const BookingItem = ({ date, trainer, availabilitySlots }: Booking) => {
+export const BookingItem = ({ date, trainer, availabilitySlots, type }: Booking) => {
   return (
     <Stack space={2} paddingTop={4}>
       <Inline alignX="center">
@@ -17,7 +17,7 @@ export const BookingItem = ({ date, trainer, availabilitySlots }: Booking) => {
       <Tile
         date={date}
         name={trainer.name}
-        specialization="TBD"
+        specialization={type}
         timeStart={availabilitySlots[0]?.start}
         timeEnd={availabilitySlots[availabilitySlots.length - 1]?.end}
         onPress={() => null}

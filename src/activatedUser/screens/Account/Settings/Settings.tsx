@@ -9,6 +9,7 @@ import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useAuth } from 'src/providers/AuthContext';
 import { Screen, ScrollView } from 'src/screen';
 import { Text, replaceApiHost } from 'src/shared';
+import { LocalImage } from 'src/shared/components/LocalImage/LocalImage';
 
 import { SettingsOption } from './components/SettingsOption';
 
@@ -51,19 +52,24 @@ const settings = ({ onLogout }: { onLogout?: VoidFunction }): SettingsOption[] =
 };
 
 const ProfileAvatar = ({ src, token }: { src?: string; token?: string | null | undefined }) => {
+  console.log(src, 'src');
   return (
     <Box width={150} height={150}>
-      <Image
-        width={150}
-        height={150}
-        style={{ borderRadius: 100 }}
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        source={
-          src && token
-            ? { uri: src, headers: { Authorization: `Bearer ${token}` } }
-            : require('../../../../../assets/vegeta/vegeta1.jpg')
-        }
-      />
+      {src && token ? (
+        <Image
+          width={150}
+          height={150}
+          style={{ borderRadius: 100 }}
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          source={{ uri: src, headers: { Authorization: `Bearer ${token}` } }}
+        />
+      ) : (
+        <LocalImage
+          style={{ borderRadius: 100 }}
+          width={150}
+          source={require('../../../../../assets/vegeta/vegeta1.jpg')}
+        />
+      )}
     </Box>
   );
 };

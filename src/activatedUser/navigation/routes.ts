@@ -23,6 +23,7 @@ export const routeHomeTrainingList = '/home/training-list';
 export const routeHomeTrainingDetails = '/home/training-details';
 export const routeHomeUpdateParameters = '/home/update-parameters';
 export const routeBookingDetails = '/booking/details';
+export const routeBookingProfile = '/booking/profile';
 export const routeSearchTrainersHome = '/search-trainers/home';
 export const routeSearchTrainersList = '/search-trainers/list';
 export const routeSearchTrainersProfileDetails = '/search-trainers/profile-details';
@@ -67,17 +68,25 @@ export const toHomeTrainingDetails = routeHomeTrainingDetails as unknown as Rout
 export const toHomeUpdateParameters = routeHomeUpdateParameters as unknown as Route;
 
 export const toBookingDetails = [routeBookingNavigator, routeBookingDetails] as unknown as Route<{
+  readonly place: string;
   readonly bookingId: string;
   readonly bookingName: string;
-  readonly bookingDescription: string;
-  readonly trainerName: string;
+  readonly name: string;
+  readonly id: string;
   readonly timeStart: string;
   readonly timeEnd: string;
   readonly city: string;
   readonly date: string;
   readonly isPastTraining?: boolean;
   readonly trainerNote?: string;
-  readonly specializations?: string[];
+  readonly type: string;
+  readonly role: string;
+}>;
+
+export const toBookingProfile = [routeBookingNavigator, routeBookingProfile] as unknown as Route<{
+  readonly id: string;
+  readonly role: string;
+  readonly specializations: string[];
 }>;
 
 export const toSearchTrainersHome = [routeSearchTrainersNavigator, routeSearchTrainersHome] as unknown as Route;
@@ -103,6 +112,7 @@ export const toSearchTrainersAvailability = [
   routeSearchTrainersAvailability,
 ] as unknown as Route<{
   readonly trainerId: string;
+  readonly specializations: string[];
 }>;
 
 export const toSearchTrainersListList = routeSearchTrainersListList as unknown as Route;

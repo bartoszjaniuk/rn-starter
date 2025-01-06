@@ -13,6 +13,9 @@ import * as route from './routes';
 
 import { BottomTabBar } from '../components';
 import { BottomTabsCalendar } from '../screens/BottomTabs/Calendar';
+import { CalendarTrainerAddAvailability } from '../screens/BottomTabs/Calendar/CalendarTrainerNavigator/AddAvailability';
+import { CalendarTrainerMonthly } from '../screens/BottomTabs/Calendar/CalendarTrainerNavigator/Monthly';
+import { CalendarTrainerWeekly } from '../screens/BottomTabs/Calendar/CalendarTrainerNavigator/Weekly';
 import { BottomTabsHome } from '../screens/BottomTabs/Home';
 import { BottomTabsMyPlans } from '../screens/BottomTabs/MyPlans';
 import { BottomTabsProfile } from '../screens/BottomTabs/Profile';
@@ -276,6 +279,15 @@ const BookingNavigator = () => {
         }}
         getComponent={() => require('../screens/Booking/Details').BookingDetails}
       />
+      <BookingNativeStack.Screen
+        name={route.routeBookingProfile}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/Booking/Profile').BookingProfile}
+      />
     </BookingNativeStack.Navigator>
   );
 };
@@ -442,9 +454,7 @@ export const CalendarTrainerNavigator = (props: Params) => {
             presentation: 'card',
           },
         }}
-        getComponent={() =>
-          require('../screens/BottomTabs/Calendar/CalendarTrainerNavigator/Monthly').CalendarTrainerMonthly
-        }
+        component={CalendarTrainerMonthly}
       />
       <CalendarTrainerNativeStack.Screen
         name={route.routeCalendarTrainerWeekly}
@@ -453,9 +463,7 @@ export const CalendarTrainerNavigator = (props: Params) => {
             presentation: 'card',
           },
         }}
-        getComponent={() =>
-          require('../screens/BottomTabs/Calendar/CalendarTrainerNavigator/Weekly').CalendarTrainerWeekly
-        }
+        component={CalendarTrainerWeekly}
       />
       <CalendarTrainerNativeStack.Screen
         options={{
@@ -467,10 +475,7 @@ export const CalendarTrainerNavigator = (props: Params) => {
             presentation: 'modal',
           },
         }}
-        getComponent={() =>
-          require('../screens/BottomTabs/Calendar/CalendarTrainerNavigator/AddAvailability')
-            .CalendarTrainerAddAvailability
-        }
+        component={CalendarTrainerAddAvailability}
       />
     </CalendarTrainerNativeStack.Navigator>
   );

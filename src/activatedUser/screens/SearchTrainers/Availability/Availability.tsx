@@ -9,6 +9,8 @@ import { getFirstAndLastDaysOfMonth } from '../SearchTrainersAvailabilityNavigat
 import { getPastPresentFutureDates } from '../SearchTrainersAvailabilityNavigator/_internals/utils/getPastPresentFutureDates';
 
 export type AvailabilityParams = {
+  specializations: string[];
+  type: string;
   trainerId: string;
   monthly: {
     from: string;
@@ -25,12 +27,13 @@ export type AvailabilityParams = {
 
 export const SearchTrainersAvailability = () => {
   const { lastDay, today } = getFirstAndLastDaysOfMonth();
-  const { trainerId } = useRouteParams(route.toSearchTrainersAvailability);
+  const { trainerId, specializations } = useRouteParams(route.toSearchTrainersAvailability);
 
   const { past, future } = getPastPresentFutureDates(7);
 
   const data = React.useMemo(
     () => ({
+      specializations: specializations,
       trainerId: trainerId,
       monthly: {
         from: today,
@@ -42,9 +45,10 @@ export const SearchTrainersAvailability = () => {
       },
       weekDate: new Date().toISOString().slice(0, 10),
       traineeId: '',
+      type: '',
       availabilitySlotsIds: [],
     }),
-    [future, lastDay, past, today, trainerId],
+    [future, lastDay, past, today, trainerId, specializations],
   );
 
   return (

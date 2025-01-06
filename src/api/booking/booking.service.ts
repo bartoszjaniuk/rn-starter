@@ -16,7 +16,7 @@ export class BookingService extends ApiService {
 
   cancelBooking = async (bookingId: string) => {
     return this.responseHandler(
-      await this.httpClient.post<Promise<BookingsGetV1Response>>(queryKeys.postCancelBooking(bookingId)),
+      await this.httpClient.patch<Promise<BookingsGetV1Response>>(queryKeys.postCancelBooking(bookingId)),
     );
   };
 }

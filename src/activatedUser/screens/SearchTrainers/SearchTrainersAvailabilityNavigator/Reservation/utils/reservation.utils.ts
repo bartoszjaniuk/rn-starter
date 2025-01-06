@@ -2,12 +2,14 @@ export type TimeSlot = {
   id: string;
   start: string; // e.g., "08:00"
   end: string; // e.g., "08:15"
+  place: string;
 };
 
 export type MeetingSlot = {
   start: string; // e.g., "08:00"
   end: string; // e.g., "09:00"
   ids: string[]; // Array of combined slot IDs
+  place: string;
 };
 
 const timeToMinutes = (time: string): number => {
@@ -56,6 +58,7 @@ export const getMeetingSlots = (timeSlots: TimeSlot[] | undefined, durationInMin
         start: timeSlot.start,
         end: minutesToTime(end),
         ids: combinedIds,
+        place: timeSlot.place,
       });
     }
   });

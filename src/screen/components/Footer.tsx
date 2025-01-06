@@ -54,7 +54,7 @@ export const Footer = Row.from((props: Props) => {
   );
 });
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((_theme) => ({
   container: {
     variants: {
       variant: {
@@ -62,13 +62,13 @@ const stylesheet = createStyleSheet((theme) => ({
           borderTopLeftRadius: 12,
           borderTopRightRadius: 12,
           backgroundColor: 'transparent',
-          shadowColor: '#101828',
-          shadowOffset: {
-            width: 0,
-            height: -8,
-          },
-          shadowOpacity: 0.14,
-          shadowRadius: 22,
+          // shadowColor: '#101828',
+          // shadowOffset: {
+          // width: 0,
+          // height: -8,
+          // },
+          // shadowOpacity: 0.14,
+          // shadowRadius: 22,
         },
         transparent: undefined!,
       },

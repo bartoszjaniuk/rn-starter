@@ -8,7 +8,8 @@ import { useBookingsQuery } from 'src/api/booking/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Button, Icon, PressableScale, Text, TryAgainError } from 'src/shared';
+import { Icon, PressableScale, Text, TryAgainError } from 'src/shared';
+import { capitalizeFirstLetter } from 'src/shared/utils/capitalizeFirstLetter';
 
 import { ShowPrevious } from './ShowPrevious';
 import { Tile } from './Tile';
@@ -37,8 +38,6 @@ export const Layout = (props: Props) => {
     return (
       <Stack flex="fluid">
         <FloatBox offset={0}>{noSchedulesComponent}</FloatBox>
-        <Button onPress={() => goTo(route.toBookingDetails)}>Zobacz trening</Button>
-
         {type === 'trainee' ? (
           <FloatBox right={0} bottom={0}>
             <Stack space={2} align="right" padding={4}>
@@ -72,20 +71,44 @@ export const Layout = (props: Props) => {
 
   const transformedData = splitBookingsIntoPastAndFuture(transformDataIntoBookingArrays(data));
 
-  const navigateToTrainingDetails = (booking: Booking, isPast: boolean) =>
-    goTo(route.toBookingDetails, {
-      bookingId: booking.id,
-      bookingName: 'missing field bookingName',
-      bookingDescription: 'missing field bookingDescription',
-      city: booking.trainer.city,
-      date: booking.date,
-      timeStart: booking.availabilitySlots[0]?.start ?? '',
-      timeEnd: booking.availabilitySlots[booking.availabilitySlots.length - 1]?.end ?? '',
-      trainerName: booking.trainer.name,
-      specializations: ['missing field specializations'],
-      trainerNote: booking.note ?? '',
-      isPastTraining: isPast,
-    });
+  console.log(transformedData, 'transformedData');
+
+  const navigateToTrainingDetails = (booking: Booking, isPast: boolean) => {
+    if (type === 'trainee') {
+      goTo(route.toBookingDetails, {
+        id: booking.trainer.id,
+        name: booking.trainer.name,
+        city: booking.trainer.city,
+        bookingId: booking.id,
+        bookingName: `${capitalizeFirstLetter(booking.type)} z ${booking.trainer.name}`,
+        date: booking.date,
+        timeStart: booking.availabilitySlots[0]?.start ?? '',
+        timeEnd: booking.availabilitySlots[booking.availabilitySlots.length - 1]?.end ?? '',
+        type: booking.type,
+        trainerNote: booking.note ?? '',
+        isPastTraining: isPast,
+        role: type,
+        place: booking.place,
+      });
+    } else {
+      goTo(route.toBookingDetails, {
+        id: booking.trainee.id,
+        name: booking.trainee.name,
+        city: booking.trainee.city,
+        bookingId: booking.id,
+        bookingName: `${capitalizeFirstLetter(booking.type)} z ${booking.trainee.name}`,
+        date: booking.date,
+        timeStart: booking.availabilitySlots[0]?.start ?? '',
+        timeEnd: booking.availabilitySlots[booking.availabilitySlots.length - 1]?.end ?? '',
+        type: booking.type,
+        trainerNote: booking.note ?? '',
+        isPastTraining: isPast,
+        role: type,
+        place: booking.place,
+      });
+    }
+  };
+
   return (
     <Screen.Content alignY="between" flex="fluid">
       {/*  FIXME: This ScrollView should be replaced with FlatList to improve performance */}
@@ -106,8 +129,8 @@ export const Layout = (props: Props) => {
                     <Tile
                       key={item.id}
                       date={item.date}
-                      name={item.trainer.name}
-                      specialization="TBD"
+                      name={type === 'trainee' ? item.trainer.name : item.trainee.name}
+                      specialization={item.type}
                       timeStart={item.availabilitySlots[0]?.start}
                       timeEnd={item.availabilitySlots[item.availabilitySlots.length - 1]?.end}
                       onPress={() => navigateToTrainingDetails(item, true)}
@@ -139,8 +162,8 @@ export const Layout = (props: Props) => {
                 <Tile
                   key={item.id}
                   date={item.date}
-                  name={item.trainer.name}
-                  specialization="TBD"
+                  name={type === 'trainee' ? item.trainer.name : item.trainee.name}
+                  specialization={item.type}
                   timeStart={item.availabilitySlots[0]?.start}
                   timeEnd={item.availabilitySlots[item.availabilitySlots.length - 1]?.end}
                   onPress={() => navigateToTrainingDetails(item, false)}

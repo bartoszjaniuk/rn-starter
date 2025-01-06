@@ -76,18 +76,24 @@ navigators:
     children:
       - Details:
           params:
+            place: string
             bookingId: string
             bookingName: string
-            bookingDescription: string
-            trainerName: string
+            name: string
+            id: string
             timeStart: string
             timeEnd: string
             city: string
             date: string
             isPastTraining?: boolean
             trainerNote?: string
-            specializations?: string[]
-
+            type: string
+            role: string;
+      - Profile:
+          params:
+            id: string
+            role: string
+            specializations: string[]
     
   SearchTrainers:
     path: ../screens/SearchTrainers
@@ -110,6 +116,7 @@ navigators:
       - Availability:
           params:
             trainerId: string
+            specializations: string[]
   SearchTrainersListNavigator:
     path: ../screens/SearchTrainers/SearchTrainersListNavigator
     export: true
@@ -146,6 +153,7 @@ navigators:
           
   CalendarTrainerNavigator:
     path: '../screens/BottomTabs/Calendar/CalendarTrainerNavigator'
+    lazy: false
     export: true
     passParams: true
     props:

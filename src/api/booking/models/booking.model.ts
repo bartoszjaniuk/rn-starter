@@ -18,11 +18,13 @@ type AvailabilitySlot = {
 
 type Booking = {
   status: string; // e.g., "approved"
+  type: string;
   trainee: Trainee;
   trainer: Trainer;
   note: string | null;
   rating: number | null;
   availabilitySlots: AvailabilitySlot[];
+  place: string | null;
 };
 
 type BookingsByDate = {

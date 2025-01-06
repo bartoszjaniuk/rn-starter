@@ -5,43 +5,47 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useForm } from 'react-hook-form';
 
-import { getPastPresentFutureDates } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getPastPresentFutureDates';
-import { useTrainerAvailabilitiesQuery, useTrainerSetAvailabilityMutation } from 'src/api/trainer';
+import { useTrainerSetAvailabilityMutation } from 'src/api/trainer';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goBack } from 'src/navigation';
 import { Screen, useNavigator } from 'src/screen';
 import { Button, PressableScale, Text, TryAgainError } from 'src/shared';
+import { getAllDatesForCurrentMonth } from 'src/shared/utils/getAllDatesForCurrentMonth';
 
 import { AvailabilityFormFieldValues, Form, availabilityFormSchema } from './components/Form';
 
 import { AvailabilityParams } from '../../Calendar';
 
-function transformData(data: { title: string; date: string; start: string; end: string; recurrence: string }) {
-  const { date, start, end, recurrence } = data;
+function transformData(data: {
+  title: string;
+  date: string;
+  start: string;
+  end: string;
+  recurrence: string;
+  place: string;
+}) {
+  const { date, start, end, recurrence, place } = data;
 
   return [
     {
       start: `${date}T${start}`,
       end: `${date}T${end}`,
       recurrence: recurrence === 'never' ? null : recurrence,
+      place,
     },
   ];
 }
 
 const Content = () => {
   const { navigationData } = useNavigator<AvailabilityParams>();
-  const { today, lastDay } = getPastPresentFutureDates();
   const userInfoQuery = useGetUserInfoQuery();
-
-  const trainerAvailabilitiesQuery = useTrainerAvailabilitiesQuery({
-    trainerId: navigationData.trainerId,
-    date: { from: today, to: lastDay },
-  });
 
   const trainerSetAvailabilityMutation = useTrainerSetAvailabilityMutation(userInfoQuery.data?.trainerId || '');
 
-  const availableSlots = Object.keys(trainerAvailabilitiesQuery.data?.data ?? []);
+  const availableSlots = getAllDatesForCurrentMonth(navigationData.month);
+
+  console.log(availableSlots, 'availableSlots');
 
   const {
     control,
@@ -66,7 +70,7 @@ const Content = () => {
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
-    const transformedData = transformData(data);
+    const transformedData = transformData({ ...data, place: data.title });
     trainerSetAvailabilityMutation.mutate(transformedData);
   });
 
@@ -92,7 +96,14 @@ const Content = () => {
         </Screen.Header.Right>
       ),
     },
-    [isValid, handleSubmit, trainerSetAvailabilityMutation.mutate, resetForm, isDirty],
+    [
+      isValid,
+      handleSubmit,
+      trainerSetAvailabilityMutation.mutate,
+      resetForm,
+      isDirty,
+      // trainerAvailabilitiesQuery.data?.data,
+    ],
   );
 
   if (trainerSetAvailabilityMutation.isPending) return <LoadingScreen />;

@@ -101,10 +101,11 @@ export const TimelineWeekly = ({ onDateChanged, date, weeklyPlanner, trainerId, 
             overlapEventsSpacing: 8,
             rightEdgeSpacing: 24,
             onEventPress: (event) => {
-              handleReservation(event.range, {
-                availabilitySlotsIds: [event.id!],
-                traineeId: userInfoQuery.data?.traineeId || '',
-              });
+              console.log(event, 'event');
+              // handleReservation(event.range, {
+              //   availabilitySlotsIds: [event.id!],
+              //   traineeId: userInfoQuery.data?.traineeId || '',
+              // });
             },
             //   onBackgroundLongPress: this.createNewEvent,
             //   onBackgroundLongPressOut: this.approveNewEvent,

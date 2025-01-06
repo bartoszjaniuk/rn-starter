@@ -12,6 +12,7 @@ import { getPastPresentFutureDates } from '../../SearchTrainers/SearchTrainersAv
 
 export type AvailabilityParams = {
   trainerId: string;
+  month: number;
   monthly: {
     from: string;
     to: string;
@@ -22,11 +23,11 @@ export type AvailabilityParams = {
   };
   weekDate: string;
   selectedDay: string;
+  role: string;
 };
 
 export const BottomTabsCalendar = () => {
   const { lastDay, today } = getFirstAndLastDaysOfMonth();
-  // const { trainerId } = useRouteParams(route.toCalendarTrainerMonthly);
   const userInfoQuery = useGetUserInfoQuery();
   const navigateToAddAvailability = () => goTo(route.toCalendarTrainerAddAvailability);
 
@@ -45,8 +46,10 @@ export const BottomTabsCalendar = () => {
       },
       weekDate: new Date().toISOString().slice(0, 10),
       selectedDay: today,
+      month: new Date(today ?? '').getMonth(),
+      role: userInfoQuery.data?.role,
     }),
-    [future, lastDay, past, today, userInfoQuery.data?.trainerId],
+    [future, lastDay, past, today, userInfoQuery.data?.role, userInfoQuery.data?.trainerId],
   );
 
   return (

@@ -90,7 +90,11 @@ const Content = () => {
 export const SearchTrainersProfileDetails = () => {
   const routeParams = useRouteParams(route.toSearchTrainersProfileDetails);
 
-  const goToCalendar = () => goTo(route.toSearchTrainersAvailability, { trainerId: routeParams.trainerId });
+  const goToCalendar = () =>
+    goTo(route.toSearchTrainersAvailability, {
+      trainerId: routeParams.trainerId,
+      specializations: routeParams.specializations,
+    });
   return (
     <Screen
       HeaderComponent={

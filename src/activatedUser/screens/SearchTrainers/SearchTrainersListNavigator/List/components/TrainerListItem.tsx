@@ -25,7 +25,7 @@ export function randomIntBetween(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function randomBetween1And5(): number {
+export function randomBetween1And5(): number {
   return parseFloat((Math.random() * 4 + 1).toFixed(1));
 }
 

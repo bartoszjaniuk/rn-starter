@@ -19,7 +19,11 @@ const Content = () => {
 
   const onMonthChange = (dateString: string) => {
     const { firstDay, lastDay } = getFirstAndLastDaysOfMonth(dateString);
-    updateNavigationData({ monthly: { from: firstDay, to: lastDay } });
+    updateNavigationData({
+      monthly: { from: firstDay, to: lastDay },
+      month: new Date(dateString).getMonth(),
+      weekDate: firstDay,
+    });
   };
 
   const onDayPress = (date: { dateString: string }) => {
@@ -27,6 +31,13 @@ const Content = () => {
       const { future, past } = getPastPresentFutureDates(7, date.dateString);
       updateNavigationData({ weekDate: date.dateString, weekly: { from: past, to: future } });
       goTo(route.toCalendarTrainerWeekly, { weekDate: date.dateString });
+      return;
+    }
+
+    if (navigationData.role === 'trainer') {
+      goTo(route.toCalendarTrainerAddAvailability);
+      updateNavigationData({ weekDate: date.dateString });
+      return;
     }
   };
   const trainerAvailabilitiesQuery = useTrainerAvailabilitiesQuery({

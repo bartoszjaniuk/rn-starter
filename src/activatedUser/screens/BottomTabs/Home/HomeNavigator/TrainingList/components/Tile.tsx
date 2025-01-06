@@ -7,6 +7,7 @@ import { Box, Inline, Stack } from '@grapp/stacks';
 
 import { randomIntBetween } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersListNavigator/List/components/TrainerListItem';
 import { Icon, PressableScale, Text } from 'src/shared';
+import { capitalizeFirstLetter } from 'src/shared/utils/capitalizeFirstLetter';
 
 type Props = {
   onPress?: () => void;
@@ -26,45 +27,47 @@ export const Tile = (props: Props) => {
 
   return (
     <PressableScale style={styles.container} onPress={onPress}>
-      <Inline alignX="between" alignY="bottom">
+      <Inline alignX="between" alignY="center">
         <Inline space={4}>
           <Image style={styles.image} source={{ uri: placeholderImage }} />
           <Stack space={1}>
             <Text fontWeight="500" size="md">
               {name}
             </Text>
-            <Inline alignY="center" space={2}>
-              <Icon name="clock" color="transparent" />
-              {timeStart && timeEnd ? (
-                <Inline alignY="center">
-                  <Text fontWeight="300" size="xs">
-                    {timeStart}
-                  </Text>
-                  <Text fontWeight="300" size="xs">
-                    -
-                  </Text>
-                  <Text fontWeight="300" size="xs">
-                    {timeEnd}
+            <Inline space={2}>
+              <Inline alignY="center" space={2}>
+                <Icon name="clock" color="transparent" />
+                {timeStart && timeEnd ? (
+                  <Inline alignY="center">
+                    <Text fontWeight="300" size="xs">
+                      {timeStart}
+                    </Text>
+                    <Text fontWeight="300" size="xs">
+                      -
+                    </Text>
+                    <Text fontWeight="300" size="xs">
+                      {timeEnd}
+                    </Text>
+                  </Inline>
+                ) : null}
+              </Inline>
+              {isPast ? (
+                <Inline alignX="center" alignY="center" space={2}>
+                  <Icon name="calendar" color="gray" svgProps={{ width: 16, height: 16 }} />
+                  <Text fontWeight="500" size="xs">
+                    {date}
                   </Text>
                 </Inline>
-              ) : null}
+              ) : (
+                <Box backgroundColor="black" paddingX={2} borderRadius={4} alignY="center" alignX="center">
+                  <Text fontWeight="500" size="xs">
+                    {capitalizeFirstLetter(specialization)}
+                  </Text>
+                </Box>
+              )}
             </Inline>
           </Stack>
         </Inline>
-        {isPast ? (
-          <Inline alignX="center" alignY="center" space={2}>
-            <Icon name="calendar" color="gray" svgProps={{ width: 16, height: 16 }} />
-            <Text fontWeight="500" size="xs">
-              {date}
-            </Text>
-          </Inline>
-        ) : (
-          <Box backgroundColor="black" width={91} borderRadius={4} alignY="center" alignX="center">
-            <Text fontWeight="500" size="xs">
-              {specialization}
-            </Text>
-          </Box>
-        )}
 
         <PressableScale onPress={onPress}>
           <Icon name="chevron" svgProps={{ width: 16, height: 16 }} style={{ transform: [{ rotate: '270deg' }] }} />
