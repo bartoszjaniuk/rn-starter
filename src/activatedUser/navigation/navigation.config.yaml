@@ -88,7 +88,8 @@ navigators:
             isPastTraining?: boolean
             trainerNote?: string
             type: string
-            role: string;
+            role: string
+            rating: number
       - Profile:
           params:
             id: string
@@ -147,6 +148,7 @@ navigators:
           params:
             dateTime: string
             traineeId: string
+            trainerId: string
           props:
             options:
               << : [*modal]

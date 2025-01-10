@@ -4,10 +4,11 @@ import { Stack } from '@grapp/stacks';
 
 import { Control, Controller } from 'react-hook-form';
 
-import { ScheduleEntry } from 'src/api/trainer';
+import { ScheduleEntry, useTrainersQuery } from 'src/api/trainer';
+import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useRouteParams } from 'src/core/hooks';
 import { useNavigator } from 'src/screen';
-import { SelectDropdownRN } from 'src/shared';
+import { SelectDropdownRN, getQueryStringFromParams } from 'src/shared';
 
 import * as route from '../../../../../navigation/routes';
 import { AvailabilityParams } from '../../../Availability';
@@ -22,9 +23,13 @@ type Props = {
 };
 
 export const Form = (props: Props) => {
-  const { navigationData, updateNavigationData } = useNavigator<AvailabilityParams>();
+  const { updateNavigationData } = useNavigator<AvailabilityParams>();
   const { control, availableSlots, slots, duration } = props;
-  const { traineeId } = useRouteParams(route.toSearchTrainersAvailabilityReservation);
+  const { traineeId, trainerId } = useRouteParams(route.toSearchTrainersAvailabilityReservation);
+  const queryString = getQueryStringFromParams({ trainerId });
+  const trainersQuery = useTrainersQuery(queryString);
+
+  if (trainersQuery.isLoading) return <LoadingScreen />;
 
   const meetingIntervals = mapToSelect(
     getMeetingSlots(
@@ -125,8 +130,8 @@ export const Form = (props: Props) => {
               }
             }}
             label="Rodzaj treningu"
-            placeholder={value}
-            options={navigationData.specializations.map((spec) => {
+            placeholder="Wybierz rodzaj treningu"
+            options={trainersQuery.data?.data[0]?.specializations.map((spec) => {
               const key = Object.keys(SPECIALIZATIONS).find(
                 (key) => SPECIALIZATIONS[key as keyof typeof SPECIALIZATIONS] === spec,
               );

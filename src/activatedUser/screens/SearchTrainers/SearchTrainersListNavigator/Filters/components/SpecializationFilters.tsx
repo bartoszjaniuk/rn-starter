@@ -17,7 +17,6 @@ const filterSelected = (arr: Specialization[]) => arr.filter((a) => a.isSelected
 
 export const SpecializationFilters = (props: Props) => {
   const { defaultValue, onSelectSpecialization } = props;
-  console.log(defaultValue, 'defaultValue');
   const { specializations, isLoading, setSpecializations } = useTrainerSpecializationsFilters(
     React.useMemo(() => defaultValue?.split(','), [defaultValue]),
   );

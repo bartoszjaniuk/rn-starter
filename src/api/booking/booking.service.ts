@@ -19,6 +19,17 @@ export class BookingService extends ApiService {
       await this.httpClient.patch<Promise<BookingsGetV1Response>>(queryKeys.postCancelBooking(bookingId)),
     );
   };
+
+  rateBooking = async (
+    bookingId: string,
+    payload: {
+      bookingRate: number;
+    },
+  ) => {
+    return this.responseHandler(
+      await this.httpClient.post<Promise<void>>(queryKeys.postRateBooking(bookingId), payload),
+    );
+  };
 }
 
 export const bookingService = new BookingService();

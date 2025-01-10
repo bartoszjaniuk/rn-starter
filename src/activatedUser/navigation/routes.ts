@@ -81,6 +81,7 @@ export const toBookingDetails = [routeBookingNavigator, routeBookingDetails] as 
   readonly trainerNote?: string;
   readonly type: string;
   readonly role: string;
+  readonly rating: number;
 }>;
 
 export const toBookingProfile = [routeBookingNavigator, routeBookingProfile] as unknown as Route<{
@@ -126,6 +127,7 @@ export const toSearchTrainersAvailabilityWeekly = routeSearchTrainersAvailabilit
 export const toSearchTrainersAvailabilityReservation = routeSearchTrainersAvailabilityReservation as unknown as Route<{
   readonly dateTime: string;
   readonly traineeId: string;
+  readonly trainerId: string;
 }>;
 
 export const toCalendarTrainerMonthly = routeCalendarTrainerMonthly as unknown as Route;

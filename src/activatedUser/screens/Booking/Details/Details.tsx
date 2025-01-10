@@ -1,14 +1,18 @@
 import * as React from 'react';
 import { Alert, AlertOptions } from 'react-native';
+import { Easing } from 'react-native-reanimated';
+import StarRating, { StarIconProps } from 'react-native-star-rating-widget';
+import Svg, { Path } from 'react-native-svg';
+import { useStyles } from 'react-native-unistyles';
 
-import { Inline, Stack } from '@grapp/stacks';
+import { Box, Inline, Stack } from '@grapp/stacks';
 
-import { useCancelBookingMutation } from 'src/api/booking/hooks';
+import { useCancelBookingMutation, useRateBookingMutation } from 'src/api/booking/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useRouteParams } from 'src/core/hooks';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Icon, PressableScale, Text } from 'src/shared';
+import { Button, Icon, PressableScale, Text } from 'src/shared';
 import { TrainingSnacks } from 'src/shared/components/TrainingSnacks/TrainingSnacks';
 import { capitalizeFirstLetter } from 'src/shared/utils/capitalizeFirstLetter';
 
@@ -56,13 +60,19 @@ const Content = () => {
     bookingId,
     role,
     id,
+    rating,
   } = useRouteParams(route.toBookingDetails);
   const cancelBookingMutation = useCancelBookingMutation();
+  const rateBookingMutation = useRateBookingMutation(bookingId);
 
   const alert = useAlert();
 
   const handleCancelTraining = () => {
     alert(() => cancelBookingMutation.mutate(bookingId));
+  };
+
+  const onRateTraining = (rate: number) => {
+    rateBookingMutation.mutate({ bookingRate: rate });
   };
 
   const handleNavigateToTrainerProfile = () => {
@@ -73,7 +83,7 @@ const Content = () => {
     });
   };
 
-  if (cancelBookingMutation.isPending) return <LoadingScreen />;
+  if (cancelBookingMutation.isPending || rateBookingMutation.isPending) return <LoadingScreen />;
 
   return (
     <Screen.Content>
@@ -142,8 +152,46 @@ const Content = () => {
             </PressableScale>
           </>
         )}
+        {role === 'trainee' && !rating ? <Rate onRateTraining={onRateTraining} /> : null}
       </Stack>
     </Screen.Content>
+  );
+};
+
+const Rate = ({ onRateTraining }: { onRateTraining: (rate: number) => void }) => {
+  const [rating, setRating] = React.useState(0);
+  const handleRateTraining = () => onRateTraining(rating);
+
+  const { theme } = useStyles();
+  return (
+    <Stack space={8}>
+      <Stack space={2}>
+        <Text fontWeight="500" size="sm">
+          Oceń trening
+        </Text>
+        <Inline alignY="center" alignX="between">
+          <StarRating
+            emptyColor="#D5D5D5"
+            maxStars={5}
+            animationConfig={{
+              easing: Easing.elastic(2),
+              duration: 300,
+              scale: 1,
+              delay: 300,
+            }}
+            starSize={36}
+            enableHalfStar={false}
+            rating={rating}
+            onChange={setRating}
+            color={theme.colors.primary}
+          />
+          <Text fontWeight="500" size="md">
+            {Number(rating).toFixed(1)}
+          </Text>
+        </Inline>
+      </Stack>
+      {rating ? <Button onPress={handleRateTraining}>Oceń</Button> : null}
+    </Stack>
   );
 };
 

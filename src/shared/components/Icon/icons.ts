@@ -20,6 +20,7 @@ import PhotoSvg from '../../../../assets/icons/photo.svg';
 import PlusSvg from '../../../../assets/icons/plus.svg';
 import PlusThinSvg from '../../../../assets/icons/plusThin.svg';
 import ProfileSvg from '../../../../assets/icons/profile.svg';
+import RatingStartDefaultSvg from '../../../../assets/icons/ratingStartDefault.svg';
 import SortDescSvg from '../../../../assets/icons/sortDesc.svg';
 import StarSvg from '../../../../assets/icons/star.svg';
 import TraineesSvg from '../../../../assets/icons/trainees.svg';
@@ -50,6 +51,7 @@ export const icons = {
   closeX: CloseXSvg,
   clock: ClockSvg,
   pencil: PencilSvg,
+  ratingStartDefault: RatingStartDefaultSvg,
 };
 
 export type IconName = keyof typeof icons;

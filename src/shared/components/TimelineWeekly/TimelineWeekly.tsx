@@ -44,8 +44,12 @@ export const TimelineWeekly = ({ onDateChanged, date, weeklyPlanner, trainerId, 
 
   const handleReservation = (eventDate: string, payload: TrainerBookTrainingPostV1Payload) => {
     // alert(eventDate, () => trainerBookTrainingMutation.mutate(payload));
-
-    goTo(route.toSearchTrainersAvailabilityReservation, { traineeId: payload.traineeId, dateTime: eventDate });
+    if (!payload.traineeId) return;
+    goTo(route.toSearchTrainersAvailabilityReservation, {
+      traineeId: payload.traineeId,
+      trainerId: trainerId,
+      dateTime: eventDate,
+    });
   };
 
   return (
@@ -101,11 +105,10 @@ export const TimelineWeekly = ({ onDateChanged, date, weeklyPlanner, trainerId, 
             overlapEventsSpacing: 8,
             rightEdgeSpacing: 24,
             onEventPress: (event) => {
-              console.log(event, 'event');
-              // handleReservation(event.range, {
-              //   availabilitySlotsIds: [event.id!],
-              //   traineeId: userInfoQuery.data?.traineeId || '',
-              // });
+              handleReservation(event.start, {
+                availabilitySlotsIds: [event.id!],
+                traineeId: userInfoQuery.data?.traineeId || '',
+              });
             },
             //   onBackgroundLongPress: this.createNewEvent,
             //   onBackgroundLongPressOut: this.approveNewEvent,
