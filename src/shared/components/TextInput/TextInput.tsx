@@ -64,18 +64,20 @@ export const TextInput = (props: Props) => {
           </Text>
         ) : null}
       </Inline>
-      <TextInputRN
-        {...rest}
-        multiline={multiline}
-        autoCapitalize="none"
-        cursorColor={theme.colors.primary}
-        selectionColor={theme.colors.primary}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        readOnly={isDisabled}
-        style={styles.input}
-        placeholderTextColor={isDisabled ? theme.colors.disabled : theme.colors.gray}
-      />
+      <Inline>
+        <TextInputRN
+          {...rest}
+          multiline={multiline}
+          autoCapitalize="none"
+          cursorColor={theme.colors.primary}
+          selectionColor={theme.colors.primary}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          readOnly={isDisabled}
+          style={styles.input}
+          placeholderTextColor={isDisabled ? theme.colors.disabled : theme.colors.gray}
+        />
+      </Inline>
       {isError ? (
         <Text fontWeight="400" size="xs" color="error">
           {errorMessage}

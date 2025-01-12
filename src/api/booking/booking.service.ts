@@ -30,6 +30,15 @@ export class BookingService extends ApiService {
       await this.httpClient.post<Promise<void>>(queryKeys.postRateBooking(bookingId), payload),
     );
   };
+
+  sendNote = async (
+    bookingId: string,
+    payload: {
+      bookingNote: string;
+    },
+  ) => {
+    return this.responseHandler(await this.httpClient.post<Promise<void>>(queryKeys.postSendNote(bookingId), payload));
+  };
 }
 
 export const bookingService = new BookingService();

@@ -104,7 +104,7 @@ export const Layout = (props: Props) => {
         isPastTraining: isPast,
         role: type,
         place: booking.place,
-        rating: 0,
+        rating: booking.rating ?? 0,
       });
     }
   };

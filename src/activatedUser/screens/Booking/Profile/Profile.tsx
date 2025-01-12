@@ -58,9 +58,11 @@ const TrainerContent = () => {
                 </Text>
                 <Inline alignY="center" space={1}>
                   <Icon name="star" color="transparent" />
-                  <Text fontWeight="500" size="lg">
-                    {data?.averageBookingRating || '3.14'}
-                  </Text>
+                  {data?.averageRating ? (
+                    <Text fontWeight="500" size="lg">
+                      {data?.averageRating}
+                    </Text>
+                  ) : null}
                 </Inline>
               </Inline>
               <Text fontWeight="400" size="sm">

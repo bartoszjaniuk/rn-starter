@@ -9,7 +9,7 @@ export type Trainer = {
   phoneNumber: string;
   city: string;
   specializations: string[];
-  rating?: number;
+  averageRating?: number;
   images: string[];
 };
 
