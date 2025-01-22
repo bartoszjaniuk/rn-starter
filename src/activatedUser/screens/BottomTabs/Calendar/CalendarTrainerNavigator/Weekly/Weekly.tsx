@@ -5,7 +5,7 @@ import { useWeeklyPlanner } from 'src/activatedUser/screens/SearchTrainers/Searc
 import { getPastPresentFutureDates } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getPastPresentFutureDates';
 import { useTrainerAvailabilitiesQuery } from 'src/api/trainer';
 import { Screen, useNavigator } from 'src/screen';
-import { TimelineWeekly } from 'src/shared';
+import { TimelineWeeklyV2 } from 'src/shared/components/TimelineWeeklyV2';
 
 import { AvailabilityParams } from '../../Calendar';
 
@@ -24,12 +24,12 @@ const Content = () => {
   const markedDates = useMarkedDates(trainerAvailabilitiesQuery.data);
 
   const onDateChanged = (date: string) => {
-    const { past, future } = getPastPresentFutureDates(7, date);
+    const { past, future } = getPastPresentFutureDates(31, date);
     updateNavigationData({ weekly: { from: past, to: future }, weekDate: new Date(date).toISOString().slice(0, 10) });
   };
 
   return (
-    <TimelineWeekly
+    <TimelineWeeklyV2
       isLoading={trainerAvailabilitiesQuery.isFetching}
       date={navigationData.weekDate}
       markedDates={markedDates}

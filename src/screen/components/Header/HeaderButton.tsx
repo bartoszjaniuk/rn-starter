@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { I18nManager } from 'react-native';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { Box, Inline } from '@grapp/stacks';
@@ -44,7 +43,7 @@ export const HeaderButton = (props: Props) => {
       {props.children ? (
         <PressableScale testID={testID} onPress={onPress} activeScale={0.94} style={styles.headerButtonWithChildren}>
           <Inline alignY="center" space={2}>
-            <Icon name="arrowLeft" color={color} svgProps={{ rotation: iconRotation }} />
+            <Icon name="arrowLeft" color={color} style={{ transform: [{ rotateX: `${iconRotation}deg` }] }} />
             {props.children ? props.children : null}
           </Inline>
         </PressableScale>
@@ -55,7 +54,7 @@ export const HeaderButton = (props: Props) => {
           activeScale={0.94}
           style={[styles.root, { width: size, height: size, borderRadius: size / 2 }]}
         >
-          <Icon name="arrowLeft" color={color} svgProps={{ rotation: iconRotation }} />
+          <Icon name="arrowLeft" color={color} style={{ transform: [{ rotateX: `${iconRotation}deg` }] }} />
         </PressableScale>
       )}
     </>
@@ -78,12 +77,7 @@ export const HeaderGoBackButton = (props: GoBackButtonProps) => {
   const color = colord(screenBackgroundColor).isDark() ? 'white' : undefined;
 
   return (
-    <HeaderButton
-      variant={variant}
-      iconRotation={I18nManager.isRTL ? undefined : 180}
-      color={color}
-      onPress={handlePress}
-    >
+    <HeaderButton variant={variant} color={color} onPress={handlePress}>
       {children}
     </HeaderButton>
   );

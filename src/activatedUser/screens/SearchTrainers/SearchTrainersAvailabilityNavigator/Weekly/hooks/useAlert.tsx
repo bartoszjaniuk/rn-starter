@@ -13,11 +13,11 @@ export const useAlert = (props: AlertProps) => {
     () =>
       (reservationTitle = title, onReserve?: VoidFunction) => {
         Alert.alert(
-          `Zarezerwować termin? (${reservationTitle})`,
+          `Czy na pewno chcesz usunąć dostępność? (${reservationTitle})`,
           message,
           [
             { text: 'Anuluj', style: 'cancel' },
-            { text: 'Zarezerwuj', style: 'default', onPress: onReserve },
+            { text: 'Usuń', style: 'destructive', onPress: onReserve },
           ],
           options,
         );

@@ -48,6 +48,14 @@ export class TrainerService extends ApiService {
       await this.httpClient.post<Promise<void>>(queryKeys.postTrainerSetAvailability(trainerId), payload),
     );
   };
+
+  deleteTrainerAvailability = async (trainerId: string, payload: { availabilitySlotsIds: string[] }) => {
+    return this.responseHandler(
+      await this.httpClient.delete<Promise<void>>(queryKeys.deleteTrainerAvailability(trainerId), {
+        data: payload,
+      }),
+    );
+  };
 }
 
 export const trainerService = new TrainerService();

@@ -63,7 +63,7 @@ const config: ExpoConfig = {
       origin: false,
     },
     eas: {
-      projectId: process.env.EAS_PROJECT_ID,
+      projectId: process.env.EAS_PROJECT_ID || '51102590-38be-4cfe-8a29-dd5bbaf61e96',
     },
     EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL,
     EXPO_PUBLIC_URL: process.env.EXPO_PUBLIC_URL,

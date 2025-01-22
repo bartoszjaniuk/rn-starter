@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { useTrainerAvailabilitiesQuery } from 'src/api/trainer';
 import { Screen, useNavigator } from 'src/screen';
-import { TimelineWeekly } from 'src/shared';
+import { TimelineWeeklyV2 } from 'src/shared/components/TimelineWeeklyV2/TimelineWeeklyV2';
 
 import { useMarkedDates } from './hooks/useMarkedDates';
 import { useWeeklyPlanner } from './hooks/useWeeklyPlanner';
@@ -25,12 +25,12 @@ const Content = () => {
   const markedDates = useMarkedDates(trainerAvailabilitiesQuery.data);
 
   const onDateChanged = (date: string) => {
-    const { past, future } = getPastPresentFutureDates(7, date);
+    const { past, future } = getPastPresentFutureDates(31, date);
     updateNavigationData({ weekly: { from: past, to: future }, weekDate: new Date(date).toISOString().slice(0, 10) });
   };
 
   return (
-    <TimelineWeekly
+    <TimelineWeeklyV2
       isLoading={trainerAvailabilitiesQuery.isFetching}
       date={navigationData.weekDate}
       markedDates={markedDates}

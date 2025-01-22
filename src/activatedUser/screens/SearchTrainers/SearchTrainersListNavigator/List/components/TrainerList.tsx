@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native';
 
 import { useTrainersQuery } from 'src/api/trainer';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';

@@ -16,7 +16,7 @@ type Props = {
 
 export const Icon = (props: Props) => {
   const { theme } = useStyles();
-  const { svgProps, name, style, color = 'disabled' } = props;
+  const { name, style, color = 'disabled' } = props;
 
   const SvgIcon = icons[name];
 
@@ -25,5 +25,5 @@ export const Icon = (props: Props) => {
     return null;
   }
 
-  return <SvgIcon style={style} fill={theme.colors[color]} color={theme.colors[color]} {...svgProps} />;
+  return <SvgIcon style={style} fill={theme.colors[color]} color={theme.colors[color]} />;
 };

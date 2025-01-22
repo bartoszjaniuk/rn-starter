@@ -16,6 +16,7 @@ export const useLayout = () => {
     }),
     [divide],
   );
+
   const { height: headerHeight } = useHeader();
   const { tabBarHeight } = useTabs();
   const bottomTabBarHeight = 64 + (insets.raw.bottom || 6);

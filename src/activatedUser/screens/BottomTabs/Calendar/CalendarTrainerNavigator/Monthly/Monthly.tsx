@@ -28,7 +28,7 @@ const Content = () => {
 
   const onDayPress = (date: { dateString: string }) => {
     if (calendarSlots.availableSlots.includes(date.dateString)) {
-      const { future, past } = getPastPresentFutureDates(7, date.dateString);
+      const { future, past } = getPastPresentFutureDates(31, date.dateString);
       updateNavigationData({ weekDate: date.dateString, weekly: { from: past, to: future } });
       goTo(route.toCalendarTrainerWeekly, { weekDate: date.dateString });
       return;

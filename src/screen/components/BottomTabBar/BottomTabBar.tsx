@@ -15,6 +15,7 @@ export const BottomTabBar = (props: Props) => {
   const { children, defaultRoute } = props;
 
   const { bottomTabBar, insets } = useLayout();
+  console.log({ bottomTabBar, insets });
 
   return (
     <BottomTabBarProvider defaultRoute={defaultRoute}>

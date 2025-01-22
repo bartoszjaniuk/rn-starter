@@ -19,7 +19,7 @@ export const useWeeklyPlanner = (
           id: entry.id,
           start: `${date} ${entry.start.padEnd(8, ':00')}`,
           end: `${date} ${entry.end.padEnd(8, ':00')}`,
-          title: `Wolny termin - ${entry.place ?? 'Silownia XYZ'}`,
+          title: `${entry.place ?? 'Silownia XYZ'} `,
           summary: 'Opis',
           color: '#F0FFF1',
           range: `${entry.start}-${entry.end}`,

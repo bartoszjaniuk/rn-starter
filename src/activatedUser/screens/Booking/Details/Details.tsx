@@ -205,7 +205,7 @@ const TraineeContent = () => {
             </PressableScale>
           </>
         )}
-        {rating ? <Rate onRateTraining={onRateTraining} defaultRating={rating} /> : null}
+        <Rate onRateTraining={onRateTraining} defaultRating={rating} />
       </Stack>
     </Screen.Content>
   );
