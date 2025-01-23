@@ -22,7 +22,6 @@ interface ItemProps {
 }
 
 const AgendaItem = ({ item, trainerId, traineeId, onPress }: ItemProps) => {
-  console.log(item, 'item');
   const deleteTrainerAvailabilityMutation = useDeleteTrainerAvailabilityMutation(trainerId);
 
   const alert = useAlert({

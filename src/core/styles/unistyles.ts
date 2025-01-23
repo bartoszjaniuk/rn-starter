@@ -77,5 +77,6 @@ UnistylesRegistry.addBreakpoints(breakpoints)
     light: theme,
   })
   .addConfig({
+    disableAnimatedInsets: true,
     initialTheme: 'light',
   });

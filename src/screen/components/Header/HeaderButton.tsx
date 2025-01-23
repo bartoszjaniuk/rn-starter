@@ -104,7 +104,6 @@ export const HeaderCloseButton = (props: CloseButtonProps) => {
   }, [isMutating, headerProps.shouldBlockNavigationWhenMutating, route, onPress]);
 
   return <HeaderButton variant={variant} onPress={handleClose} />;
-  // return <HeaderButton variant={variant} iconName="closeSmall" onPress={handleClose} />;
 };
 
 const stylesheet = createStyleSheet((theme) => {

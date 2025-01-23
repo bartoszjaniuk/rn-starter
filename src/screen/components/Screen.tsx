@@ -3,7 +3,7 @@ import { LayoutChangeEvent } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { StatusBar, StatusBarStyle, setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar';
+import { StatusBarStyle, setStatusBarBackgroundColor, setStatusBarStyle } from 'expo-status-bar';
 
 import { Portal } from '@gorhom/portal';
 import { Box, ColumnsProps, FloatBox, ResponsiveProp, RowsProps, useResponsiveProp } from '@grapp/stacks';
@@ -27,6 +27,7 @@ import { Section } from './Section';
 
 import { useLayout, useScreenAnimatedHeader, useScreenHeader } from '../hooks';
 import { HeaderProps, HeaderProvider, ScreenProvider, useScreen, useTabs } from '../providers';
+import { FooterProvider } from '../providers/FooterProvider';
 import { getHeaderProps, makeRandomString, setNavigationBarBackgroundColor } from '../utils';
 
 type Props = Omit<
@@ -59,32 +60,33 @@ export const Screen = (props: Props) => {
     HeaderComponent,
     ...rest
   } = props;
+  const [footerHeight, setFooterHeight] = React.useState<number | undefined>(undefined);
+
   const headerConfig = getHeaderProps(HeaderComponent);
   const [headerHeight, setHeaderHeight] = React.useState(0);
   const [headerProps, setHeaderProps] = React.useState<HeaderProps>(headerConfig);
 
-  // const { theme } = useStyles();
   const { insets } = useLayout();
 
   const navigation = useNavigation<BottomTabNavigationProp<BottomTabHeaderProps | NativeStackHeaderProps>>();
   const resolveResponsiveProp = useResponsiveProp();
 
+  const handleFooterLayout = React.useCallback((event: LayoutChangeEvent) => {
+    setFooterHeight(event.nativeEvent.layout.height);
+  }, []);
   const handleHeaderLayout = React.useCallback((event: LayoutChangeEvent) => {
     setHeaderHeight(event.nativeEvent.layout.height);
   }, []);
 
   const headerPortalName = useLazy(makeRandomString);
-  //   const headerSubject = Wave.useBehaviorSubject<HeaderProps>(headerProps);
   const scrollOffsetY = useSharedValue(0);
 
   const themeNavigationBarBackgroundColor = navigationBarBackgroundColor;
-  // const themeNavigationBarBackgroundColor = navigationBarBackgroundColor
-  //   ? theme.colors[navigationBarBackgroundColor]
-  //   : themeBackgroundColor;
 
-  const paddingBottom = resolveResponsiveProp(bottomInset) ?? insets.stacks.bottom;
+  const paddingBottom = (resolveResponsiveProp(bottomInset) ?? insets.stacks.bottom) + (platform.isAndroid ? 1 : 0); // MARK: Globally increase bottom padding.
+
   const paddingTop =
-    G.isNullable(HeaderComponent) || headerConfig.variant === 'hosted'
+    G.isNullable(HeaderComponent) || headerProps.variant === 'hosted'
       ? (resolveResponsiveProp(topInset) ?? insets.stacks.top)
       : 0;
   const numOfColumns = resolveResponsiveProp(columns);
@@ -104,11 +106,7 @@ export const Screen = (props: Props) => {
   );
 
   return (
-    // <Box flex="fluid" backgroundColor={themeBackgroundColor}>
     <Box flex="fluid" backgroundColor={backgroundColor}>
-      {/* <StatusBar style={statusBarStyle} backgroundColor="transparent" translucent={true} /> */}
-      <StatusBar style={statusBarStyle} backgroundColor="transparent" translucent={true} />
-
       <ScreenProvider
         canGoBack={canGoBack}
         paddingX={paddingX}
@@ -140,7 +138,9 @@ export const Screen = (props: Props) => {
             paddingBottom={isInsideBottomTabNavigator ? 0 : paddingBottom}
             pointerEvents="box-none"
           >
-            {children}
+            <FooterProvider height={footerHeight} onLayout={handleFooterLayout}>
+              {children}
+            </FooterProvider>
           </Layout>
         </HeaderProvider>
       </ScreenProvider>

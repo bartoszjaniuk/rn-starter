@@ -15,7 +15,6 @@ export const BottomTabBar = (props: Props) => {
   const { children, defaultRoute } = props;
 
   const { bottomTabBar, insets } = useLayout();
-  console.log({ bottomTabBar, insets });
 
   return (
     <BottomTabBarProvider defaultRoute={defaultRoute}>
@@ -23,7 +22,7 @@ export const BottomTabBar = (props: Props) => {
         <Columns
           height={bottomTabBar.height}
           backgroundColor="#303033"
-          paddingBottom={insets.stacks.bottom}
+          paddingBottom={insets.stacks.bottom || 3}
           paddingTop={2}
         >
           {children}
