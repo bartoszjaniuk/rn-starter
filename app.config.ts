@@ -29,6 +29,7 @@ const config: ExpoConfig = {
   },
   android: {
     // usesCleartextTraffic: true,
+    softwareKeyboardLayoutMode: 'pan',
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
       backgroundColor: '#ffffff',
@@ -41,6 +42,7 @@ const config: ExpoConfig = {
     output: 'static',
     favicon: './assets/images/logo.png',
   },
+
   plugins: [
     'expo-router',
     'expo-splash-screen',

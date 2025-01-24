@@ -92,6 +92,8 @@ const Content = () => {
         </Text>
       </Stack>
       <FlatList
+        onRefresh={userInfoQuery.refetch}
+        refreshing={userInfoQuery.isRefetching}
         contentContainerStyle={{ gap: 16 }}
         scrollEnabled={false}
         data={data}

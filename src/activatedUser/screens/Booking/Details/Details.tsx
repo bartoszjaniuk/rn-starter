@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert, AlertOptions } from 'react-native';
+import { Alert, AlertOptions, KeyboardAvoidingView, Platform } from 'react-native';
 import { Easing } from 'react-native-reanimated';
 import StarRating from 'react-native-star-rating-widget';
 import { useStyles } from 'react-native-unistyles';
@@ -238,70 +238,72 @@ const TrainerContent = () => {
   };
 
   return (
-    <Screen.Content>
-      <Stack space={4}>
-        <Text fontWeight="400" size="xxl">
-          {isPastTraining ? 'Masz ukończony trening z' : 'Masz zaplanowany trening z'}
-        </Text>
-        <Tile name={name} city={city} onPress={handleNavigateToTrainerProfile} />
-        <Inline space={6} alignY="center">
-          <Inline space={2}>
-            <Icon name="calendar" color="gray" svgProps={{ width: 16, height: 16 }} />
-            <Text fontWeight="400" size="xs">
-              {date}
-            </Text>
-          </Inline>
-          <Inline space={2} alignY="center">
-            <Icon name="clock" color="transparent" />
-            {timeStart && timeEnd ? (
-              <Inline alignY="center">
-                <Text fontWeight="400" size="xs">
-                  {timeStart}
-                </Text>
-                <Text fontWeight="400" size="xs">
-                  -
-                </Text>
-                <Text fontWeight="400" size="xs">
-                  {timeEnd}
-                </Text>
-              </Inline>
-            ) : null}
-          </Inline>
-        </Inline>
-        <DateTile dateStart={timeStart} dateEnd={timeEnd} description={place} name={bookingName} />
-        <Stack>
-          <Text fontWeight="500" size="sm">
-            Rodzaj treningu:
+    <Screen.ScrollView backgroundColor="transparent">
+      <Screen.Content>
+        <Stack space={4}>
+          <Text fontWeight="400" size="xxl">
+            {isPastTraining ? 'Masz ukończony trening z' : 'Masz zaplanowany trening z'}
           </Text>
-        </Stack>
-        {type ? <TrainingSnacks data={[capitalizeFirstLetter(type)]} /> : null}
-        {rating ? <Rate onRateTraining={() => null} defaultRating={rating} /> : null}
-
-        {trainerNote ? (
-          <Stack space={2}>
+          <Tile name={name} city={city} onPress={handleNavigateToTrainerProfile} />
+          <Inline space={6} alignY="center">
+            <Inline space={2}>
+              <Icon name="calendar" color="gray" svgProps={{ width: 16, height: 16 }} />
+              <Text fontWeight="400" size="xs">
+                {date}
+              </Text>
+            </Inline>
+            <Inline space={2} alignY="center">
+              <Icon name="clock" color="transparent" />
+              {timeStart && timeEnd ? (
+                <Inline alignY="center">
+                  <Text fontWeight="400" size="xs">
+                    {timeStart}
+                  </Text>
+                  <Text fontWeight="400" size="xs">
+                    -
+                  </Text>
+                  <Text fontWeight="400" size="xs">
+                    {timeEnd}
+                  </Text>
+                </Inline>
+              ) : null}
+            </Inline>
+          </Inline>
+          <DateTile dateStart={timeStart} dateEnd={timeEnd} description={place} name={bookingName} />
+          <Stack>
             <Text fontWeight="500" size="sm">
-              Notatka dla trenującego
+              Rodzaj treningu:
             </Text>
-            <Text>{trainerNote}</Text>
           </Stack>
-        ) : (
-          <Note currentNote={trainerNote} bookingId={bookingId} />
-        )}
+          {type ? <TrainingSnacks data={[capitalizeFirstLetter(type)]} /> : null}
+          {rating ? <Rate onRateTraining={() => null} defaultRating={rating} /> : null}
 
-        {isPastTraining ? null : (
-          <>
-            <PressableScale>
-              <Inline alignY="center" space={4}>
-                <Icon name="pencil" svgProps={{ width: 20, height: 20 }} />
-                <Text fontWeight="400" size="xs">
-                  Zmień termin
-                </Text>
-              </Inline>
-            </PressableScale>
-          </>
-        )}
-      </Stack>
-    </Screen.Content>
+          {trainerNote ? (
+            <Stack space={2}>
+              <Text fontWeight="500" size="sm">
+                Notatka dla trenującego
+              </Text>
+              <Text>{trainerNote}</Text>
+            </Stack>
+          ) : (
+            <Note currentNote={trainerNote} bookingId={bookingId} />
+          )}
+
+          {isPastTraining ? null : (
+            <>
+              <PressableScale>
+                <Inline alignY="center" space={4}>
+                  <Icon name="pencil" svgProps={{ width: 20, height: 20 }} />
+                  <Text fontWeight="400" size="xs">
+                    Zmień termin
+                  </Text>
+                </Inline>
+              </PressableScale>
+            </>
+          )}
+        </Stack>
+      </Screen.Content>
+    </Screen.ScrollView>
   );
 };
 
@@ -331,26 +333,28 @@ const Note = ({ currentNote, bookingId }: { currentNote?: string; bookingId: str
   };
 
   return (
-    <Stack space={4}>
-      <Controller
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            multiline={true}
-            onBlur={onBlur}
-            onChangeText={(value) => onChange(value)}
-            value={value}
-            label="Notatka"
-            placeholder="Napisz notatkę dla trenującego"
-          />
-        )}
-        name="note"
-      />
-      {isDirty && !errors.note ? (
-        <Button isLoading={sendNoteMutation.isPending} isDisabled={!isValid} onPress={handleSubmit(onSubmit)}>
-          Zapisz
-        </Button>
-      ) : null}
-    </Stack>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+      <Stack space={4}>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              multiline={true}
+              onBlur={onBlur}
+              onChangeText={(value) => onChange(value)}
+              value={value}
+              label="Notatka"
+              placeholder="Napisz notatkę dla trenującego"
+            />
+          )}
+          name="note"
+        />
+        {isDirty && !errors.note ? (
+          <Button isLoading={sendNoteMutation.isPending} isDisabled={!isValid} onPress={handleSubmit(onSubmit)}>
+            Zapisz
+          </Button>
+        ) : null}
+      </Stack>
+    </KeyboardAvoidingView>
   );
 };

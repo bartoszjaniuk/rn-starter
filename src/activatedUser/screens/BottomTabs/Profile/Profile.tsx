@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import { Inline, Stack } from '@grapp/stacks';
 
 import { BodyMetrics, useTraineeBodyMetricsQuery } from 'src/api/trainee';
+import { useTrainersQuery } from 'src/api/trainer';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { PressableScale, Text, replaceApiHost } from 'src/shared';
+import { Icon, PressableScale, Text, getQueryStringFromParams, replaceApiHost } from 'src/shared';
 import { CarouselGallery } from 'src/shared/components/CarouselGallery';
 import { TrainingSnacks } from 'src/shared/components/TrainingSnacks/TrainingSnacks';
 
@@ -63,10 +64,13 @@ const useBodyMetrics = (data: BodyMetrics[] | undefined) => {
 const Content = () => {
   const userInfoQuery = useGetUserInfoQuery();
   const traineeBodyMetricsQuery = useTraineeBodyMetricsQuery(userInfoQuery.data?.traineeId ?? '');
+  const isTrainee = userInfoQuery.data?.role === 'trainee';
+  const queryString = getQueryStringFromParams({ trainerId: userInfoQuery.data?.trainerId ?? '' });
+  const trainersQuery = useTrainersQuery(queryString, !isTrainee);
 
   const bodyMetrics = useBodyMetrics(traineeBodyMetricsQuery.data?.data);
 
-  if (userInfoQuery.isLoading || traineeBodyMetricsQuery.isLoading) return <LoadingScreen />;
+  if (userInfoQuery.isLoading || traineeBodyMetricsQuery.isLoading || trainersQuery.isLoading) return <LoadingScreen />;
 
   return (
     <Screen.ScrollView backgroundColor="transparent">
@@ -84,24 +88,43 @@ const Content = () => {
                   ]
             }
           />
-          <Stack paddingTop={6}>
+          <Stack paddingTop={6} space={1}>
             <Text fontWeight="700" size="xxl">
               {userInfoQuery.data?.name}
             </Text>
             <Text fontWeight="400" size="sm">
               {userInfoQuery.data?.city}
             </Text>
+
+            {isTrainee ? null : (
+              <View style={{ flexDirection: 'row', gap: 24, width: '100%' }}>
+                <Inline alignY="center" space={1}>
+                  <Icon name="phone" color="transparent" />
+                  <Text fontWeight="400" size="sm">
+                    {trainersQuery.data?.data[0]?.phoneNumber}
+                  </Text>
+                </Inline>
+                <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center', flex: 1 }}>
+                  <Icon name="mail" color="transparent" />
+                  <Text fontWeight="400" size="sm" numberOfLines={1} ellipsizeMode="tail">
+                    {userInfoQuery.data?.email}
+                  </Text>
+                </View>
+              </View>
+            )}
             <Inline space={1}>
               <Text fontWeight="400" size="sm">
                 Rola:
               </Text>
               <Text fontWeight="500" size="sm" color="primary">
-                {userInfoQuery.data?.role === 'trainee' ? 'Trenujący' : 'Trener'}
+                {isTrainee ? 'Trenujący' : 'Trener'}
               </Text>
             </Inline>
           </Stack>
           {bodyMetrics ? (
             <FlatList
+              onRefresh={traineeBodyMetricsQuery.refetch}
+              refreshing={traineeBodyMetricsQuery.isRefetching}
               scrollEnabled={false}
               numColumns={3}
               contentContainerStyle={{ gap: 8 }}
@@ -113,7 +136,7 @@ const Content = () => {
           ) : null}
           <Stack space={4}>
             <Text fontWeight="700" size="sm">
-              Interesuje mnie trening:
+              {isTrainee ? 'Interesuje mnie trening:' : 'Przeprowadzam trening:'}
             </Text>
             <TrainingSnacks data={['Joga', 'Sylwetkowy', 'Kalistenika']} />
           </Stack>

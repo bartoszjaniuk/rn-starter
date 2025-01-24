@@ -1,6 +1,5 @@
 import React from 'react';
-import { RefreshControlProps } from 'react-native';
-import { RefreshControl as RefreshControlRN } from 'react-native-gesture-handler';
+import { RefreshControlProps, RefreshControl as RefreshControlRN } from 'react-native';
 import { useStyles } from 'react-native-unistyles';
 
 type Props = Omit<RefreshControlProps, 'progressBackgroundColor' | 'tintColor' | 'colors'>;

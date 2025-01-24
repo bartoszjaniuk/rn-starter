@@ -198,6 +198,8 @@ const TraineeContent = () => {
           </Stack>
           {bodyMetrics ? (
             <FlatList
+              onRefresh={traineeBodyMetricsQuery.refetch}
+              refreshing={traineeBodyMetricsQuery.isRefetching}
               scrollEnabled={false}
               numColumns={3}
               contentContainerStyle={{ gap: 8 }}
