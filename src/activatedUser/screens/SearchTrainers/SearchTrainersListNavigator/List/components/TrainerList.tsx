@@ -15,12 +15,16 @@ export const TrainersList = () => {
   const { navigationData } = useNavigator<QueryParamsList>();
   const queryString = getQueryStringFromParams(navigationData);
 
-  const trainersQuery = useTrainersQuery(queryString);
+  const trainersQuery = useTrainersQuery(queryString, true);
 
-  if (trainersQuery.isLoading) return <LoadingScreen />;
+  if (trainersQuery.isFetching) {
+    return <LoadingScreen />;
+  }
 
   if (trainersQuery.isError) {
-    return <TryAgainError queryName="trainers" onRetry={trainersQuery.refetch} isLoading={trainersQuery.isLoading} />;
+    return (
+      <TryAgainError queryName="trainers" onRetry={trainersQuery.refetch} isLoading={trainersQuery.isRefetching} />
+    );
   }
 
   if (trainersQuery.data?.data.length === 0) {

@@ -168,7 +168,7 @@ navigators:
       - AddAvailability:
           props:
             options:
-              << : [*modal]
+              << : [*hideHeader]
   Account:
     path: ../screens/Account
     props:

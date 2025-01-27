@@ -43,8 +43,8 @@ const Content = () => {
 
 export const SearchTrainersAvailabilityWeekly = () => {
   return (
-    <Screen.Navigator.Item>
+    <Screen HeaderComponent={<Screen.Header variant="primary" />} statusBarStyle="light">
       <Content />
-    </Screen.Navigator.Item>
+    </Screen>
   );
 };

@@ -123,7 +123,24 @@ export const CalendarTrainerAddAvailability = () => {
     <Screen
       backgroundColor="black"
       statusBarStyle="light"
-      HeaderComponent={<Screen.Header title="Dodaj dostępność" variant="primary" />}
+      HeaderComponent={
+        <Screen.Header variant="primary">
+          <Screen.Header.Left>
+            <PressableScale onPress={goBack}>
+              <Text fontWeight="700" size="xs" color="error">
+                Anuluj
+              </Text>
+            </PressableScale>
+          </Screen.Header.Left>
+          <Screen.Header.Right>
+            <PressableScale isDisabled={true} onPress={() => {}}>
+              <Text fontWeight="700" size="xs" color="disabled">
+                Wyczyść
+              </Text>
+            </PressableScale>
+          </Screen.Header.Right>
+        </Screen.Header>
+      }
     >
       <Content />
     </Screen>

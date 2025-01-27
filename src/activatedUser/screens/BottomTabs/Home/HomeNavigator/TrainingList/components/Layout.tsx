@@ -87,7 +87,7 @@ export const Layout = (props: Props) => {
         isPastTraining: isPast,
         role: type,
         place: booking.place,
-        rating: booking.rating ?? 0,
+        rating: booking.averageRating ?? 0,
       });
     } else {
       goTo(route.toBookingDetails, {
@@ -104,7 +104,7 @@ export const Layout = (props: Props) => {
         isPastTraining: isPast,
         role: type,
         place: booking.place,
-        rating: booking.rating ?? 0,
+        rating: booking.averageRating ?? 0,
       });
     }
   };

@@ -51,7 +51,7 @@ export const TrainerListItem = ({ trainer }: Props) => {
       specializations: trainer.specializations,
       images: trainer.images,
       email: trainer.email,
-      averageBookingRating: trainer.rating ?? randomBetween1And5(),
+      averageBookingRating: trainer.averageRating ?? 0,
     });
   };
 
@@ -68,20 +68,23 @@ export const TrainerListItem = ({ trainer }: Props) => {
             ) : (
               <Image source={{ uri: placeholderImage }} style={{ borderRadius: 62, width: 72, height: 72 }} />
             )}
-            <FloatBox offset={0} alignY="bottom">
-              <Box
-                width={38}
-                height={20}
-                borderRadius={12}
-                backgroundColor={theme.colors.primary}
-                alignX="center"
-                alignY="center"
-              >
-                <Text size="xxs" fontWeight="700" color="typography">
-                  {trainer.rating ?? randomBetween1And5()}
-                </Text>
-              </Box>
-            </FloatBox>
+
+            {trainer.averageRating ? (
+              <FloatBox offset={0} alignY="bottom">
+                <Box
+                  width={38}
+                  height={20}
+                  borderRadius={12}
+                  backgroundColor={theme.colors.primary}
+                  alignX="center"
+                  alignY="center"
+                >
+                  <Text size="xxs" fontWeight="700" color="typography">
+                    {trainer.averageRating ?? 0}
+                  </Text>
+                </Box>
+              </FloatBox>
+            ) : null}
           </Box>
           <Stack>
             <Text size="md" fontWeight="700">

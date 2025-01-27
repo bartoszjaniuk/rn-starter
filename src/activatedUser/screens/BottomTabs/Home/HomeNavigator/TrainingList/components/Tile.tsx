@@ -51,7 +51,7 @@ export const Tile = (props: Props) => {
                   </Inline>
                 ) : null}
               </Inline>
-              {isPast ? (
+              {/* {isPast ? (
                 <Inline alignX="center" alignY="center" space={2}>
                   <Icon name="calendar" color="gray" svgProps={{ width: 16, height: 16 }} />
                   <Text fontWeight="500" size="xs">
@@ -64,7 +64,12 @@ export const Tile = (props: Props) => {
                     {capitalizeFirstLetter(specialization)}
                   </Text>
                 </Box>
-              )}
+              )} */}
+              <Box backgroundColor="black" paddingX={2} borderRadius={4} alignY="center" alignX="center">
+                <Text fontWeight="500" size="xs">
+                  {capitalizeFirstLetter(specialization)}
+                </Text>
+              </Box>
             </Inline>
           </Stack>
         </Inline>

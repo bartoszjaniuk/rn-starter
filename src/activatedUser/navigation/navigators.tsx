@@ -467,6 +467,7 @@ export const CalendarTrainerNavigator = (props: Params) => {
       />
       <CalendarTrainerNativeStack.Screen
         options={{
+          headerShown: false,
           presentation: 'modal',
         }}
         name={route.routeCalendarTrainerAddAvailability}

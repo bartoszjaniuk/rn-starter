@@ -14,7 +14,7 @@ export type Booking = {
     city: string;
   };
   note: string | null;
-  rating: number | null;
+  averageRating: number | null;
   place: string;
   availabilitySlots: {
     id: string;

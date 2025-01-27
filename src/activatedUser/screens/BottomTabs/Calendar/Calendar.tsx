@@ -2,11 +2,8 @@ import * as React from 'react';
 
 import { CalendarTrainerNavigator } from 'src/activatedUser/navigation';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
-import { goTo } from 'src/navigation';
 import { Screen } from 'src/screen';
-import { Icon, PressableScale } from 'src/shared';
 
-import * as route from '../../../navigation/routes';
 import { getFirstAndLastDaysOfMonth } from '../../SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getFirstAndLastDaysOfMonth';
 import { getPastPresentFutureDates } from '../../SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getPastPresentFutureDates';
 
@@ -29,7 +26,6 @@ export type AvailabilityParams = {
 export const BottomTabsCalendar = () => {
   const { lastDay, today } = getFirstAndLastDaysOfMonth();
   const userInfoQuery = useGetUserInfoQuery();
-  const navigateToAddAvailability = () => goTo(route.toCalendarTrainerAddAvailability);
 
   const { past, future } = getPastPresentFutureDates(7);
 
@@ -52,20 +48,5 @@ export const BottomTabsCalendar = () => {
     [future, lastDay, past, today, userInfoQuery.data?.role, userInfoQuery.data?.trainerId],
   );
 
-  return (
-    <Screen
-      HeaderComponent={
-        <Screen.Header variant="primary">
-          <Screen.Header.Right>
-            <PressableScale onPress={navigateToAddAvailability}>
-              <Icon name="plusThin" color="primary" />
-            </PressableScale>
-          </Screen.Header.Right>
-        </Screen.Header>
-      }
-      statusBarStyle="light"
-    >
-      <Screen.Navigator as={CalendarTrainerNavigator} data={data} />
-    </Screen>
-  );
+  return <Screen.Navigator as={CalendarTrainerNavigator} data={data} />;
 };

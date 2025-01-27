@@ -8,7 +8,7 @@ import { getPastPresentFutureDates } from 'src/activatedUser/screens/SearchTrain
 import { useTrainerAvailabilitiesQuery } from 'src/api/trainer';
 import { goTo } from 'src/navigation';
 import { Screen, useNavigator } from 'src/screen';
-import { CalendarMonthly, Text } from 'src/shared';
+import { CalendarMonthly, Icon, PressableScale, Text } from 'src/shared';
 
 import * as route from './../../../../../navigation/routes';
 
@@ -69,9 +69,23 @@ const Content = () => {
 };
 
 export const CalendarTrainerMonthly = () => {
+  const navigateToAddAvailability = () => {
+    goTo(route.toCalendarTrainerAddAvailability);
+  };
+
   return (
-    <Screen.Navigator.Item>
+    <Screen
+      HeaderComponent={
+        <Screen.Header variant="primary">
+          <Screen.Header.Right>
+            <PressableScale onPress={navigateToAddAvailability}>
+              <Icon name="plusThin" color="primary" />
+            </PressableScale>
+          </Screen.Header.Right>
+        </Screen.Header>
+      }
+    >
       <Content />
-    </Screen.Navigator.Item>
+    </Screen>
   );
 };

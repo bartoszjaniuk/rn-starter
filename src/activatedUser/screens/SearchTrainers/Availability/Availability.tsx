@@ -51,9 +51,5 @@ export const SearchTrainersAvailability = () => {
     [future, lastDay, past, today, trainerId, specializations],
   );
 
-  return (
-    <Screen HeaderComponent={<Screen.Header variant="primary" />} statusBarStyle="light">
-      <Screen.Navigator as={SearchTrainersAvailabilityNavigator} data={data} />
-    </Screen>
-  );
+  return <Screen.Navigator as={SearchTrainersAvailabilityNavigator} data={data} />;
 };

@@ -5,6 +5,8 @@ import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { Screen } from 'src/screen';
 
 import { Layout } from './components/Layout';
+import { TraineeHeader } from './components/TraineeHeader';
+import { TrainerHeader } from './components/TrainerHeader';
 
 import { NoSchedules } from '../../components/NoSchedules';
 
@@ -26,18 +28,18 @@ const TraineeContent = () => {
   );
 };
 
-const Content = () => {
+export const HomeTrainingList = () => {
   const userInfoQuery = useGetUserInfoQuery();
 
+  const isTrainee = userInfoQuery.data?.role === 'trainee';
+
   if (userInfoQuery.isLoading) return <LoadingScreen />;
-
-  return userInfoQuery.data?.role === 'trainee' ? <TraineeContent /> : <TrainerContent />;
-};
-
-export const HomeTrainingList = () => {
   return (
-    <Screen.Navigator.Item>
-      <Content />
-    </Screen.Navigator.Item>
+    <Screen
+      HeaderComponent={isTrainee ? <TraineeHeader /> : <TrainerHeader trainerId={userInfoQuery.data?.trainerId} />}
+      statusBarStyle="light"
+    >
+      {isTrainee ? <TraineeContent /> : <TrainerContent />}
+    </Screen>
   );
 };

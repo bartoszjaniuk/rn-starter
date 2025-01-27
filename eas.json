@@ -18,7 +18,8 @@
 		"production": {
 			"autoIncrement": true, // Automatically increment build numbers
 			"android": {
-			  "autoIncrement": "versionCode" // For Android, increments the versionCode
+			  "autoIncrement": "versionCode", // For Android, increments the versionCode
+			  "buildType": "apk"
 			},
 			"ios": {
 			  "autoIncrement": "buildNumber" // For iOS, increments the buildNumber

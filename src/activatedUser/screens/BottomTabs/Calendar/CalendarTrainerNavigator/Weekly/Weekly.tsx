@@ -4,9 +4,13 @@ import { useMarkedDates } from 'src/activatedUser/screens/SearchTrainers/SearchT
 import { useWeeklyPlanner } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersAvailabilityNavigator/Weekly/hooks/useWeeklyPlanner';
 import { getPastPresentFutureDates } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getPastPresentFutureDates';
 import { useTrainerAvailabilitiesQuery } from 'src/api/trainer';
+import { goTo } from 'src/navigation';
 import { Screen, useNavigator } from 'src/screen';
+import { Icon } from 'src/shared';
+import { PressableScale } from 'src/shared';
 import { TimelineWeeklyV2 } from 'src/shared/components/TimelineWeeklyV2';
 
+import * as route from '../../../../../navigation/routes';
 import { AvailabilityParams } from '../../Calendar';
 
 const Content = () => {
@@ -41,9 +45,23 @@ const Content = () => {
 };
 
 export const CalendarTrainerWeekly = () => {
+  const navigateToAddAvailability = () => {
+    goTo(route.toCalendarTrainerAddAvailability);
+  };
+
   return (
-    <Screen.Navigator.Item>
+    <Screen
+      HeaderComponent={
+        <Screen.Header variant="primary">
+          <Screen.Header.Right>
+            <PressableScale onPress={navigateToAddAvailability}>
+              <Icon name="plusThin" color="primary" />
+            </PressableScale>
+          </Screen.Header.Right>
+        </Screen.Header>
+      }
+    >
       <Content />
-    </Screen.Navigator.Item>
+    </Screen>
   );
 };
