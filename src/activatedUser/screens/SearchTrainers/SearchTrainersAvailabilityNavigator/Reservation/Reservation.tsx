@@ -9,7 +9,7 @@ import { useTrainerAvailabilitiesQuery, useTrainerBookTrainingMutation } from 's
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goBack } from 'src/navigation';
 import { Screen, useNavigator } from 'src/screen';
-import { PressableScale, Text, TryAgainError } from 'src/shared';
+import { PressableScale, Text, TryAgainError, today } from 'src/shared';
 
 import { Form } from './components/Form';
 
@@ -28,11 +28,11 @@ export type ReservationFormFieldValues = z.infer<typeof reservationFormSchema>;
 const Content = () => {
   const { navigationData } = useNavigator<AvailabilityParams>();
 
-  const { today, lastDay } = getPastPresentFutureDates();
+  const { lastDay } = getPastPresentFutureDates(31, navigationData.weekDate);
 
   const trainerAvailabilitiesQuery = useTrainerAvailabilitiesQuery({
     trainerId: navigationData.trainerId,
-    date: { from: today, to: lastDay },
+    date: { from: navigationData.weekDate, to: lastDay },
   });
 
   const availableSlots = Object.keys(trainerAvailabilitiesQuery.data?.data ?? []);

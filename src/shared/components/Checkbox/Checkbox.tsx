@@ -23,7 +23,7 @@ export const Checkbox = (props: React.PropsWithChildren<Props>) => {
           lineWidth={2}
           boxType="square"
           tintColor={theme.colors.gray}
-          tintColors={{ false: theme.colors.gray, true: theme.colors.typography }}
+          tintColors={{ false: theme.colors.gray, true: theme.colors.primary }}
           disabled={false}
           onCheckColor={theme.colors.typography}
           onTintColor={theme.colors.primary}

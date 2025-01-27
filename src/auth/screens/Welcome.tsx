@@ -28,8 +28,6 @@ const Content = () => {
   const navigateToLoginScreen = () => goTo(route.toAuthLogin);
   const navigateToRegisterScreen = () => goTo(route.toAuthRegister);
 
-  Linking.addEventListener('url', navigateToActivateAccount);
-
   if (authState?.isLoading) return <LoadingScreen />;
 
   return (
@@ -50,6 +48,8 @@ const Content = () => {
 };
 
 export const AuthWelcome = () => {
+  Linking.addEventListener('url', navigateToActivateAccount);
+
   return (
     <Screen statusBarStyle="light">
       <Content />
