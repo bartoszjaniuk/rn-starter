@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import * as React from 'react';
 
-import * as Linking from 'expo-linking';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,13 +11,15 @@ import { navigationRef } from 'src/navigation/navigation';
 import { useAuth } from 'src/providers/AuthContext';
 import { Text } from 'src/shared';
 
+import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
 
+SplashScreen.preventAutoHideAsync();
+
 const App = () => {
   const auth = useAuth();
-
   //   Wave.useSubscription(services.device.isInternetReachable(), (isInternetReachable) => {
   //     if (!isInternetReachable) {
   //       toast.show({
@@ -32,9 +33,11 @@ const App = () => {
   //     toast.hide();
   //   });
 
+  if (auth.isLoading) return <LoadingScreen />;
+
   return (
     <NativeStack.Navigator>
-      {auth.authState?.authenticated ? (
+      {auth.session ? (
         <NativeStack.Screen
           name="AppRootNavigator"
           component={AppRootNavigator}

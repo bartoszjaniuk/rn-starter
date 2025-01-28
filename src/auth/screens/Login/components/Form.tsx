@@ -39,13 +39,13 @@ export const Form = () => {
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
-    auth.onLogin?.(data);
+    auth.signIn?.(data);
     reset();
   });
 
   return (
     <Stack space={4}>
-      <Text>{auth.loginError ? <Text color="error">{auth.loginError?.response?.data.message}</Text> : null}</Text>
+      {/* <Text>{auth.loginError ? <Text color="error">{auth.loginError?.response?.data.message}</Text> : null}</Text> */}
       <Stack space={8}>
         <Stack space={6}>
           <Controller

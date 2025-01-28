@@ -74,10 +74,10 @@ const ProfileAvatar = ({ src, token }: { src?: string; token?: string | null | u
 };
 
 const Content = () => {
-  const { onLogout, authState } = useAuth();
+  const { signOut, session } = useAuth();
   const userInfoQuery = useGetUserInfoQuery();
 
-  const data = settings({ onLogout });
+  const data = settings({ onLogout: signOut });
 
   if (userInfoQuery.isLoading) return <LoadingScreen />;
 
@@ -85,7 +85,7 @@ const Content = () => {
     <ScrollView>
       <Stack align="center" marginBottom={10}>
         <Box alignX="center" marginBottom={4}>
-          <ProfileAvatar token={authState?.token} src={replaceApiHost(userInfoQuery.data?.profileImage)} />
+          <ProfileAvatar token={session} src={replaceApiHost(userInfoQuery.data?.profileImage)} />
         </Box>
         <Text size="sm" fontWeight="700">
           {userInfoQuery.data?.name}

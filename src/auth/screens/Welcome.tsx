@@ -23,12 +23,12 @@ const navigateToActivateAccount = (event: { url: string }) => {
 };
 
 const Content = () => {
-  const { authState } = useAuth();
+  const { isLoading } = useAuth();
 
   const navigateToLoginScreen = () => goTo(route.toAuthLogin);
   const navigateToRegisterScreen = () => goTo(route.toAuthRegister);
 
-  if (authState?.isLoading) return <LoadingScreen />;
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <>

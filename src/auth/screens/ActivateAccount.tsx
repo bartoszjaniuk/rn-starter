@@ -42,7 +42,7 @@ const Content = () => {
   });
   const handleNavigateToLogin = () => goTo(route.toAuthLogin);
 
-  const { onLogin } = useAuth();
+  const { signIn } = useAuth();
 
   const activateAccountMutation = useActivateAccountMutation({ onSuccess: handleNavigateToLogin });
 
@@ -54,7 +54,7 @@ const Content = () => {
       { password: data.password, token },
       {
         onSuccess: () => {
-          onLogin?.({ email, password: data.password });
+          signIn?.({ email, password: data.password });
         },
       },
     );

@@ -2,11 +2,12 @@ import { PropsWithChildren } from 'react';
 import * as React from 'react';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { ToastProvider } from 'react-native-toast-notifications';
-import { useStyles } from 'react-native-unistyles';
 
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { PortalProvider } from '@gorhom/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { useLayout } from 'src/screen';
 
 import { AuthProvider } from './AuthContext';
 import { FontLoader } from './FontLoader';
@@ -15,6 +16,8 @@ import { CustomToast } from './components/CustomToast';
 const queryClient = new QueryClient();
 
 export const AppProviders = ({ children }: PropsWithChildren) => {
+  const { bottomTabBar } = useLayout();
+
   return (
     <FontLoader>
       <KeyboardProvider statusBarTranslucent={true} navigationBarTranslucent={true}>
@@ -25,6 +28,7 @@ export const AppProviders = ({ children }: PropsWithChildren) => {
               duration={5000}
               animationType="slide-in"
               animationDuration={250}
+              offsetBottom={bottomTabBar.height + 12}
               swipeEnabled={true}
               renderType={{
                 success: (toast) => <CustomToast {...toast} />,
