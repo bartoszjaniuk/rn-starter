@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native';
 
 import { Inline, Stack } from '@grapp/stacks';
 
-import { BodyMetrics, useTraineeBodyMetricsQuery } from 'src/api/trainee';
+import { BodyMetrics, useTraineeBodyMetricsQuery, useTraineeQuery } from 'src/api/trainee';
 import { useTrainersQuery } from 'src/api/trainer';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
@@ -68,9 +68,14 @@ const Content = () => {
   const queryString = getQueryStringFromParams({ trainerId: userInfoQuery.data?.trainerId ?? '' });
   const trainersQuery = useTrainersQuery(queryString, !isTrainee);
 
-  const bodyMetrics = useBodyMetrics(traineeBodyMetricsQuery.data?.data);
+  const queryStringTrainee = getQueryStringFromParams({ traineeId: userInfoQuery.data?.traineeId });
+  const traineeQuery = useTraineeQuery(isTrainee ? queryStringTrainee : '');
 
-  if (userInfoQuery.isLoading || traineeBodyMetricsQuery.isLoading || trainersQuery.isLoading) return <LoadingScreen />;
+  const bodyMetrics = useBodyMetrics(traineeBodyMetricsQuery.data?.data);
+  const images = isTrainee ? traineeQuery.data?.data[0]?.images : trainersQuery.data?.data[0]?.images;
+
+  if (userInfoQuery.isLoading || traineeBodyMetricsQuery.isLoading || trainersQuery.isLoading || traineeQuery.isLoading)
+    return <LoadingScreen />;
 
   return (
     <Screen.ScrollView backgroundColor="transparent">
@@ -78,8 +83,8 @@ const Content = () => {
         <Stack space={4}>
           <CarouselGallery
             images={
-              userInfoQuery.data?.profileImage
-                ? [{ id: '123', uri: replaceApiHost(userInfoQuery.data?.profileImage) }]
+              images?.length
+                ? images?.map((img, i) => ({ id: i, uri: replaceApiHost(img) }))
                 : [
                     {
                       id: '1',

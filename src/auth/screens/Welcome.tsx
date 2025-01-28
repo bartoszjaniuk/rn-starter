@@ -16,7 +16,7 @@ import * as route from '../navigation/routes';
 const navigateToActivateAccount = (event: { url: string }) => {
   const { queryParams } = Linking.parse(event.url);
   const token = queryParams?.token as string | undefined;
-  const email = queryParams?.token as string | undefined;
+  const email = queryParams?.email as string | undefined;
   if (!token || !email) return;
 
   goTo(route.toAuthActivateAccount, { token, email });

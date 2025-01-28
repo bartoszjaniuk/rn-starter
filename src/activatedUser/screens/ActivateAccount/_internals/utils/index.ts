@@ -26,9 +26,10 @@ export const makeFormData = (imageAsset: ImageAsset) => {
   const formData = new FormData();
   const file = {
     uri: imageAsset.uri,
-    type: imageAsset.type,
+    type: imageAsset.mimeType,
     name: imageAsset.fileName,
   };
+
   formData.append('file', file);
   return formData;
 };

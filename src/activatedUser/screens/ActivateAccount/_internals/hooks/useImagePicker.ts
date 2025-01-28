@@ -4,6 +4,7 @@ import 'react-native-get-random-values';
 
 import * as ImagePicker from 'expo-image-picker';
 
+import { AxiosError } from 'axios';
 import { v4 as uuidV4 } from 'uuid';
 
 import { useUploadImagesMutation } from 'src/api/upload/hooks';
@@ -17,6 +18,13 @@ import { makeFormData, updateImages } from '../utils';
 const imagePickerOptions: ImagePicker.ImagePickerOptions = {
   allowsMultipleSelection: true,
   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+};
+
+const checkPermission = async () => {
+  const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  if (status !== 'granted') {
+    Alert.alert('Permission denied');
+  }
 };
 
 export const useImagePicker = () => {
@@ -43,6 +51,7 @@ export const useImagePicker = () => {
   const onImageAction = useImageAction({ deletePhoto, setAsDefault });
 
   const onSelectImage = async (index: number, shouldUseLibrary = true, assetId?: string | null) => {
+    await checkPermission();
     let result;
 
     if (assetId) return onImageAction(index);
@@ -68,13 +77,19 @@ export const useImagePicker = () => {
       for (let i = 0; i < selectedImages.length; i++) {
         const tempImage = selectedImages[i];
         if (!tempImage) return;
-        const data = await uploadImagesMutation.mutateAsync(makeFormData(tempImage));
+        try {
+          const data = await uploadImagesMutation.mutateAsync(makeFormData(tempImage));
 
-        if (data.fileId) {
-          updatedImages[index + i] = {
-            ...tempImage,
-            id: data.fileId,
-          };
+          if (data.fileId) {
+            updatedImages[index + i] = {
+              ...tempImage,
+              id: data.fileId,
+            };
+          }
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            console.log(error);
+          }
         }
       }
 

@@ -9,6 +9,7 @@ import * as z from 'zod';
 import { useActivateAccountMutation } from 'src/api/auth/hooks';
 import { useRouteParams } from 'src/core/hooks';
 import { goTo } from 'src/navigation';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Checkbox, Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
@@ -31,7 +32,6 @@ const Content = () => {
   const {
     control,
     handleSubmit,
-    reset,
     formState: { isValid },
   } = useForm<ActivateAccountFormFieldValues>({
     resolver: zodResolver(activateAccountFormSchema),
@@ -42,14 +42,22 @@ const Content = () => {
   });
   const handleNavigateToLogin = () => goTo(route.toAuthLogin);
 
+  const { onLogin } = useAuth();
+
   const activateAccountMutation = useActivateAccountMutation({ onSuccess: handleNavigateToLogin });
 
-  const { token } = useRouteParams(route.toAuthActivateAccount);
+  const { email, token } = useRouteParams(route.toAuthActivateAccount);
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
-    activateAccountMutation.mutate({ password: data.password, token });
-    reset();
+    activateAccountMutation.mutate(
+      { password: data.password, token },
+      {
+        onSuccess: () => {
+          onLogin?.({ email, password: data.password });
+        },
+      },
+    );
   });
 
   Screen.useHeader({
@@ -88,6 +96,8 @@ const Content = () => {
                       placeholder="*********"
                       isError={!!error}
                       errorMessage={error?.message}
+                      secureTextEntry={true}
+                      multiline={false}
                     />
                   )}
                   name="password"
