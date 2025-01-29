@@ -11,6 +11,7 @@ export const useGetUserInfoQuery = (isEnabled?: boolean) => {
     queryKey: [queryKeys.getUserInfo()],
     queryFn: userService.getUserInfo,
     enabled: isEnabled,
+    staleTime: 5 * 60 * 1000,
     retry: 3,
   });
 };

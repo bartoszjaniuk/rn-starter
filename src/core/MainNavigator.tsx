@@ -33,7 +33,7 @@ const App = () => {
   //     toast.hide();
   //   });
 
-  if (auth.isLoading) return <LoadingScreen />;
+  // if (auth.isLoading) return <LoadingScreen />;
 
   return (
     <NativeStack.Navigator>
@@ -62,20 +62,13 @@ const App = () => {
   );
 };
 
-// const prefix = Linking.createURL('/');
-
 export const MainNavigator = () => {
   const routeNameRef = React.useRef('');
 
   const handleReady = React.useCallback(() => {
     SplashScreen.hideAsync();
-    // routingInstrumentation.registerNavigationContainer(navigationRef);
     routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name ?? '';
   }, []);
-
-  // const linking = {
-  //   prefixes: [prefix, 'https://fitapka.netlify.app'],
-  // };
 
   const linking = {
     prefixes: ['https://fitapka.netlify.app', 'fitapka://'], // Add your domain and scheme
@@ -107,5 +100,3 @@ export const MainNavigator = () => {
     </NavigationContainer>
   );
 };
-// REMOVE IT LATER
-// https://www.google.pl?token=123&email=123

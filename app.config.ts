@@ -9,12 +9,15 @@ const config: ExpoConfig = {
   scheme: 'fitapka',
   platforms: ['ios', 'android'],
   userInterfaceStyle: 'automatic',
+  backgroundColor: '#181A1E',
   splash: {
     image: './assets/images/splash.png',
     resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#181A1E',
   },
+
   ios: {
+    backgroundColor: '#181A1E',
     associatedDomains: ['applinks:fitapka.netlify.app'],
     supportsTablet: true,
     bundleIdentifier: 'com.i3artosh.rnstarter',
@@ -32,7 +35,7 @@ const config: ExpoConfig = {
     softwareKeyboardLayoutMode: 'pan',
     adaptiveIcon: {
       foregroundImage: './assets/images/adaptive-icon.png',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#181A1E',
     },
     package: 'com.i3artosh.rnstarter',
     versionCode: 1,
@@ -45,6 +48,7 @@ const config: ExpoConfig = {
 
   plugins: [
     'expo-router',
+    'expo-system-ui',
     'expo-splash-screen',
     'expo-secure-store',
     'expo-file-system',

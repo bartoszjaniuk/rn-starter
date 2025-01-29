@@ -6,13 +6,12 @@ import { useScreen } from '../providers';
 
 export const Section = (props: BoxProps) => {
   const {
-    backgroundColor = '#FFF',
+    backgroundColor = '#181A1E',
     paddingX,
     paddingY = 6,
     children,
     borderTopWidth = 1,
     borderBottomWidth = 1,
-    // borderColor = '#EEEFF2',
     ...rest
   } = props;
   const { paddingX: defaultPaddingX } = useScreen();
@@ -26,7 +25,6 @@ export const Section = (props: BoxProps) => {
         backgroundColor={backgroundColor}
         borderTopWidth={borderTopWidth}
         borderBottomWidth={borderBottomWidth}
-        // borderColor={borderColor}
         {...rest}
       >
         {children}

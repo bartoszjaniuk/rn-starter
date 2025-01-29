@@ -15,7 +15,7 @@ export type Props = {
 const ScreenContext = React.createContext<Props>({
   paddingX: 4,
   columns: 1,
-  backgroundColor: 'blue',
+  backgroundColor: '#181A1E',
   navigationBarBackgroundColor: 'purple',
   canGoBack: false,
   scrollOffsetY: makeMutable(0),

@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Box } from '@grapp/stacks';
+
 import { SearchTrainersAvailabilityNavigator } from 'src/activatedUser/navigation';
 import { useRouteParams } from 'src/core/hooks';
 import { Screen } from 'src/screen';
@@ -51,5 +53,9 @@ export const SearchTrainersAvailability = () => {
     [future, lastDay, past, today, trainerId, specializations],
   );
 
-  return <Screen.Navigator as={SearchTrainersAvailabilityNavigator} data={data} />;
+  return (
+    <Box flex="fluid" backgroundColor="#181A1E">
+      <Screen.Navigator as={SearchTrainersAvailabilityNavigator} data={data} />
+    </Box>
+  );
 };

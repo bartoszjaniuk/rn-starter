@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Box } from '@grapp/stacks';
+
 import { CalendarTrainerNavigator } from 'src/activatedUser/navigation';
 import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { Screen } from 'src/screen';
@@ -48,5 +50,9 @@ export const BottomTabsCalendar = () => {
     [future, lastDay, past, today, userInfoQuery.data?.role, userInfoQuery.data?.trainerId],
   );
 
-  return <Screen.Navigator as={CalendarTrainerNavigator} data={data} />;
+  return (
+    <Box flex="fluid" backgroundColor="#181A1E">
+      <Screen.Navigator as={CalendarTrainerNavigator} data={data} />
+    </Box>
+  );
 };

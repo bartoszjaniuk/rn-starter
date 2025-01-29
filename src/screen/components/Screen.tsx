@@ -50,16 +50,17 @@ export const Screen = (props: Props) => {
   const {
     children,
     paddingX = 4,
-    backgroundColor = '#f8f8f8',
+    backgroundColor = '#181A1E',
     topInset,
     bottomInset,
     columns = 1,
     statusBarStyle = 'light',
     canGoBack = true,
-    navigationBarBackgroundColor = '#fafafafa',
+    navigationBarBackgroundColor = '#181A1E',
     HeaderComponent,
     ...rest
   } = props;
+
   const [footerHeight, setFooterHeight] = React.useState<number | undefined>(undefined);
 
   const headerConfig = getHeaderProps(HeaderComponent);

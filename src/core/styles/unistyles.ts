@@ -14,7 +14,6 @@ const theme = {
     asteriskError: '#F00000',
     snacks: '#303033',
     border: '#3A3A40',
-
     transparent: 'transparent',
   },
   margins: {
@@ -60,7 +59,7 @@ export const breakpoints = {
 
 export type AppBreakpoints = typeof breakpoints;
 export type AppThemes = {
-  light: typeof theme;
+  dark: typeof theme;
 };
 
 declare module 'react-native-unistyles' {
@@ -74,9 +73,9 @@ declare module '@grapp/stacks' {
 
 UnistylesRegistry.addBreakpoints(breakpoints)
   .addThemes({
-    light: theme,
+    dark: theme,
   })
   .addConfig({
     disableAnimatedInsets: true,
-    initialTheme: 'light',
+    initialTheme: 'dark',
   });
