@@ -5,8 +5,8 @@ import * as SecureStore from 'expo-secure-store';
 import { AxiosError } from 'axios';
 
 import { authService } from 'src/api/auth/auth.service';
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { UserInfoResponse } from 'src/api/user/models';
+import { userService } from 'src/api/user/user.service';
 
 import { authReducer, initialState } from './AuthReducer';
 
@@ -27,13 +27,6 @@ const AuthContext = React.createContext<AuthContextType>(initialState);
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   const [state, dispatch] = React.useReducer(authReducer, initialState);
-  const userInfoQuery = useGetUserInfoQuery(false);
-
-  React.useEffect(() => {
-    if (userInfoQuery.isSuccess) {
-      dispatch({ type: 'SET_AUTHENTICATED', user: userInfoQuery.data });
-    }
-  }, [userInfoQuery.data, userInfoQuery.isSuccess]);
 
   React.useEffect(() => {
     const bootstrapAsync = async () => {
@@ -41,13 +34,17 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
       try {
         userToken = await SecureStore.getItemAsync(ACCESS_TOKEN);
-
         if (!userToken) return dispatch({ type: 'SET_UNAUTHENTICATED' });
       } catch (error) {
         console.error('Error retrieving JWT token:', error);
       }
       dispatch({ type: 'RESTORE_TOKEN', token: userToken ?? null });
-      userInfoQuery.refetch();
+      const userInfo = await userService.getUserInfo();
+      if (!!userInfo) {
+        dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
+      } else {
+        dispatch({ type: 'SET_UNAUTHENTICATED' });
+      }
     };
 
     bootstrapAsync();
@@ -57,11 +54,17 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     () => ({
       ...state,
       signIn: async (payload: UserCredentials) => {
+        dispatch({ type: 'SET_LOADING' });
         try {
           const loginResponse = await authService.login(payload);
           await SecureStore.setItemAsync(ACCESS_TOKEN, loginResponse.token);
           dispatch({ type: 'SIGN_IN', token: loginResponse.token });
-          userInfoQuery.refetch();
+          const userInfo = await userService.getUserInfo();
+          if (!!userInfo) {
+            dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
+          } else {
+            dispatch({ type: 'SET_UNAUTHENTICATED' });
+          }
         } catch (error) {
           if (error instanceof AxiosError) {
             dispatch({ type: 'AUTH_ERROR', error: error.response?.data.message });
@@ -77,7 +80,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         dispatch({ type: 'CLEAR_EXPIRED_TOKEN' });
       },
     }),
-    [state, userInfoQuery],
+    [state],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

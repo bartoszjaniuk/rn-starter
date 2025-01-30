@@ -39,6 +39,7 @@ export const authReducer = (prevState: AuthContextType, action: AuthAction): Aut
     case 'SIGN_OUT':
       return {
         ...prevState,
+        user: undefined,
         token: null,
       };
     case 'SET_UNAUTHENTICATED':

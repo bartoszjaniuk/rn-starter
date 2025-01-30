@@ -11,7 +11,6 @@ import { navigationRef } from 'src/navigation/navigation';
 import { useAuth } from 'src/providers/AuthContext';
 import { Text } from 'src/shared';
 
-import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
@@ -33,11 +32,9 @@ const App = () => {
   //     toast.hide();
   //   });
 
-  if (auth.isLoading) return <LoadingScreen />;
-
   return (
     <NativeStack.Navigator>
-      {auth.token ? (
+      {auth.user ? (
         <NativeStack.Screen
           name="AppRootNavigator"
           component={AppRootNavigator}
