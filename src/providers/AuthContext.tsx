@@ -44,14 +44,16 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   const value: AuthContextType = React.useMemo(
     () => ({
       ...state,
+
       signIn: async (payload: UserCredentials) => {
+        dispatch({ type: 'SET_LOADING' });
         try {
           const loginResponse = await authService.login(payload);
           await SecureStore.setItemAsync(ACCESS_TOKEN, loginResponse.token);
           dispatch({ type: 'SIGN_IN', session: loginResponse.token });
         } catch (error) {
           if (error instanceof AxiosError) {
-            dispatch({ type: 'AUTH_ERROR', error: error.response?.data });
+            dispatch({ type: 'AUTH_ERROR', error: error.response?.data.message });
           }
         }
       },

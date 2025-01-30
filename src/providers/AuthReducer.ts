@@ -6,6 +6,7 @@ export type User = {
 
 type AuthAction =
   | { type: 'SIGN_IN'; session: string }
+  | { type: 'SET_LOADING' }
   | { type: 'RESTORE_TOKEN'; session: string | null }
   | { type: 'GET_USER_INFO'; user: User | undefined }
   | { type: 'AUTH_ERROR'; error: string }
@@ -21,10 +22,16 @@ export const authReducer = (prevState: AuthContextType, action: AuthAction): Aut
         isLoading: false,
         error: '',
       };
+    case 'SET_LOADING':
+      return {
+        ...prevState,
+        isLoading: !prevState.isLoading,
+      };
     case 'SIGN_IN':
       return {
         ...prevState,
         error: '',
+        isLoading: false,
         session: action.session,
       };
     case 'GET_USER_INFO':

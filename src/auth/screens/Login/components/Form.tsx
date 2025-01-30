@@ -45,7 +45,7 @@ export const Form = () => {
 
   return (
     <Stack space={4}>
-      {/* <Text>{auth.loginError ? <Text color="error">{auth.loginError?.response?.data.message}</Text> : null}</Text> */}
+      <Text>{auth.error ? <Text color="error">{auth.error}</Text> : null}</Text>
       <Stack space={8}>
         <Stack space={6}>
           <Controller
