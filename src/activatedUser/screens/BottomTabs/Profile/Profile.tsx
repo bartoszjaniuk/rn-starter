@@ -5,9 +5,9 @@ import { Inline, Stack } from '@grapp/stacks';
 
 import { BodyMetrics, useTraineeBodyMetricsQuery, useTraineeQuery } from 'src/api/trainee';
 import { useTrainersQuery } from 'src/api/trainer';
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Icon, PressableScale, Text, getQueryStringFromParams, replaceApiHost } from 'src/shared';
 import { CarouselGallery } from 'src/shared/components/CarouselGallery';
@@ -62,20 +62,19 @@ const useBodyMetrics = (data: BodyMetrics[] | undefined) => {
 };
 
 const Content = () => {
-  const userInfoQuery = useGetUserInfoQuery();
-  const traineeBodyMetricsQuery = useTraineeBodyMetricsQuery(userInfoQuery.data?.traineeId ?? '');
-  const isTrainee = userInfoQuery.data?.role === 'trainee';
-  const queryString = getQueryStringFromParams({ trainerId: userInfoQuery.data?.trainerId ?? '' });
+  const auth = useAuth();
+  const traineeBodyMetricsQuery = useTraineeBodyMetricsQuery(auth.user?.traineeId ?? '');
+  const isTrainee = auth.user?.role === 'trainee';
+  const queryString = getQueryStringFromParams({ trainerId: auth.user?.trainerId ?? '' });
   const trainersQuery = useTrainersQuery(queryString, !isTrainee);
 
-  const queryStringTrainee = getQueryStringFromParams({ traineeId: userInfoQuery.data?.traineeId });
+  const queryStringTrainee = getQueryStringFromParams({ traineeId: auth.user?.traineeId });
   const traineeQuery = useTraineeQuery(isTrainee ? queryStringTrainee : '');
 
   const bodyMetrics = useBodyMetrics(traineeBodyMetricsQuery.data?.data);
   const images = isTrainee ? traineeQuery.data?.data[0]?.images : trainersQuery.data?.data[0]?.images;
 
-  if (userInfoQuery.isLoading || traineeBodyMetricsQuery.isLoading || trainersQuery.isLoading || traineeQuery.isLoading)
-    return <LoadingScreen />;
+  if (traineeBodyMetricsQuery.isLoading || trainersQuery.isLoading || traineeQuery.isLoading) return <LoadingScreen />;
 
   return (
     <Screen.ScrollView backgroundColor="transparent">
@@ -95,10 +94,10 @@ const Content = () => {
           />
           <Stack paddingTop={6} space={1}>
             <Text fontWeight="700" size="xxl">
-              {userInfoQuery.data?.name}
+              {auth.user?.name}
             </Text>
             <Text fontWeight="400" size="sm">
-              {userInfoQuery.data?.city}
+              {auth.user?.city}
             </Text>
 
             {isTrainee ? null : (
@@ -112,7 +111,7 @@ const Content = () => {
                 <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center', flex: 1 }}>
                   <Icon name="mail" color="transparent" />
                   <Text fontWeight="400" size="sm" numberOfLines={1} ellipsizeMode="tail">
-                    {userInfoQuery.data?.email}
+                    {auth.user?.email}
                   </Text>
                 </View>
               </View>

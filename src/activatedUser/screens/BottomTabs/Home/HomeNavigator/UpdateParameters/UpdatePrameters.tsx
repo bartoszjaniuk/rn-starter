@@ -5,9 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { BodyMetrics, useTraineeBodyMetricsMutation, useTraineeBodyMetricsQuery } from 'src/api/trainee';
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goBack } from 'src/navigation';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { PressableScale, Text, TryAgainError } from 'src/shared';
 
@@ -99,8 +99,8 @@ const Content = (props: ContentProps) => {
 };
 
 export const HomeUpdateParameters = () => {
-  const userInfoQuery = useGetUserInfoQuery();
-  const traineeBodyMetricsQuery = useTraineeBodyMetricsQuery(userInfoQuery.data?.traineeId || '');
+  const auth = useAuth();
+  const traineeBodyMetricsQuery = useTraineeBodyMetricsQuery(auth.user?.traineeId || '');
 
   const traineeBodyMetrics =
     traineeBodyMetricsQuery.data?.data && traineeBodyMetricsQuery.data.data.length > 0
@@ -109,17 +109,14 @@ export const HomeUpdateParameters = () => {
 
   return (
     <Screen backgroundColor="black" statusBarStyle="light" HeaderComponent={<Screen.Header variant="primary" />}>
-      {userInfoQuery.isLoading || traineeBodyMetricsQuery.isLoading ? <LoadingScreen /> : null}
-      {!userInfoQuery.isLoading && userInfoQuery.isError ? (
-        <TryAgainError queryName="userInfo" onRetry={userInfoQuery.refetch} />
-      ) : null}
+      {traineeBodyMetricsQuery.isLoading ? <LoadingScreen /> : null}
 
       {!traineeBodyMetricsQuery.isLoading && traineeBodyMetricsQuery.isError ? (
         <TryAgainError queryName="traineeBodyMetrics" onRetry={traineeBodyMetricsQuery.refetch} />
       ) : null}
 
-      {!userInfoQuery.isLoading && !traineeBodyMetricsQuery.isLoading ? (
-        <Content traineeBodyMetrics={traineeBodyMetrics} traineeId={userInfoQuery.data?.traineeId} />
+      {!traineeBodyMetricsQuery.isLoading ? (
+        <Content traineeBodyMetrics={traineeBodyMetrics} traineeId={auth.user?.traineeId} />
       ) : null}
     </Screen>
   );

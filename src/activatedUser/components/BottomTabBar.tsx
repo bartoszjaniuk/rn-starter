@@ -1,17 +1,17 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 
 import * as route from '../navigation/routes';
 
 export const BottomTabBar = (_props: BottomTabBarProps) => {
-  const { data } = useGetUserInfoQuery();
+  const { user } = useAuth();
 
   return (
     <Screen.BottomTabBar defaultRoute={route.toBottomTabsHome}>
       <Screen.BottomTabBar.Item icon="home" title="Ekran główny" to={route.toBottomTabsHome} />
-      {data?.role === 'trainer' ? (
+      {user?.role === 'trainer' ? (
         <Screen.BottomTabBar.Item icon="calendar" title="Kalendarz" to={route.toBottomTabsCalendar} />
       ) : null}
       {/* {data?.role === 'trainee' ? (

@@ -35,9 +35,9 @@ type Props = {
 
 export const TrainerListItem = ({ trainer }: Props) => {
   const { theme } = useStyles();
-  const { session } = useAuth();
+  const { token } = useAuth();
 
-  const JWT = `Bearer ${session}`;
+  const JWT = `Bearer ${token}`;
 
   const placeholderImage = `https://i.pravatar.cc/${randomIntBetween(1, 300)}`;
 

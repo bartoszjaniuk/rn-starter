@@ -33,11 +33,11 @@ const App = () => {
   //     toast.hide();
   //   });
 
-  // if (auth.isLoading) return <LoadingScreen />;
+  if (auth.isLoading) return <LoadingScreen />;
 
   return (
     <NativeStack.Navigator>
-      {auth.session ? (
+      {auth.token ? (
         <NativeStack.Screen
           name="AppRootNavigator"
           component={AppRootNavigator}

@@ -4,8 +4,6 @@ import { FlatList } from 'react-native-gesture-handler';
 
 import { Box, Stack } from '@grapp/stacks';
 
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
-import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { useAuth } from 'src/providers/AuthContext';
 import { Screen, ScrollView } from 'src/screen';
 import { Text, replaceApiHost } from 'src/shared';
@@ -74,26 +72,21 @@ const ProfileAvatar = ({ src, token }: { src?: string; token?: string | null | u
 };
 
 const Content = () => {
-  const { signOut, session } = useAuth();
-  const userInfoQuery = useGetUserInfoQuery();
+  const { signOut, token, user } = useAuth();
 
   const data = settings({ onLogout: signOut });
-
-  if (userInfoQuery.isLoading) return <LoadingScreen />;
 
   return (
     <ScrollView>
       <Stack align="center" marginBottom={10}>
         <Box alignX="center" marginBottom={4}>
-          <ProfileAvatar token={session} src={replaceApiHost(userInfoQuery.data?.profileImage)} />
+          <ProfileAvatar token={token} src={replaceApiHost(user?.profileImage)} />
         </Box>
         <Text size="sm" fontWeight="700">
-          {userInfoQuery.data?.name}
+          {user?.name}
         </Text>
       </Stack>
       <FlatList
-        onRefresh={userInfoQuery.refetch}
-        refreshing={userInfoQuery.isRefetching}
         contentContainerStyle={{ gap: 16 }}
         scrollEnabled={false}
         data={data}
