@@ -7,6 +7,7 @@ import { AxiosError } from 'axios';
 import { authService } from 'src/api/auth/auth.service';
 import { UserInfoResponse } from 'src/api/user/models';
 import { userService } from 'src/api/user/user.service';
+import { EventEmitter } from 'src/api/utils/eventEmitter';
 
 import { authReducer, initialState } from './AuthReducer';
 
@@ -35,19 +36,30 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
       try {
         userToken = await SecureStore.getItemAsync(ACCESS_TOKEN);
         if (!userToken) return dispatch({ type: 'SET_UNAUTHENTICATED' });
+        dispatch({ type: 'RESTORE_TOKEN', token: userToken ?? null });
+        const userInfo = await userService.getUserInfo();
+        if (!!userInfo) {
+          dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
+        } else {
+          console.log('SET_UNAUTHENTICATED');
+          dispatch({ type: 'SET_UNAUTHENTICATED' });
+        }
       } catch (error) {
         console.error('Error retrieving JWT token:', error);
-      }
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken ?? null });
-      const userInfo = await userService.getUserInfo();
-      if (!!userInfo) {
-        dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
-      } else {
-        dispatch({ type: 'SET_UNAUTHENTICATED' });
       }
     };
 
     bootstrapAsync();
+  }, []);
+
+  React.useEffect(() => {
+    const subscription = EventEmitter.addLogoutListener(() => {
+      dispatch({ type: 'SIGN_OUT' });
+    });
+
+    return () => {
+      EventEmitter.removeLogoutListener(subscription); // Correct cleanup
+    };
   }, []);
 
   const value: AuthContextType = React.useMemo(
