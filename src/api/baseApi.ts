@@ -1,7 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
+import httpClient from './httpClient';
 import { EventEmitter } from './utils/eventEmitter';
 
 import { ACCESS_TOKEN } from '../shared/constants/accessToken';
@@ -9,11 +10,8 @@ import { ACCESS_TOKEN } from '../shared/constants/accessToken';
 export abstract class ApiService {
   protected httpClient: AxiosInstance;
 
-  constructor(baseURL: string) {
-    this.httpClient = axios.create({
-      baseURL,
-      withCredentials: true,
-    });
+  constructor() {
+    this.httpClient = httpClient;
     this.removeExpiredJWT();
     this.addJwtInterceptor();
   }

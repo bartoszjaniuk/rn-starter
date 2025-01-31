@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 import { authService } from 'src/api/auth/auth.service';
 import { UserInfoResponse } from 'src/api/user/models';
 import { userService } from 'src/api/user/user.service';
-import { EventEmitter } from 'src/api/utils/eventEmitter';
+import { setGlobalDispatch } from 'src/api/utils/setGlobalDispatch';
 
 import { authReducer, initialState } from './AuthReducer';
 
@@ -53,13 +53,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   }, []);
 
   React.useEffect(() => {
-    const subscription = EventEmitter.addLogoutListener(() => {
-      dispatch({ type: 'SIGN_OUT' });
-    });
-
-    return () => {
-      EventEmitter.removeLogoutListener(subscription); // Correct cleanup
-    };
+    setGlobalDispatch(dispatch);
   }, []);
 
   const value: AuthContextType = React.useMemo(
