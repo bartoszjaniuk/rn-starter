@@ -5,9 +5,9 @@ import * as SecureStore from 'expo-secure-store';
 import { AxiosError } from 'axios';
 
 import { authService } from 'src/api/auth/auth.service';
+import { setupAxiosInterceptors } from 'src/api/httpClient';
 import { UserInfoResponse } from 'src/api/user/models';
 import { userService } from 'src/api/user/user.service';
-import { setGlobalDispatch } from 'src/api/utils/setGlobalDispatch';
 
 import { authReducer, initialState } from './AuthReducer';
 
@@ -41,7 +41,6 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         if (!!userInfo) {
           dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
         } else {
-          console.log('SET_UNAUTHENTICATED');
           dispatch({ type: 'SET_UNAUTHENTICATED' });
         }
       } catch (error) {
@@ -52,9 +51,14 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     bootstrapAsync();
   }, []);
 
+  const signOut = React.useCallback(async () => {
+    await SecureStore.deleteItemAsync(ACCESS_TOKEN);
+    dispatch({ type: 'SIGN_OUT' });
+  }, [dispatch]);
+
   React.useEffect(() => {
-    setGlobalDispatch(dispatch);
-  }, []);
+    setupAxiosInterceptors(signOut);
+  }, [signOut]);
 
   const value: AuthContextType = React.useMemo(
     () => ({

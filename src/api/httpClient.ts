@@ -4,8 +4,6 @@ import axios, { AxiosInstance } from 'axios';
 
 import { API_URL } from 'src/shared/constants/apiUrl';
 
-import { getGlobalDispatch } from './utils/setGlobalDispatch';
-
 import { ACCESS_TOKEN } from '../shared/constants/accessToken';
 
 const httpClient: AxiosInstance = axios.create({
@@ -26,16 +24,16 @@ httpClient.interceptors.request.use(
   },
 );
 
-httpClient.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    if (error.response?.status === 401) {
-      await SecureStore.deleteItemAsync(ACCESS_TOKEN);
-      const dispatch = getGlobalDispatch();
-      dispatch({ type: 'SIGN_OUT' });
-    }
-    return Promise.reject(error);
-  },
-);
+export const setupAxiosInterceptors = (signOut: () => void) => {
+  httpClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        signOut();
+      }
+      return Promise.reject(error);
+    },
+  );
+};
 
 export default httpClient;
