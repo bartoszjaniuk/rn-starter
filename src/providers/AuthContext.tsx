@@ -5,8 +5,11 @@ import * as SecureStore from 'expo-secure-store';
 import { AxiosError } from 'axios';
 
 import { authService } from 'src/api/auth/auth.service';
+import { UserInfoResponse } from 'src/api/user/models';
+import { userService } from 'src/api/user/user.service';
+import { setGlobalDispatch } from 'src/api/utils/setGlobalDispatch';
 
-import { User, authReducer, initialState } from './AuthReducer';
+import { authReducer, initialState } from './AuthReducer';
 
 import { UserCredentials } from '../api/auth/models/auth.models';
 import { ACCESS_TOKEN } from '../shared/constants/accessToken';
@@ -15,10 +18,10 @@ export type AuthContextType = {
   signIn: (payload: UserCredentials) => Promise<void>;
   resetExpiredToken: () => Promise<void>;
   signOut: () => void;
-  session?: string | null;
+  token?: string | null;
   error: string;
   isLoading: boolean;
-  user?: User | undefined;
+  user?: UserInfoResponse | undefined;
 };
 
 const AuthContext = React.createContext<AuthContextType>(initialState);
@@ -32,13 +35,25 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
       try {
         userToken = await SecureStore.getItemAsync(ACCESS_TOKEN);
+        if (!userToken) return dispatch({ type: 'SET_UNAUTHENTICATED' });
+        dispatch({ type: 'RESTORE_TOKEN', token: userToken ?? null });
+        const userInfo = await userService.getUserInfo();
+        if (!!userInfo) {
+          dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
+        } else {
+          console.log('SET_UNAUTHENTICATED');
+          dispatch({ type: 'SET_UNAUTHENTICATED' });
+        }
       } catch (error) {
         console.error('Error retrieving JWT token:', error);
       }
-      dispatch({ type: 'RESTORE_TOKEN', session: userToken ?? null });
     };
 
     bootstrapAsync();
+  }, []);
+
+  React.useEffect(() => {
+    setGlobalDispatch(dispatch);
   }, []);
 
   const value: AuthContextType = React.useMemo(
@@ -50,7 +65,13 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         try {
           const loginResponse = await authService.login(payload);
           await SecureStore.setItemAsync(ACCESS_TOKEN, loginResponse.token);
-          dispatch({ type: 'SIGN_IN', session: loginResponse.token });
+          dispatch({ type: 'SIGN_IN', token: loginResponse.token });
+          const userInfo = await userService.getUserInfo();
+          if (!!userInfo) {
+            dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
+          } else {
+            dispatch({ type: 'SET_UNAUTHENTICATED' });
+          }
         } catch (error) {
           if (error instanceof AxiosError) {
             dispatch({ type: 'AUTH_ERROR', error: error.response?.data.message });

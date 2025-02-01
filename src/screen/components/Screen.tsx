@@ -90,6 +90,7 @@ export const Screen = (props: Props) => {
     G.isNullable(HeaderComponent) || headerProps.variant === 'hosted'
       ? (resolveResponsiveProp(topInset) ?? insets.stacks.top)
       : 0;
+
   const numOfColumns = resolveResponsiveProp(columns);
   const isInsideBottomTabNavigator = typeof navigation.jumpTo === 'function';
 

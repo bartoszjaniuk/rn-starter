@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
-import { LoadingScreen } from 'src/core/components/LoadingScreen';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 
 import { Layout } from './components/Layout';
@@ -29,14 +28,13 @@ const TraineeContent = () => {
 };
 
 export const HomeTrainingList = () => {
-  const userInfoQuery = useGetUserInfoQuery();
+  const auth = useAuth();
 
-  const isTrainee = userInfoQuery.data?.role === 'trainee';
+  const isTrainee = auth.user?.role === 'trainee';
 
-  if (userInfoQuery.isLoading) return <LoadingScreen />;
   return (
     <Screen
-      HeaderComponent={isTrainee ? <TraineeHeader /> : <TrainerHeader trainerId={userInfoQuery.data?.trainerId} />}
+      HeaderComponent={isTrainee ? <TraineeHeader /> : <TrainerHeader trainerId={auth.user?.trainerId} />}
       statusBarStyle="light"
     >
       {isTrainee ? <TraineeContent /> : <TrainerContent />}

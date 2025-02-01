@@ -1,18 +1,33 @@
 import * as SecureStore from 'expo-secure-store';
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+
+import httpClient from './httpClient';
+import { EventEmitter } from './utils/eventEmitter';
 
 import { ACCESS_TOKEN } from '../shared/constants/accessToken';
 
 export abstract class ApiService {
   protected httpClient: AxiosInstance;
 
-  constructor(baseURL: string) {
-    this.httpClient = axios.create({
-      baseURL,
-      withCredentials: true,
-    });
+  constructor() {
+    this.httpClient = httpClient;
+    this.removeExpiredJWT();
     this.addJwtInterceptor();
+  }
+
+  private removeExpiredJWT() {
+    this.httpClient.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response?.status === 401) {
+          await SecureStore.deleteItemAsync(ACCESS_TOKEN);
+          EventEmitter.emitLogout(); // Notify AuthProvider to logout
+        }
+        console.log(error, 'error');
+        return Promise.reject(error);
+      },
+    );
   }
 
   private async getJwtToken(): Promise<string | null> {

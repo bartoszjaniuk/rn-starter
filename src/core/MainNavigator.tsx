@@ -34,7 +34,7 @@ const App = () => {
 
   return (
     <NativeStack.Navigator>
-      {auth.session ? (
+      {auth.user ? (
         <NativeStack.Screen
           name="AppRootNavigator"
           component={AppRootNavigator}

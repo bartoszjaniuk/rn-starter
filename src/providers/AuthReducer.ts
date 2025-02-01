@@ -1,3 +1,5 @@
+import { UserInfoResponse } from 'src/api/user/models';
+
 import { AuthContextType } from './AuthContext';
 
 export type User = {
@@ -5,10 +7,11 @@ export type User = {
 };
 
 type AuthAction =
-  | { type: 'SIGN_IN'; session: string }
+  | { type: 'SIGN_IN'; token: string }
   | { type: 'SET_LOADING' }
-  | { type: 'RESTORE_TOKEN'; session: string | null }
-  | { type: 'GET_USER_INFO'; user: User | undefined }
+  | { type: 'RESTORE_TOKEN'; token: string | null }
+  | { type: 'SET_UNAUTHENTICATED' }
+  | { type: 'SET_AUTHENTICATED'; user: UserInfoResponse | undefined }
   | { type: 'AUTH_ERROR'; error: string }
   | { type: 'CLEAR_EXPIRED_TOKEN' }
   | { type: 'SIGN_OUT' };
@@ -18,8 +21,7 @@ export const authReducer = (prevState: AuthContextType, action: AuthAction): Aut
     case 'RESTORE_TOKEN':
       return {
         ...prevState,
-        session: action.session,
-        isLoading: false,
+        token: action.token,
         error: '',
       };
     case 'SET_LOADING':
@@ -31,30 +33,45 @@ export const authReducer = (prevState: AuthContextType, action: AuthAction): Aut
       return {
         ...prevState,
         error: '',
-        isLoading: false,
-        session: action.session,
-      };
-    case 'GET_USER_INFO':
-      return {
-        ...prevState,
-        user: action.user,
+        isLoading: true,
       };
     case 'AUTH_ERROR':
       return {
         ...prevState,
+        isLoading: false,
         error: action.error,
       };
     case 'SIGN_OUT':
       return {
         ...prevState,
-        session: null,
+        user: undefined,
+        token: null,
+      };
+    case 'SET_UNAUTHENTICATED':
+      return {
+        ...prevState,
+        user: undefined,
+        isLoading: false,
+        token: null,
+        error: '',
+      };
+    case 'SET_AUTHENTICATED':
+      return {
+        ...prevState,
+        user: action.user,
+        isLoading: false,
       };
     case 'CLEAR_EXPIRED_TOKEN':
       return {
         ...prevState,
         isLoading: false,
-        session: null,
+        token: null,
         error: '',
+      };
+    case 'SET_LOADING':
+      return {
+        ...prevState,
+        isLoading: !prevState.isLoading,
       };
     default:
       return prevState;
@@ -66,7 +83,7 @@ export const initialState: AuthContextType = {
   user: undefined,
   resetExpiredToken: async () => void 0,
   signOut: () => void 0,
-  session: null,
+  token: null,
   isLoading: true,
   error: '',
 };

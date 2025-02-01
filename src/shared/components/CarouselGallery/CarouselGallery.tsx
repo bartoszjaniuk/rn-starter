@@ -35,9 +35,9 @@ type Props = {
 
 export const CarouselGallery = (props: Props) => {
   const { images = mock } = props;
-  const { session } = useAuth();
+  const { token } = useAuth();
 
-  const JWT = `Bearer ${session}`;
+  const JWT = `Bearer ${token}`;
 
   const { styles } = useStyles(stylesheet);
   const width = UnistylesRuntime.screen.width;

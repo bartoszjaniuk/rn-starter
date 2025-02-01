@@ -8,11 +8,10 @@ import {
   WeekCalendarProps,
 } from 'react-native-calendars';
 
-import { useAlert } from 'src/activatedUser/screens/SearchTrainers/SearchTrainersAvailabilityNavigator/Weekly/hooks/useAlert';
 import { TrainerBookTrainingPostV1Payload, useTrainerBookTrainingMutation } from 'src/api/trainer';
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
+import { useAuth } from 'src/providers/AuthContext';
 
 import * as route from '../../../activatedUser/navigation/routes';
 
@@ -32,15 +31,7 @@ type Props = {
 export const TimelineWeekly = ({ onDateChanged, date, weeklyPlanner, trainerId, isLoading, markedDates }: Props) => {
   const trainerBookTrainingMutation = useTrainerBookTrainingMutation(trainerId);
 
-  const userInfoQuery = useGetUserInfoQuery();
-
-  const alert = useAlert({
-    title: 'Zarezerwować termin?',
-    message: 'Trening będzie widoczny na ekranie głównym lub w kalendarzu',
-    options: {
-      userInterfaceStyle: 'dark',
-    },
-  });
+  const auth = useAuth();
 
   const handleReservation = (eventDate: string, payload: TrainerBookTrainingPostV1Payload) => {
     // alert(eventDate, () => trainerBookTrainingMutation.mutate(payload));
@@ -107,7 +98,7 @@ export const TimelineWeekly = ({ onDateChanged, date, weeklyPlanner, trainerId, 
             onEventPress: (event) => {
               handleReservation(event.start, {
                 availabilitySlotsIds: [event.id!],
-                traineeId: userInfoQuery.data?.traineeId || '',
+                traineeId: auth.user?.traineeId || '',
               });
             },
             //   onBackgroundLongPress: this.createNewEvent,

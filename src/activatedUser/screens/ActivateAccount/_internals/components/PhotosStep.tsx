@@ -4,9 +4,9 @@ import { Stack } from '@grapp/stacks';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { TraineeFormData } from 'src/activatedUser/screens/FirstLogin/Trainee';
-import { useGetUserInfoQuery, useProfileCompletionMutation } from 'src/api/user/hooks';
+import { useProfileCompletionMutation } from 'src/api/user/hooks';
 import { userQueryKeys } from 'src/api/user/user.keys';
-import { LoadingScreen } from 'src/core/components/LoadingScreen';
+import { useAuth } from 'src/providers/AuthContext';
 import { useNavigator } from 'src/screen';
 import { Text } from 'src/shared';
 
@@ -16,12 +16,12 @@ import { StepLayout } from './StepLayout';
 import { useImagePicker } from '../hooks/useImagePicker';
 
 export const PhotosStep = () => {
+  const auth = useAuth();
   const { onSelectImage, images, isLoading } = useImagePicker();
-  const userInfoQuery = useGetUserInfoQuery(true);
   const { navigationData } = useNavigator<TraineeFormData>();
 
   const queryClient = useQueryClient();
-  const profileCompletionMutation = useProfileCompletionMutation(userInfoQuery.data?.id || '', {
+  const profileCompletionMutation = useProfileCompletionMutation(auth.user?.id || '', {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [userQueryKeys.getUserInfo()] });
     },
@@ -36,8 +36,6 @@ export const PhotosStep = () => {
       gender: navigationData.gender,
     });
   };
-
-  if (userInfoQuery.isPending) return <LoadingScreen />;
 
   return (
     <StepLayout

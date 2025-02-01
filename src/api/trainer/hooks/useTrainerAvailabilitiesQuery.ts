@@ -9,5 +9,6 @@ export const useTrainerAvailabilitiesQuery = (params: TrainerAvailabilitiesGetV1
   return useQuery({
     queryKey: [queryKeys.getTrainerAvailabilities(params)],
     queryFn: () => trainerService.getTrainerAvailabilities(params),
+    enabled: !!params.trainerId,
   });
 };

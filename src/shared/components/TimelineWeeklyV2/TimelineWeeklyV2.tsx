@@ -9,9 +9,9 @@ import {
 } from 'react-native-calendars';
 
 import { TrainerBookTrainingPostV1Payload, useTrainerBookTrainingMutation } from 'src/api/trainer';
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
+import { useAuth } from 'src/providers/AuthContext';
 
 import AgendaItem from './AgendaItem';
 
@@ -30,7 +30,7 @@ type Props = {
 
 export const TimelineWeeklyV2 = ({ onDateChanged, date, weeklyPlanner, trainerId, isLoading, markedDates }: Props) => {
   const trainerBookTrainingMutation = useTrainerBookTrainingMutation(trainerId);
-  const userInfoQuery = useGetUserInfoQuery();
+  const auth = useAuth();
 
   const handleReservation = React.useCallback(
     (eventDate: string, payload: TrainerBookTrainingPostV1Payload) => {
@@ -47,15 +47,10 @@ export const TimelineWeeklyV2 = ({ onDateChanged, date, weeklyPlanner, trainerId
   const renderItem = React.useCallback(
     ({ item }: any) => {
       return (
-        <AgendaItem
-          traineeId={userInfoQuery.data?.traineeId}
-          trainerId={trainerId}
-          onPress={handleReservation}
-          item={item}
-        />
+        <AgendaItem traineeId={auth.user?.traineeId} trainerId={trainerId} onPress={handleReservation} item={item} />
       );
     },
-    [handleReservation, trainerId, userInfoQuery.data?.traineeId],
+    [handleReservation, trainerId, auth.user?.traineeId],
   );
 
   const sections = React.useMemo(
@@ -84,7 +79,7 @@ export const TimelineWeeklyV2 = ({ onDateChanged, date, weeklyPlanner, trainerId
         markedDates={markedDates}
         minDate={today}
       />
-      {trainerBookTrainingMutation.isPending || isLoading || userInfoQuery.isLoading ? (
+      {trainerBookTrainingMutation.isPending || isLoading ? (
         <LoadingScreen />
       ) : (
         <AgendaList

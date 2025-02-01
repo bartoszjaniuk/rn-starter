@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Box } from '@grapp/stacks';
 
 import { CalendarTrainerNavigator } from 'src/activatedUser/navigation';
-import { useGetUserInfoQuery } from 'src/api/user/hooks';
+import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 
 import { getFirstAndLastDaysOfMonth } from '../../SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getFirstAndLastDaysOfMonth';
@@ -27,13 +27,13 @@ export type AvailabilityParams = {
 
 export const BottomTabsCalendar = () => {
   const { lastDay, today } = getFirstAndLastDaysOfMonth();
-  const userInfoQuery = useGetUserInfoQuery();
+  const auth = useAuth();
 
   const { past, future } = getPastPresentFutureDates(7);
 
   const data = React.useMemo(
     () => ({
-      trainerId: userInfoQuery.data?.trainerId,
+      trainerId: auth.user?.trainerId,
       monthly: {
         from: today,
         to: lastDay,
@@ -45,9 +45,9 @@ export const BottomTabsCalendar = () => {
       weekDate: new Date().toISOString().slice(0, 10),
       selectedDay: today,
       month: new Date(today ?? '').getMonth(),
-      role: userInfoQuery.data?.role,
+      role: auth.user?.role,
     }),
-    [future, lastDay, past, today, userInfoQuery.data?.role, userInfoQuery.data?.trainerId],
+    [future, lastDay, past, today, auth.user?.role, auth.user?.trainerId],
   );
 
   return (
