@@ -7,7 +7,7 @@ import { Image } from 'expo-image';
 
 import { Bleed, Box, FloatBox } from '@grapp/stacks';
 
-import { useAuth } from 'src/providers/AuthContext';
+import { useAuthStore } from 'src/store/auth';
 
 import { Pagination } from './components/Pagination';
 
@@ -35,7 +35,7 @@ type Props = {
 
 export const CarouselGallery = (props: Props) => {
   const { images = mock } = props;
-  const { token } = useAuth();
+  const { token } = useAuthStore();
 
   const JWT = `Bearer ${token}`;
 

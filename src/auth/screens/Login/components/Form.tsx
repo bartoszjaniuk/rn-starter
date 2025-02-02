@@ -6,9 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useAuth } from 'src/providers/AuthContext';
 import { Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
+import { useAuthStore } from 'src/store/auth';
 
 const string = z.string();
 
@@ -35,7 +35,7 @@ export const Form = () => {
     },
   });
 
-  const auth = useAuth();
+  const auth = useAuthStore();
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;

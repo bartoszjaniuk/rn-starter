@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Box } from '@grapp/stacks';
 
 import { CalendarTrainerNavigator } from 'src/activatedUser/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
+import { useAuthStore } from 'src/store/auth';
 
 import { getFirstAndLastDaysOfMonth } from '../../SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getFirstAndLastDaysOfMonth';
 import { getPastPresentFutureDates } from '../../SearchTrainers/SearchTrainersAvailabilityNavigator/_internals/utils/getPastPresentFutureDates';
@@ -27,7 +27,7 @@ export type AvailabilityParams = {
 
 export const BottomTabsCalendar = () => {
   const { lastDay, today } = getFirstAndLastDaysOfMonth();
-  const auth = useAuth();
+  const auth = useAuthStore();
 
   const { past, future } = getPastPresentFutureDates(7);
 

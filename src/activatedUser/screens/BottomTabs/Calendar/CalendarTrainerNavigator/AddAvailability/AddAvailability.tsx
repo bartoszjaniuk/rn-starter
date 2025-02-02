@@ -8,10 +8,10 @@ import { useForm } from 'react-hook-form';
 import { useTrainerSetAvailabilityMutation } from 'src/api/trainer';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goBack } from 'src/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen, useNavigator } from 'src/screen';
 import { Button, PressableScale, Text, TryAgainError } from 'src/shared';
 import { getAllDatesForCurrentMonth } from 'src/shared/utils/getAllDatesForCurrentMonth';
+import { useAuthStore } from 'src/store/auth';
 
 import { AvailabilityFormFieldValues, Form, availabilityFormSchema } from './components/Form';
 
@@ -39,7 +39,7 @@ function transformData(data: {
 
 const Content = () => {
   const { navigationData } = useNavigator<AvailabilityParams>();
-  const auth = useAuth();
+  const auth = useAuthStore();
 
   const trainerSetAvailabilityMutation = useTrainerSetAvailabilityMutation(auth.user?.trainerId || '');
 

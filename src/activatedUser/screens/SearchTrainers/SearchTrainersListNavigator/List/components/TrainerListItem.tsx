@@ -7,9 +7,9 @@ import { Box, FloatBox, Inline, Stack } from '@grapp/stacks';
 
 import { Trainer } from 'src/api/trainer';
 import { goTo } from 'src/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Icon, PressableScale, Text } from 'src/shared';
 import { replaceApiHost } from 'src/shared/utils/replaceApiHost';
+import { useAuthStore } from 'src/store/auth';
 
 import * as route from '../../../../../navigation/routes';
 
@@ -35,7 +35,7 @@ type Props = {
 
 export const TrainerListItem = ({ trainer }: Props) => {
   const { theme } = useStyles();
-  const { token } = useAuth();
+  const { token } = useAuthStore();
 
   const JWT = `Bearer ${token}`;
 

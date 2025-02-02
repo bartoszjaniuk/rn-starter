@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
+import { useAuthStore } from 'src/store/auth';
 
 import { Layout } from './components/Layout';
 import { TraineeHeader } from './components/TraineeHeader';
@@ -28,7 +28,7 @@ const TraineeContent = () => {
 };
 
 export const HomeTrainingList = () => {
-  const auth = useAuth();
+  const auth = useAuthStore();
 
   const isTrainee = auth.user?.role === 'trainee';
 

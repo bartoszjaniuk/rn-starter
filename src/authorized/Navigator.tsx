@@ -3,12 +3,12 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { ActivatedUserNavigator, FirstLoginNavigator } from 'src/activatedUser/navigation';
-import { useAuth } from 'src/providers/AuthContext';
+import { useAuthStore } from 'src/store/auth';
 
 const NativeStack = createNativeStackNavigator();
 
 export const AuthorizedNavigator = () => {
-  const auth = useAuth();
+  const auth = useAuthStore();
 
   const isFirstLogin = auth.user?.role === 'role_not_set';
 

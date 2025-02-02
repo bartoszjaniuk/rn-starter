@@ -7,9 +7,9 @@ import { Stack } from '@grapp/stacks';
 
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Button } from 'src/shared/components/Button';
+import { useAuthStore } from 'src/store/auth';
 
 import * as route from '../navigation/routes';
 
@@ -23,7 +23,7 @@ const navigateToActivateAccount = (event: { url: string }) => {
 };
 
 const Content = () => {
-  const { isLoading } = useAuth();
+  const { isLoading } = useAuthStore();
 
   const navigateToLoginScreen = () => goTo(route.toAuthLogin);
   const navigateToRegisterScreen = () => goTo(route.toAuthRegister);

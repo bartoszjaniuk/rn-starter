@@ -7,11 +7,11 @@ import { BodyMetrics, useTraineeBodyMetricsQuery, useTraineeQuery } from 'src/ap
 import { useTrainersQuery } from 'src/api/trainer';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Icon, PressableScale, Text, getQueryStringFromParams, replaceApiHost } from 'src/shared';
 import { CarouselGallery } from 'src/shared/components/CarouselGallery';
 import { TrainingSnacks } from 'src/shared/components/TrainingSnacks/TrainingSnacks';
+import { useAuthStore } from 'src/store/auth';
 
 import { Snack } from './components/Snack';
 
@@ -62,7 +62,7 @@ const useBodyMetrics = (data: BodyMetrics[] | undefined) => {
 };
 
 const Content = () => {
-  const auth = useAuth();
+  const auth = useAuthStore();
   const traineeBodyMetricsQuery = useTraineeBodyMetricsQuery(auth.user?.traineeId ?? '');
   const isTrainee = auth.user?.role === 'trainee';
   const queryString = getQueryStringFromParams({ trainerId: auth.user?.trainerId ?? '' });

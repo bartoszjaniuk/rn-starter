@@ -8,9 +8,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { AuthNavigator } from 'src/auth/navigation/navigators';
 import { navigationRef } from 'src/navigation/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Text } from 'src/shared';
+import { useAuthStore } from 'src/store/auth';
 
+import { LoadingScreen } from './components/LoadingScreen';
 import { AppRootNavigator } from './navigation/navigators';
 
 const NativeStack = createNativeStackNavigator();
@@ -18,7 +19,7 @@ const NativeStack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
-  const auth = useAuth();
+  const auth = useAuthStore();
   //   Wave.useSubscription(services.device.isInternetReachable(), (isInternetReachable) => {
   //     if (!isInternetReachable) {
   //       toast.show({
@@ -31,6 +32,12 @@ const App = () => {
   //     }
   //     toast.hide();
   //   });
+
+  React.useEffect(() => {
+    auth.restoreToken();
+  }, [auth.restoreToken]);
+
+  if (auth.isLoading) return <LoadingScreen />;
 
   return (
     <NativeStack.Navigator>

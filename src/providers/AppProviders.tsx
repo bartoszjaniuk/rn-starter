@@ -9,7 +9,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { useLayout } from 'src/screen';
 
-import { AuthProvider } from './AuthContext';
 import { FontLoader } from './FontLoader';
 import { CustomToast } from './components/CustomToast';
 
@@ -35,9 +34,7 @@ export const AppProviders = ({ children }: PropsWithChildren) => {
                 error: (toast) => <CustomToast {...toast} />,
               }}
             >
-              <AuthProvider>
-                <PortalProvider>{children}</PortalProvider>
-              </AuthProvider>
+              <PortalProvider>{children}</PortalProvider>
             </ToastProvider>
           </QueryClientProvider>
         </ActionSheetProvider>

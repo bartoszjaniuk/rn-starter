@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { useAuth } from 'src/providers/AuthContext';
+import { useAuthStore } from 'src/store/auth';
 
 type Props = React.PropsWithChildren<{ role: 'trainee' | 'trainer' }>;
 
 export const CanAccess = (props: Props) => {
   const { role, children } = props;
-  const auth = useAuth();
+  const auth = useAuthStore();
   const hasAccess = auth.user?.role === role;
 
   if (!hasAccess) return null;

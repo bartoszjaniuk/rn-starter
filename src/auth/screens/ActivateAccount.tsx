@@ -9,10 +9,10 @@ import * as z from 'zod';
 import { useActivateAccountMutation } from 'src/api/auth/hooks';
 import { useRouteParams } from 'src/core/hooks';
 import { goTo } from 'src/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Checkbox, Text, TextInput } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
+import { useAuthStore } from 'src/store/auth';
 
 import * as route from '../navigation/routes';
 
@@ -42,7 +42,7 @@ const Content = () => {
   });
   const handleNavigateToLogin = () => goTo(route.toAuthLogin);
 
-  const { signIn } = useAuth();
+  const { signIn } = useAuthStore();
 
   const activateAccountMutation = useActivateAccountMutation({ onSuccess: handleNavigateToLogin });
 

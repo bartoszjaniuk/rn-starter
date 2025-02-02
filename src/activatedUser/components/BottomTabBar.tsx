@@ -1,12 +1,12 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
+import { useAuthStore } from 'src/store/auth';
 
 import * as route from '../navigation/routes';
 
 export const BottomTabBar = (_props: BottomTabBarProps) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
 
   return (
     <Screen.BottomTabBar defaultRoute={route.toBottomTabsHome}>

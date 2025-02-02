@@ -4,10 +4,10 @@ import { FlatList } from 'react-native-gesture-handler';
 
 import { Box, Stack } from '@grapp/stacks';
 
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen, ScrollView } from 'src/screen';
 import { Text, replaceApiHost } from 'src/shared';
 import { LocalImage } from 'src/shared/components/LocalImage/LocalImage';
+import { useAuthStore } from 'src/store/auth';
 
 import { SettingsOption } from './components/SettingsOption';
 
@@ -72,7 +72,7 @@ const ProfileAvatar = ({ src, token }: { src?: string; token?: string | null | u
 };
 
 const Content = () => {
-  const { signOut, token, user } = useAuth();
+  const { signOut, token, user } = useAuthStore();
 
   const data = settings({ onLogout: signOut });
 

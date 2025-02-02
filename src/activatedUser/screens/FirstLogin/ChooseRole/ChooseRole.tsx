@@ -3,15 +3,15 @@ import * as React from 'react';
 import { Box, Stack } from '@grapp/stacks';
 
 import { goTo } from 'src/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { Text } from 'src/shared';
 import { Button } from 'src/shared/components/Button';
+import { useAuthStore } from 'src/store/auth';
 
 import * as route from '../../../navigation/routes';
 
 const Content = () => {
-  const { signOut, isLoading } = useAuth();
+  const { signOut, isLoading } = useAuthStore();
   const navigateToTrainee = () => goTo(route.toFirstLoginTrainee);
   const navigateToTrainer = () => goTo(route.toFirstLoginTrainer);
 

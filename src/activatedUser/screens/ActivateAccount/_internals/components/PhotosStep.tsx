@@ -6,9 +6,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { TraineeFormData } from 'src/activatedUser/screens/FirstLogin/Trainee';
 import { useProfileCompletionMutation } from 'src/api/user/hooks';
 import { userQueryKeys } from 'src/api/user/user.keys';
-import { useAuth } from 'src/providers/AuthContext';
 import { useNavigator } from 'src/screen';
 import { Text } from 'src/shared';
+import { useAuthStore } from 'src/store/auth';
 
 import { ImageFile } from './ImageFile';
 import { StepLayout } from './StepLayout';
@@ -16,7 +16,7 @@ import { StepLayout } from './StepLayout';
 import { useImagePicker } from '../hooks/useImagePicker';
 
 export const PhotosStep = () => {
-  const auth = useAuth();
+  const auth = useAuthStore();
   const { onSelectImage, images, isLoading } = useImagePicker();
   const { navigationData } = useNavigator<TraineeFormData>();
 

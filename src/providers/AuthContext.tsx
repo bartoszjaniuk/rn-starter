@@ -5,7 +5,6 @@ import * as SecureStore from 'expo-secure-store';
 import { AxiosError } from 'axios';
 
 import { authService } from 'src/api/auth/auth.service';
-import { setupAxiosInterceptors } from 'src/api/httpClient';
 import { UserInfoResponse } from 'src/api/user/models';
 import { userService } from 'src/api/user/user.service';
 
@@ -55,10 +54,6 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     await SecureStore.deleteItemAsync(ACCESS_TOKEN);
     dispatch({ type: 'SIGN_OUT' });
   }, [dispatch]);
-
-  React.useEffect(() => {
-    setupAxiosInterceptors(signOut);
-  }, [signOut]);
 
   const value: AuthContextType = React.useMemo(
     () => ({

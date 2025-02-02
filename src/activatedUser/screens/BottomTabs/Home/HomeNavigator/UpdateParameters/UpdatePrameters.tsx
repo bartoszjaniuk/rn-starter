@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form';
 import { BodyMetrics, useTraineeBodyMetricsMutation, useTraineeBodyMetricsQuery } from 'src/api/trainee';
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goBack } from 'src/navigation';
-import { useAuth } from 'src/providers/AuthContext';
 import { Screen } from 'src/screen';
 import { PressableScale, Text, TryAgainError } from 'src/shared';
+import { useAuthStore } from 'src/store/auth';
 
 import { BodyMetricsForm, BodyMetricsFormFieldValues, bodyMetricsFormSchema } from './components/BodyMetricsForm';
 
@@ -99,7 +99,7 @@ const Content = (props: ContentProps) => {
 };
 
 export const HomeUpdateParameters = () => {
-  const auth = useAuth();
+  const auth = useAuthStore();
   const traineeBodyMetricsQuery = useTraineeBodyMetricsQuery(auth.user?.traineeId || '');
 
   const traineeBodyMetrics =
