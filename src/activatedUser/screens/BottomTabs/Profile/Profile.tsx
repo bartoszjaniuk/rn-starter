@@ -21,42 +21,42 @@ const useBodyMetrics = (data: BodyMetrics[] | undefined) => {
   if (!data) return undefined;
   if (data && data.length && data.length < 0) return undefined;
 
-  const latestBodyMetrics = data[data.length - 1];
+  const latestBodyMetrics = data[0];
 
   if (!latestBodyMetrics) return undefined;
 
   return [
     {
       title: 'Klatka',
-      value: `${data[data.length - 1]?.height}cm`,
+      value: `${data[0]?.chest}cm`,
     },
     {
       title: 'Biceps',
-      value: `${data[data.length - 1]?.biceps}cm`,
+      value: `${data[0]?.biceps}cm`,
     },
     {
       title: 'Talia',
-      value: `${data[data.length - 1]?.waist}cm`,
+      value: `${data[0]?.waist}cm`,
     },
     {
       title: 'Biodra',
-      value: `${data[data.length - 1]?.hip}cm`,
+      value: `${data[0]?.hip}cm`,
     },
     {
       title: 'Udo',
-      value: `${data[data.length - 1]?.chest}cm`,
+      value: `${data[0]?.thigh}cm`,
     },
     {
       title: 'Łydka',
-      value: `${data[data.length - 1]?.thigh}cm`,
+      value: `${data[0]?.calf}cm`,
     },
     {
       title: 'Wzrost',
-      value: `${data[data.length - 1]?.height}cm`,
+      value: `${data[0]?.height}cm`,
     },
     {
       title: 'Waga',
-      value: `${data[data.length - 1]?.weight}kg`,
+      value: `${data[0]?.weight}kg`,
     },
   ];
 };

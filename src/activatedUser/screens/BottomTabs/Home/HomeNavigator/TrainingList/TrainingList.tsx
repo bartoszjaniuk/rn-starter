@@ -33,10 +33,7 @@ export const HomeTrainingList = () => {
   const isTrainee = auth.user?.role === 'trainee';
 
   return (
-    <Screen
-      HeaderComponent={isTrainee ? <TraineeHeader /> : <TrainerHeader trainerId={auth.user?.trainerId} />}
-      statusBarStyle="light"
-    >
+    <Screen HeaderComponent={<Screen.Header variant="primary" title="Twoje treningi" />} statusBarStyle="light">
       {isTrainee ? <TraineeContent /> : <TrainerContent />}
     </Screen>
   );

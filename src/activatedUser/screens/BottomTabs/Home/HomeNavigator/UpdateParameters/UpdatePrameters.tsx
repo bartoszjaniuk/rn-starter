@@ -104,7 +104,7 @@ export const HomeUpdateParameters = () => {
 
   const traineeBodyMetrics =
     traineeBodyMetricsQuery.data?.data && traineeBodyMetricsQuery.data.data.length > 0
-      ? traineeBodyMetricsQuery.data?.data[traineeBodyMetricsQuery.data?.data.length - 1]
+      ? traineeBodyMetricsQuery.data?.data[0]
       : undefined;
 
   return (

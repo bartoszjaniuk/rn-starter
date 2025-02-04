@@ -29,14 +29,14 @@ const Content = ({
   const onSelectGender = (gender: string) => onUpdateFilters('gender', gender);
 
   const onSelectSpecialization = React.useCallback(
-    (specialization: string) => onUpdateFilters('specialization', specialization),
+    (specialization: string) => onUpdateFilters('specializations', specialization),
     [onUpdateFilters],
   );
 
   return (
     <Screen.Content>
       <Stack space={6} paddingTop={6}>
-        <PressableScale st={true} onPress={onClearFilters}>
+        <PressableScale onPress={onClearFilters}>
           {Object.entries(filters).some(([key, value]) => !!value) ? (
             <Text fontWeight="700" size="xs" color="white">
               Wyczyść filtry X
@@ -48,7 +48,7 @@ const Content = ({
         <GenderFilters onSelectGender={onSelectGender} defaultValue={filters?.gender} />
         <SpecializationFilters
           onSelectSpecialization={onSelectSpecialization}
-          defaultValue={React.useMemo(() => filters?.specialization, [filters?.specialization])}
+          defaultValue={React.useMemo(() => filters?.specializations, [filters?.specializations])}
         />
       </Stack>
     </Screen.Content>

@@ -38,12 +38,15 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         if (!userToken) return dispatch({ type: 'SET_UNAUTHENTICATED' });
         dispatch({ type: 'RESTORE_TOKEN', token: userToken ?? null });
         const userInfo = await userService.getUserInfo();
+        console.log(userInfo, 'userInfo');
         if (!!userInfo) {
           dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
         } else {
           dispatch({ type: 'SET_UNAUTHENTICATED' });
         }
       } catch (error) {
+        dispatch({ type: 'SET_UNAUTHENTICATED' });
+
         console.error('Error retrieving JWT token:', error);
       }
     };

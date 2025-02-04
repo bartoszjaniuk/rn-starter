@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image } from 'react-native';
 
+import { Image } from 'expo-image';
+// import { Image } from 'react-native';
 import * as Linking from 'expo-linking';
 
-import { Stack } from '@grapp/stacks';
+import { FloatBox, Stack } from '@grapp/stacks';
 
 import { LoadingScreen } from 'src/core/components/LoadingScreen';
 import { goTo } from 'src/navigation';
@@ -32,17 +33,23 @@ const Content = () => {
 
   return (
     <>
-      <Screen.ScrollView backgroundColor="transparent">
-        <Screen.Content alignX="center" alignY="center" paddingTop={35}>
-          <Image source={require('../../../assets/logo-transparent.png')} width={10} height={10} />
+      {/* <Screen.ScrollView  backgroundColor="transparent"> */}
+      <Image
+        source={require('../../../assets/images/pexel1.jpg')}
+        style={{ width: '100%', height: '100%', opacity: 0.3, borderRadius: 16, marginTop: 40 }}
+      />
+      <FloatBox offset={0}>
+        <Screen.Content alignX="center" alignY="center">
+          <Image source={require('../../../assets/logo-transparent.png')} style={{ width: 200, height: 200 }} />
         </Screen.Content>
-      </Screen.ScrollView>
-      <Screen.Footer>
-        <Stack space={4} paddingBottom={10}>
-          <Button onPress={navigateToLoginScreen}>Zaloguj</Button>
-          <Button onPress={navigateToRegisterScreen}>Zarejestruj</Button>
-        </Stack>
-      </Screen.Footer>
+        <Screen.Footer>
+          <Stack space={4} paddingBottom={10}>
+            <Button onPress={navigateToLoginScreen}>Zaloguj</Button>
+            <Button onPress={navigateToRegisterScreen}>Zarejestruj</Button>
+          </Stack>
+        </Screen.Footer>
+      </FloatBox>
+      {/* </Screen.ScrollView> */}
     </>
   );
 };

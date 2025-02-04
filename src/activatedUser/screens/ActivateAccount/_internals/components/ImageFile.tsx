@@ -3,8 +3,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
 import { ActivityIndicator, Icon, PressableScale } from 'src/shared';
 
-import PlusSvg from '../../../../../../assets/icons/plus.svg';
-
 type Props = {
   isPrimary?: boolean;
   id: string;

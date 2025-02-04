@@ -8,14 +8,14 @@ import { Screen } from 'src/screen';
 export type QueryParamsList = {
   from?: string;
   to?: string;
-  specialization?: string;
+  specializations?: string;
   gender?: string;
 };
 
 export const initialQueryParamsList: QueryParamsList = {
   from: '',
   to: '',
-  specialization: '',
+  specializations: '',
   gender: '',
 };
 

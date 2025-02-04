@@ -38,32 +38,6 @@ export const Layout = (props: Props) => {
     return (
       <Stack flex="fluid">
         <FloatBox offset={0}>{noSchedulesComponent}</FloatBox>
-        {type === 'trainee' ? (
-          <FloatBox right={0} bottom={0}>
-            <Stack space={2} align="right" padding={4}>
-              <PressableScale style={{ width: 48, height: 48 }} onPress={() => goTo(route.toSearchTrainersList)}>
-                <Box
-                  width={48}
-                  height={48}
-                  alignX="center"
-                  alignY="center"
-                  borderRadius={24}
-                  backgroundColor={theme.colors.primary}
-                >
-                  <Icon name="plus" svgProps={{ width: 24, height: 24 }} color="typography" />
-                </Box>
-              </PressableScale>
-              <Stack>
-                <Text align="center" fontWeight="500" size="xs">
-                  Szukaj
-                </Text>
-                <Text align="center" fontWeight="500" size="xs">
-                  treningu
-                </Text>
-              </Stack>
-            </Stack>
-          </FloatBox>
-        ) : null}
       </Stack>
     );
 
@@ -181,32 +155,6 @@ export const Layout = (props: Props) => {
           </Box>
         </Stack>
       </ScrollView>
-      {type === 'trainee' ? (
-        <FloatBox right={0} bottom={0}>
-          <Stack space={2} align="right" padding={4}>
-            <PressableScale style={{ width: 48, height: 48 }} onPress={() => goTo(route.toSearchTrainersList)}>
-              <Box
-                width={48}
-                height={48}
-                alignX="center"
-                alignY="center"
-                borderRadius={24}
-                backgroundColor={theme.colors.primary}
-              >
-                <Icon name="plus" svgProps={{ width: 24, height: 24 }} color="typography" />
-              </Box>
-            </PressableScale>
-            <Stack>
-              <Text align="center" fontWeight="500" size="xs">
-                Szukaj
-              </Text>
-              <Text align="center" fontWeight="500" size="xs">
-                treningu
-              </Text>
-            </Stack>
-          </Stack>
-        </FloatBox>
-      ) : null}
     </Screen.Content>
   );
 };

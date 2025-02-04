@@ -230,6 +230,15 @@ export const HomeNavigator = () => {
       }}
     >
       <HomeNativeStack.Screen
+        name={route.routeHomeDashboard}
+        initialParams={{
+          meta: {
+            presentation: 'card',
+          },
+        }}
+        getComponent={() => require('../screens/BottomTabs/Home/HomeNavigator/Dashboard').HomeDashboard}
+      />
+      <HomeNativeStack.Screen
         name={route.routeHomeTrainingList}
         initialParams={{
           meta: {
@@ -237,15 +246,6 @@ export const HomeNavigator = () => {
           },
         }}
         getComponent={() => require('../screens/BottomTabs/Home/HomeNavigator/TrainingList').HomeTrainingList}
-      />
-      <HomeNativeStack.Screen
-        name={route.routeHomeTrainingDetails}
-        initialParams={{
-          meta: {
-            presentation: 'card',
-          },
-        }}
-        getComponent={() => require('../screens/BottomTabs/Home/HomeNavigator/TrainingDetails').HomeTrainingDetails}
       />
       <HomeNativeStack.Screen
         options={{
@@ -468,12 +468,11 @@ export const CalendarTrainerNavigator = (props: Params) => {
       <CalendarTrainerNativeStack.Screen
         options={{
           headerShown: false,
-          presentation: 'modal',
         }}
         name={route.routeCalendarTrainerAddAvailability}
         initialParams={{
           meta: {
-            presentation: 'modal',
+            presentation: 'card',
           },
         }}
         component={CalendarTrainerAddAvailability}

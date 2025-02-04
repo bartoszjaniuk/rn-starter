@@ -63,8 +63,8 @@ navigators:
     props:
       screenOptions: *hideHeader
     children:
+      - Dashboard
       - TrainingList
-      - TrainingDetails
       - UpdateParameters:
           props:
             options:
