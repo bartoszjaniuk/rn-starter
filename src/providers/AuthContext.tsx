@@ -17,6 +17,7 @@ import { ACCESS_TOKEN } from '../shared/constants/accessToken';
 export type AuthContextType = {
   signIn: (payload: UserCredentials) => Promise<void>;
   resetExpiredToken: () => Promise<void>;
+  refreshUser: () => Promise<void>;
   signOut: () => void;
   token?: string | null;
   error: string;
@@ -29,30 +30,29 @@ const AuthContext = React.createContext<AuthContextType>(initialState);
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   const [state, dispatch] = React.useReducer(authReducer, initialState);
 
-  React.useEffect(() => {
-    const bootstrapAsync = async () => {
-      let userToken;
+  const bootstrapAsync = React.useCallback(async () => {
+    let userToken;
 
-      try {
-        userToken = await SecureStore.getItemAsync(ACCESS_TOKEN);
-        if (!userToken) return dispatch({ type: 'SET_UNAUTHENTICATED' });
-        dispatch({ type: 'RESTORE_TOKEN', token: userToken ?? null });
-        const userInfo = await userService.getUserInfo();
-        console.log(userInfo, 'userInfo');
-        if (!!userInfo) {
-          dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
-        } else {
-          dispatch({ type: 'SET_UNAUTHENTICATED' });
-        }
-      } catch (error) {
+    try {
+      userToken = await SecureStore.getItemAsync(ACCESS_TOKEN);
+      if (!userToken) return dispatch({ type: 'SET_UNAUTHENTICATED' });
+      dispatch({ type: 'RESTORE_TOKEN', token: userToken ?? null });
+      const userInfo = await userService.getUserInfo();
+      if (!!userInfo) {
+        dispatch({ type: 'SET_AUTHENTICATED', user: userInfo });
+      } else {
         dispatch({ type: 'SET_UNAUTHENTICATED' });
-
-        console.error('Error retrieving JWT token:', error);
       }
-    };
+    } catch (error) {
+      dispatch({ type: 'SET_UNAUTHENTICATED' });
 
+      console.error('Error retrieving JWT token:', error);
+    }
+  }, [dispatch]);
+
+  React.useEffect(() => {
     bootstrapAsync();
-  }, []);
+  }, [bootstrapAsync]);
 
   const signOut = React.useCallback(async () => {
     await SecureStore.deleteItemAsync(ACCESS_TOKEN);
@@ -93,8 +93,9 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
         await SecureStore.deleteItemAsync(ACCESS_TOKEN);
         dispatch({ type: 'CLEAR_EXPIRED_TOKEN' });
       },
+      refreshUser: bootstrapAsync,
     }),
-    [state],
+    [bootstrapAsync, state],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -25,6 +25,7 @@ const Content = (props: ContentProps) => {
     control,
     handleSubmit,
     getValues,
+    watch,
     formState: { isValid },
   } = useForm<BodyMetricsFormFieldValues>({
     resolver: zodResolver(bodyMetricsFormSchema),
@@ -41,15 +42,23 @@ const Content = (props: ContentProps) => {
     },
   });
 
-  const checkIfCanBeUpdated = () => {
+  const [canBeUpdated, setCanBeUpdated] = React.useState(false);
+
+  const checkIfCanBeUpdated = React.useCallback(() => {
     if (!traineeBodyMetrics) return true;
     const values = getValues();
-
     return Object.keys(values).some(
       (key) =>
         values[key as keyof typeof traineeBodyMetrics] !== traineeBodyMetrics[key as keyof typeof traineeBodyMetrics],
     );
-  };
+  }, [traineeBodyMetrics, getValues]);
+
+  React.useEffect(() => {
+    const subscription = watch(() => {
+      setCanBeUpdated(checkIfCanBeUpdated());
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, checkIfCanBeUpdated]);
 
   const onSubmit = handleSubmit((data) => {
     if (!isValid) return;
@@ -80,15 +89,15 @@ const Content = (props: ContentProps) => {
       ),
       renderRight: () => (
         <Screen.Header.Right>
-          <PressableScale isDisabled={!checkIfCanBeUpdated()} onPress={onSubmit}>
-            <Text fontWeight="700" size="xs" color={!checkIfCanBeUpdated() ? 'disabled' : 'primary'}>
+          <PressableScale isDisabled={!canBeUpdated} onPress={onSubmit}>
+            <Text fontWeight="700" size="xs" color={!canBeUpdated ? 'disabled' : 'primary'}>
               Aktualizuj
             </Text>
           </PressableScale>
         </Screen.Header.Right>
       ),
     },
-    [handleSubmit, traineeBodyMetricsMutation.mutate, isValid],
+    [handleSubmit, traineeBodyMetricsMutation.mutate, isValid, canBeUpdated],
   );
 
   return (

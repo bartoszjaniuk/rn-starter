@@ -82,6 +82,7 @@ export const initialState: AuthContextType = {
   signIn: async (_payload) => void 0,
   user: undefined,
   resetExpiredToken: async () => void 0,
+  refreshUser: async () => void 0,
   signOut: () => void 0,
   token: null,
   isLoading: true,

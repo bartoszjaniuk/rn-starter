@@ -20,10 +20,9 @@ export const PhotosStep = () => {
   const { onSelectImage, images, isLoading } = useImagePicker();
   const { navigationData } = useNavigator<TraineeFormData>();
 
-  const queryClient = useQueryClient();
   const profileCompletionMutation = useProfileCompletionMutation(auth.user?.id || '', {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [userQueryKeys.getUserInfo()] });
+    onSuccess: async () => {
+      await auth.refreshUser();
     },
   });
   const handleNextPress = () => {
