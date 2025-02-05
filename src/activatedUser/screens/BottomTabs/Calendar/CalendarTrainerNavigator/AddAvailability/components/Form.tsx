@@ -92,9 +92,8 @@ type Props = {
 };
 
 export const Form = (props: Props) => {
-  const { control, availableSlots, startHour, endHour } = props;
-  console.log(startHour, 'startHour');
-  console.log(endHour, 'endHour');
+  const { control, availableSlots, startHour } = props;
+
   const { updateNavigationData } = useNavigator<AvailabilityParams>();
   const startHours = React.useMemo(() => baseHours.filter((h) => h.value), []);
   const endHours = React.useMemo(() => baseHours.filter((h) => h.value > startHour), [startHour]);
